@@ -99,7 +99,8 @@ val_pipeline = [
 
 test_pipeline = val_pipeline
 
-data_root = 'LearningFromThePros-main'
+data_root = 'data/mpii'
+
 data = dict(
     samples_per_gpu=32,
     workers_per_gpu=2,
@@ -121,8 +122,8 @@ data = dict(
         dataset_info={{_base_.dataset_info}}),
     test=dict(
         type='TopDownMpiiDataset',
-        ann_file=f'{data_root}/info.json',
-        img_prefix=f'{data_root}/images/',
+        ann_file=f'{data_root}/../../LearningFromThePros-main/info.json',
+        img_prefix=f'{data_root}/../../LearningFromThePros-main/images/',
         data_cfg=data_cfg,
         pipeline=test_pipeline,
         dataset_info={{_base_.dataset_info}}),
