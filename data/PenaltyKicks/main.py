@@ -129,9 +129,34 @@ def drawPenaltyHistory(playerName):
     Tk.mainloop()
 
 
+def fill_currentGame(sqlUpload, dt, currentGame):
+    
+    try:
+        currentGame.makeGameBeautifulSoup()
+    except Exception as e:
+        print("Error in GAME Scraping: " + currentGame.gameId)
+        currentGame.writeError(dt)
+
+    if "English Premier League" in currentGame.getgameDetails(): #continue
+        try:
+            currentGame.makeAllCommentaryPenaltyEvents()
+            currentGame.makeListOfPlayerPenaltyEvents()
+        except Exception as e:
+            exit()
+            print("Error in GAME Scraping: " + currentGame.gameId)
+            currentGame.writeError(dt)
+
+        currentGamePenalties = currentGame.getListOfPlayerPenaltyEvents()
+        for eachPlayer in currentGamePenalties:
+            try:
+                sqlUpload.addNewPlayer(eachPlayer)
+            except:
+                print("SQL UPLOAD ERROR")
+
 
 def dataDownloader(date1, date2):
     sqlUpload = SQL("penaltyKicks.db")
+
     for dt in dateGenerator(date1, date2):
         currentDate = str(dt).replace("-", "")
         print("Beginning ESPN Scrape of day: " + currentDate)
@@ -153,25 +178,8 @@ def dataDownloader(date1, date2):
         for gameID in all_games:
             # print(gameID)
             currentGame = GameScraper(gameID, currentDate, session)
-            try:
-                currentGame.makeGameBeautifulSoup()
-                currentGame.makeAllCommentaryPenaltyEvents()
-                currentGame.makeListOfPlayerPenaltyEvents()
-            except Exception as e:
-                raise e
-                exit()
-                print("Error in GAME Scraping: " + currentGame.gameId)
-                currentGame.writeError(dt)
-                continue
+            fill_currentGame(sqlUpload, dt, currentGame)
 
-            currentGamePenalties = currentGame.getListOfPlayerPenaltyEvents()
-            for eachPlayer in currentGamePenalties:
-                try:
-                    sqlUpload.addNewPlayer(eachPlayer)
-                except:
-                    print("SQL UPLOAD ERROR")
-                    continue
-        
         currentDay.closeSession()
         exit()
         sqlUpload.commitChanges()

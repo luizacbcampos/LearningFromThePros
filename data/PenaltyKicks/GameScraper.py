@@ -78,14 +78,13 @@ class GameScraper:
     def makeAllCommentaryPenaltyEvents(self):
         wrap = self.gameBeautifulSoup.find("div", id="gamepackage-wrap")
         tabs = wrap.find("div", id="gamepackage-soccer-commentary-tabs")
-        # comment = tabs.find("div", id="match-commentary-1-tab-1")
-        # table = comment.find("table")
+        comment = tabs.find("div", id="match-commentary-1-tab-1")
+        table = comment.find("table")
         
-        print("tab")
-        print(tabs.prettify())
-        exit()
-        events = self.gameBeautifulSoup.find_all("td", class_="game-details")
+        events = table.find_all("td", class_="game-details")
         print(events)
+        # AQUIIIIIIII
+        exit()
         # print("\nPenalties:\n")
         self.allCommentaryPenaltyEvents = self.gameBeautifulSoup.find_all(text = re.compile("(?i)penalty"), class_="game-details")
         # print(self.allCommentaryPenaltyEvents)
