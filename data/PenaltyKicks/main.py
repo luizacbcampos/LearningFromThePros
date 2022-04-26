@@ -165,7 +165,10 @@ def dataDownloader(date1, date2):
         try:
             currentDay.makeBeautifulSoup()
             currentDay.makeListOfgames()
+            currentDay.writeGameList(dt)
+            
         except Exception as e:
+            raise e
             print("Error in DATE Scraping: " + currentDay.getDate())
             currentDay.writeError(dt)
             continue
@@ -175,14 +178,14 @@ def dataDownloader(date1, date2):
 
         print("amount of games: ", currentDay.getAmountGames())
 
-        for gameID in all_games:
-            # print(gameID)
-            currentGame = GameScraper(gameID, currentDate, session)
-            fill_currentGame(sqlUpload, dt, currentGame)
+        # for gameID in all_games:
+        #     # print(gameID)
+        #     currentGame = GameScraper(gameID, currentDate, session)
+        #     fill_currentGame(sqlUpload, dt, currentGame)
 
         currentDay.closeSession()
-        exit()
-        sqlUpload.commitChanges()
+        # sqlUpload.commitChanges()
+        # exit()
 
     sqlUpload.closeConnection()
 

@@ -17,9 +17,8 @@ class GameScraper:
         self.gameBeautifulSoup = None
         self.allCommentaryPenaltyEvents = None
         self.listOfPlayerPenaltyEvents = []
-        self.gameDetails = None
+        self.gameDetails = ''
 
-        print(self.gameUrl)
 
     def getGameId(self):
         return self.gameId
@@ -37,7 +36,9 @@ class GameScraper:
         return self.listOfPlayerPenaltyEvents
 
     def getgameDetails(self):
-        return self.gameDetails
+        if type(self.gameDetails)==str:
+            return self.gameDetails
+        return ''
 
     def closeSession(self):
         self.session.close()
@@ -46,7 +47,9 @@ class GameScraper:
     def makeGameBeautifulSoup(self):
         # Must use html5lib to correctly scrape the page. Doesn't work without this.
 
-        r = self.session.get(self.gameUrl)
+        headers = {'User-Agent': 
+           'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36'}
+        r = self.session.get(self.gameUrl, headers=headers)
         r.html.render()
         self.gameBeautifulSoup = BeautifulSoup(r.html.raw_html, "html.parser")
         self.makeGameDetails()
@@ -55,6 +58,7 @@ class GameScraper:
     def makeGameDetails(self):
         game_details = self.gameBeautifulSoup.find("div", {"class" :["game-details header"]})
         self.gameDetails = game_details.getText().strip()
+        print(self.gameDetails, ":", self.gameUrl)
         
 
     def printPenaltyEvent(self, penaltyEvent):
@@ -82,11 +86,15 @@ class GameScraper:
         table = comment.find("table")
         
         events = table.find_all("td", class_="game-details")
-        print(events)
+        # print(events)
         # AQUIIIIIIII
-        exit()
         # print("\nPenalties:\n")
-        self.allCommentaryPenaltyEvents = self.gameBeautifulSoup.find_all(text = re.compile("(?i)penalty"), class_="game-details")
+
+        # self.allCommentaryPenaltyEvents = self.gameBeautifulSoup.find_all(text = re.compile("(?i)penalty"), class_="game-details")
+        ## Seria iss?????
+        self.allCommentaryPenaltyEvents = table.find_all(text = re.compile("(?i)penalty"), class_="game-details") #??????
+        print(self.allCommentaryPenaltyEvents)
+        exit()
         # print(self.allCommentaryPenaltyEvents)
 
 

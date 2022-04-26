@@ -44,7 +44,10 @@ class DateScraper:
     def makeBeautifulSoup(self):
         # self.beautifulSoup = BeautifulSoup(urllib.request.urlopen(self.datePageUrl), 'html5lib')
         # Must use html5lib to correctly scrape the page. Doesn't work without this.
-        r = self.session.get(self.datePageUrl)
+
+        headers = {'User-Agent': 
+           'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36'}
+        r = self.session.get(self.datePageUrl, headers=headers, timeout=1)
         r.html.render()
         self.beautifulSoup = BeautifulSoup(r.html.raw_html, "html.parser")
 
@@ -72,6 +75,19 @@ class DateScraper:
                 listOfGames.append(this_game)
 
         self.allGames = list(set(listOfGames))
+
+    def writeGameList(self,date):
+        try:
+            path = "./Games/%s/%s/%s" % (str(date.year), str(date.month), str(date.day))
+            os.makedirs(path)
+        except OSError:
+            if not os.path.isdir(path):
+                raise
+        
+        f = open("./Games/%s/%s/%s/%s" % (date.year, date.month, date.day, str(date) + '.txt'), 'w')
+        for game in self.allGames:
+            f.write(str(game)+'\n')
+        f.close()
 
     def writeError(self, date):
         try:
