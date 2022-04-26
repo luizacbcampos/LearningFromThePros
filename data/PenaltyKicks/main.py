@@ -142,6 +142,7 @@ def fill_currentGame(sqlUpload, dt, currentGame):
             currentGame.makeAllCommentaryPenaltyEvents()
             currentGame.makeListOfPlayerPenaltyEvents()
         except Exception as e:
+            raise e
             exit()
             print("Error in GAME Scraping: " + currentGame.gameId)
             currentGame.writeError(dt)
@@ -159,16 +160,16 @@ def dataDownloader(date1, date2):
 
     for dt in dateGenerator(date1, date2):
         currentDate = str(dt).replace("-", "")
-        print("Beginning ESPN Scrape of day: " + currentDate)
+        print("Beginning ESPN Scrape of day: " + currentDate, end=' -> ')
         currentDay = DateScraper(currentDate)
         
         try:
             currentDay.makeBeautifulSoup()
             currentDay.makeListOfgames()
             currentDay.writeGameList(dt)
-            
+
         except Exception as e:
-            raise e
+            # raise e
             print("Error in DATE Scraping: " + currentDay.getDate())
             currentDay.writeError(dt)
             continue
@@ -189,51 +190,64 @@ def dataDownloader(date1, date2):
 
     sqlUpload.closeConnection()
 
-    #
-    # Test Code
-    # sqlUpload = SQLUploader("D:\Projects\penaltykicks\PenaltyKicks\penaltyKicksTest.db")
-    # for dt in dateGenerator(date(2013, 1, 1), date(2013, 12, 31)):
-    #     currentDate = str(dt).replace("-", "")
-    #     print(currentDate)
-    #     print("Beginning ESPN Scrape of day: " + currentDate)
-    #     currentDay = DateScraper(currentDate)
-    #     try:
-    #         currentDay.makeBeautifulSoup()
-    #         currentDay.makeListOfgames()
-    #     except:
-    #         print("Error in DATE Scraping: " + currentDay.getDate())
-    #         continue
-    #
-    #     for gameID in  currentDay.getAllGames():
-    #         print(gameID)
-    #         currentGame = GameScraper(gameID, currentDate)
-    #         try:
-    #             currentGame.makeGameBeautifulSoup()
-    #             currentGame.makeAllCommentaryPenaltyEvents()
-    #             currentGame.makeListOfPlayerPenaltyEvents()
-    #             currentGame.printListOfPlayerPenaltyEvents()
-    #         except:
-    #             print("Error in GAME Scraping: " + currentGame.gameId)
-    #             # currentGame.writeError(dt)
-    #             continue
-    #         currentGamePenalties = currentGame.getListOfPlayerPenaltyEvents()
-    #         for eachPlayer in currentGamePenalties:
-    #             try:
-    #                 sqlUpload.addNewPlayerTest(eachPlayer)
-    #             except:
-    #                 print("SQL UPLOAD ERROR")
-    #                 continue
-    #         sqlUpload.commitChanges()
-    # sqlUpload.closeConnection()
+
+def TestGameScraper(gameID):
+    sqlUpload = SQL("penaltyKicks.db")
+    for dt in dateGenerator(date(2018, 1, 1), date(2018, 1, 1)):
+        currentDate = str(dt).replace("-", "")
+        currentDay = DateScraper(currentDate)
+
+        session = currentDay.getSession()
+        currentGame = GameScraper(gameID, currentDate, session)
+        fill_currentGame(sqlUpload, dt, currentGame)
+
+        currentGame.printListOfPlayerPenaltyEvents()
+
+'''
+Test Code
+sqlUpload = SQL("penaltyKicks.db")
+for dt in dateGenerator(date(2013, 1, 1), date(2013, 12, 31)):
+    currentDate = str(dt).replace("-", "")
+    print(currentDate)
+    print("Beginning ESPN Scrape of day: " + currentDate)
+    currentDay = DateScraper(currentDate)
+    try:
+        currentDay.makeBeautifulSoup()
+        currentDay.makeListOfgames()
+    except:
+        print("Error in DATE Scraping: " + currentDay.getDate())
+        continue
+
+    for gameID in  currentDay.getAllGames():
+        print(gameID)
+        currentGame = GameScraper(gameID, currentDate)
+        try:
+            currentGame.makeGameBeautifulSoup()
+            currentGame.makeAllCommentaryPenaltyEvents()
+            currentGame.makeListOfPlayerPenaltyEvents()
+            currentGame.printListOfPlayerPenaltyEvents()
+        except:
+            print("Error in GAME Scraping: " + currentGame.gameId)
+            # currentGame.writeError(dt)
+            continue
+        currentGamePenalties = currentGame.getListOfPlayerPenaltyEvents()
+        for eachPlayer in currentGamePenalties:
+            try:
+                sqlUpload.addNewPlayerTest(eachPlayer)
+            except:
+                print("SQL UPLOAD ERROR")
+                continue
+        sqlUpload.commitChanges()
+sqlUpload.closeConnection()
 
 
-    # # single game test code
-    # currentGame = GameScraper("411842", "20170415")
-    # currentGame.makeGameBeautifulSoup()
-    # currentGame.makeAllCommentaryPenaltyEvents()
-    # currentGame.makeListOfPlayerPenaltyEvents()
-    # currentGame.printListOfPlayerPenaltyEvents()
-
+# single game test code
+currentGame = GameScraper("411842", "20170415")
+currentGame.makeGameBeautifulSoup()
+currentGame.makeAllCommentaryPenaltyEvents()
+currentGame.makeListOfPlayerPenaltyEvents()
+currentGame.printListOfPlayerPenaltyEvents()
+'''
 
 
 def dateGenerator(start, end):
@@ -244,5 +258,10 @@ def dateGenerator(start, end):
 
 if __name__ == "__main__":
 
-    dataDownloader(date(2018, 1, 1), date(2021, 7, 31))
+    # dataDownloader(date(2018, 1, 1), date(2021, 7, 31))
+    dataDownloader(date(2018, 9, 10), date(2021, 7, 31))
+    
+    # TestGameScraper('605706')
+    # TestGameScraper('480691')
+
     # main()

@@ -8,13 +8,14 @@ from requests_html import HTMLSession
 class DateScraper:
 
     # Initialize a new scraper of the date page on espn.
-    def __init__(self, date):
+    def __init__(self, date,timeout=1):
         self.date = date
         # self.datePageUrl = "http://www.espnfc.us/scores?date=" + date
         self.datePageUrl = "https://www.espn.com/soccer/scoreboard?date=" + date
         self.beautifulSoup = None
         self.allGames = None
         self.session = HTMLSession()
+        self.timeout = timeout
         print(self.datePageUrl)
 
     def getDate(self):
@@ -47,7 +48,7 @@ class DateScraper:
 
         headers = {'User-Agent': 
            'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36'}
-        r = self.session.get(self.datePageUrl, headers=headers, timeout=1)
+        r = self.session.get(self.datePageUrl, headers=headers, timeout=self.timeout)
         r.html.render()
         self.beautifulSoup = BeautifulSoup(r.html.raw_html, "html.parser")
 
@@ -64,7 +65,7 @@ class DateScraper:
         # Returns the list of all relevant games.
         for game in mainBody:
             # print(game.prettify())
-            individualGames = game.find_all("a", {"class":"button-alt sm", "href":True})
+            individualGames = game.find_all("a", {"class":"button-alt sm", "href": True})
 
 
             for individualGame in individualGames:

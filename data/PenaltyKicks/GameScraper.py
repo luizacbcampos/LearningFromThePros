@@ -18,7 +18,7 @@ class GameScraper:
         self.allCommentaryPenaltyEvents = None
         self.listOfPlayerPenaltyEvents = []
         self.gameDetails = ''
-
+        print(self.gameUrl)
 
     def getGameId(self):
         return self.gameId
@@ -49,11 +49,11 @@ class GameScraper:
 
         headers = {'User-Agent': 
            'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36'}
-        r = self.session.get(self.gameUrl, headers=headers)
+        r = self.session.get(self.gameUrl, headers=headers, timeout=1)
         r.html.render()
         self.gameBeautifulSoup = BeautifulSoup(r.html.raw_html, "html.parser")
-        self.makeGameDetails()
         # print(self.beautifulSoup.prettify())
+        self.makeGameDetails()
 
     def makeGameDetails(self):
         game_details = self.gameBeautifulSoup.find("div", {"class" :["game-details header"]})
@@ -76,35 +76,28 @@ class GameScraper:
             self.printPenaltyEvent(penaltyEvent)
 
 
-
-
-
     def makeAllCommentaryPenaltyEvents(self):
         wrap = self.gameBeautifulSoup.find("div", id="gamepackage-wrap")
         tabs = wrap.find("div", id="gamepackage-soccer-commentary-tabs")
         comment = tabs.find("div", id="match-commentary-1-tab-1")
         table = comment.find("table")
-        
         events = table.find_all("td", class_="game-details")
+        
         # print(events)
-        # AQUIIIIIIII
         # print("\nPenalties:\n")
-
-        # self.allCommentaryPenaltyEvents = self.gameBeautifulSoup.find_all(text = re.compile("(?i)penalty"), class_="game-details")
-        ## Seria iss?????
-        self.allCommentaryPenaltyEvents = table.find_all(text = re.compile("(?i)penalty"), class_="game-details") #??????
+        self.allCommentaryPenaltyEvents = table.find_all(text = re.compile("(?i)penalty"), class_="game-details")
         print(self.allCommentaryPenaltyEvents)
-        exit()
-        # print(self.allCommentaryPenaltyEvents)
 
 
     def makeListOfPlayerPenaltyEvents(self):
+        
         allPenaltyEvents = []
         for penaltyEvent in self.allCommentaryPenaltyEvents:
             allPenaltyEvents.append(str(penaltyEvent))
 
         # /TODO figure out why this duplicates
-        allPenaltyEvents = allPenaltyEvents[:-1]
+        # allPenaltyEvents = allPenaltyEvents[:-1]
+
         # get the player name
         for penaltyEvent in allPenaltyEvents:
             # added because going back to 2015 they seemed to use 'penalty area' rather than box.
