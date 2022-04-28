@@ -8,7 +8,7 @@ from requests_html import HTMLSession
 class DateScraper:
 
     # Initialize a new scraper of the date page on espn.
-    def __init__(self, date,timeout=3):
+    def __init__(self, date,timeout=1):
         self.date = date
         # self.datePageUrl = "http://www.espnfc.us/scores?date=" + date
         self.datePageUrl = "https://www.espn.com/soccer/scoreboard?date=" + date
@@ -16,7 +16,6 @@ class DateScraper:
         self.allGames = None
         self.session = HTMLSession()
         self.timeout = timeout
-        print(self.datePageUrl)
 
     def getDate(self):
         return self.date
@@ -46,6 +45,7 @@ class DateScraper:
         # self.beautifulSoup = BeautifulSoup(urllib.request.urlopen(self.datePageUrl), 'html5lib')
         # Must use html5lib to correctly scrape the page. Doesn't work without this.
 
+        print(self.datePageUrl)
         headers = {'User-Agent': 
            'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36'}
         r = self.session.get(self.datePageUrl, headers=headers, timeout=self.timeout)

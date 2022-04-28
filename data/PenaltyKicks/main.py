@@ -6,6 +6,10 @@ import matplotlib.pyplot as plt
 # from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2TkAgg
 # from Tkinter import *
 # import Tkinter as Tk
+from tqdm import tqdm
+
+import warnings
+warnings.filterwarnings("ignore")
 
 
 def main():
@@ -138,12 +142,12 @@ def fill_currentGame(sqlUpload, dt, currentGame):
         currentGame.writeError(dt)
 
     if "English Premier League" in currentGame.getgameDetails(): #continue
+        # print("VALID GAME:"+str(currentGame.getGameId()))
         try:
             currentGame.makeAllCommentaryPenaltyEvents()
             currentGame.makeListOfPlayerPenaltyEvents()
         except Exception as e:
             # raise e
-            # exit()
             print("Error in GAME Scraping: " + currentGame.gameId)
             currentGame.writeError(dt)
 
@@ -236,19 +240,25 @@ def read_games():
 
     sqlUpload = SQL("penaltyKicks.db")
 
-    for name in glob.glob('Games/*/*/*/*.txt'):
+    pbar = tqdm(glob.glob('Games/2020/*/*/*.txt'))
+    for name in pbar:
         dt = date_from_line(name)
         currentDate = str(dt).replace("-", "")
+        pbar.set_description("Day %s" % currentDate)
+        
         currentDay = DateScraper(currentDate)
-
         session = currentDay.getSession()
-
+        # print("Day: " + currentDate)
+        
         f = open(name, "r")
-        for line in f.readlines():
+
+        progressbar = tqdm(f.readlines(), leave=False)
+        for line in progressbar:
             gameID = line.strip()
+            progressbar.set_description("Game %s" % gameID)
+            # print("\tGame: "+ str(gameID), end=' -> ')
             currentGame = GameScraper(gameID, currentDate, session)
             fill_currentGame(sqlUpload, dt, currentGame)
-        
         f.close()
         # break
 
@@ -268,3 +278,4 @@ if __name__ == "__main__":
     # read_erros()
     read_games()
     # main()
+

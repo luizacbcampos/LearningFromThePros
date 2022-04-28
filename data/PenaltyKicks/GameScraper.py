@@ -18,7 +18,7 @@ class GameScraper:
         self.allCommentaryPenaltyEvents = None
         self.listOfPlayerPenaltyEvents = []
         self.gameDetails = ''
-        print(self.gameUrl)
+        # print(self.gameUrl)
 
     def getGameId(self):
         return self.gameId
@@ -58,7 +58,7 @@ class GameScraper:
     def makeGameDetails(self):
         game_details = self.gameBeautifulSoup.find("div", {"class" :["game-details header"]})
         self.gameDetails = game_details.getText().strip()
-        print(self.gameDetails, ":", self.gameUrl)
+        # print(self.gameDetails, ":", self.gameUrl)
         
 
     def printPenaltyEvent(self, penaltyEvent):
@@ -86,7 +86,7 @@ class GameScraper:
         # print(events)
         # print("\nPenalties:\n")
         self.allCommentaryPenaltyEvents = table.find_all(text = re.compile("(?i)penalty"), class_="game-details")
-        print(self.allCommentaryPenaltyEvents)
+        # print(self.allCommentaryPenaltyEvents)
 
 
     def makeListOfPlayerPenaltyEvents(self):
@@ -236,12 +236,12 @@ class GameScraper:
     def writeError(self, date):
         #Write the game Page HTML to a file
         try:
-            path = "./Errors/%s/%s/%s" % (str(date.year), str(date.month), str(date.day))
+            path = "./GameErrors/%s/%s/%s" % (str(date.year), str(date.month), str(date.day))
             os.makedirs(path)
         except OSError:
             if not os.path.isdir(path):
                 raise
-        f = open("./Errors/%s/%s/%s/%s" % (str(date.year), str(date.month), str(date.day), self.gameId + '.txt'), 'w')
+        f = open("./GameErrors/%s/%s/%s/%s" % (str(date.year), str(date.month), str(date.day), self.gameId + '.txt'), 'w')
         f.write("GAME ERROR: " + self.gameId)
         f.close()
 
