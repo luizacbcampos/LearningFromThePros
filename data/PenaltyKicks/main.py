@@ -133,12 +133,15 @@ def drawPenaltyHistory(playerName):
     Tk.mainloop()
 
 
-def fill_currentGame(sqlUpload, dt, currentGame):
+def fill_currentGame(sqlUpload, dt, currentGame, use_tqdm=False, bar=None):
     
     try:
         currentGame.makeGameBeautifulSoup()
     except Exception as e:
-        print("Error in GAME Scraping: " + currentGame.gameId)
+        if use_tqdm:
+            bar.write("Error in GAME Scraping: %s" % currentGame.gameId)
+        else:
+            print("Error in GAME Scraping: " + currentGame.gameId)
         currentGame.writeError(dt)
 
     if "English Premier League" in currentGame.getgameDetails(): #continue
@@ -148,13 +151,17 @@ def fill_currentGame(sqlUpload, dt, currentGame):
             currentGame.makeListOfPlayerPenaltyEvents()
         except Exception as e:
             # raise e
-            print("Error in GAME Scraping: " + currentGame.gameId)
+            if use_tqdm:
+                bar.write("Error in GAME Scraping: %s" % currentGame.gameId)
+            else:
+                print("Error in GAME Scraping: " + currentGame.gameId)
             currentGame.writeError(dt)
 
         currentGamePenalties = currentGame.getListOfPlayerPenaltyEvents()
         
         for eachPlayer in currentGamePenalties:
             try:
+                currentGame.writePenalty(dt)
                 sqlUpload.addNewPlayer(eachPlayer)
             except:
                 print("SQL UPLOAD ERROR")
@@ -258,7 +265,7 @@ def read_games():
             progressbar.set_description("Game %s" % gameID)
             # print("\tGame: "+ str(gameID), end=' -> ')
             currentGame = GameScraper(gameID, currentDate, session)
-            fill_currentGame(sqlUpload, dt, currentGame)
+            fill_currentGame(sqlUpload, dt, currentGame, use_tqdm=True, bar=progressbar)
         f.close()
         # break
 

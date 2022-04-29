@@ -60,14 +60,16 @@ class GameScraper:
         self.gameDetails = game_details.getText().strip()
         # print(self.gameDetails, ":", self.gameUrl)
         
+    def penaltyEventstring(self, penaltyEvent):
+        penalty = "Player: {} | Foot: {} | Team: {} | GameID: {} \
+            | Outcome: {} | Direction: {}".format(penaltyEvent.getPlayerName(), penaltyEvent.getFoot(), 
+                penaltyEvent.getTeam(), str(penaltyEvent.getGameId()).strip(), 
+                penaltyEvent.getOutcome(), penaltyEvent.getDirection())
+        return penalty
 
     def printPenaltyEvent(self, penaltyEvent):
-        print("Player: {} | Foot: {} | Team: {} | GameID: {} \
-            | Outcome: {} | Direction: {}".format(penaltyEvent.getPlayerName(), penaltyEvent.getFoot(), 
-                penaltyEvent.getTeam(), penaltyEvent.getGameId(), 
-                penaltyEvent.getOutcome(), penaltyEvent.getDirection()))
-        
-        
+        print(self.penaltyEventstring(penaltyEvent))
+           
 
     def printListOfPlayerPenaltyEvents(self):
         print("Total number of penalties: {}".format(len(self.listOfPlayerPenaltyEvents)))
@@ -245,3 +247,12 @@ class GameScraper:
         f.write("GAME ERROR: " + self.gameId)
         f.close()
 
+    def writePenalty(self, date):
+        f = open("./Penaties_%s" % (str(date.year)+'.txt'), 'a+')
+
+        for penaltyEvent in self.listOfPlayerPenaltyEvents:
+            f.write("Date: "+ str(date) +" | ")
+            f.write(self.penaltyEventstring(penaltyEvent))
+            f.write('\n')
+
+        f.close()
