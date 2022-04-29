@@ -139,9 +139,9 @@ def fill_currentGame(sqlUpload, dt, currentGame, use_tqdm=False, bar=None):
         currentGame.makeGameBeautifulSoup()
     except Exception as e:
         if use_tqdm:
-            bar.write("Error in GAME Scraping: %s" % currentGame.gameId)
+            bar.write("Error in soup GAME Scraping: %s" % currentGame.gameId)
         else:
-            print("Error in GAME Scraping: " + currentGame.gameId)
+            print("Error in soup GAME Scraping: " + currentGame.gameId)
         currentGame.writeError(dt)
 
     if "English Premier League" in currentGame.getgameDetails(): #continue
@@ -150,7 +150,6 @@ def fill_currentGame(sqlUpload, dt, currentGame, use_tqdm=False, bar=None):
             currentGame.makeAllCommentaryPenaltyEvents()
             currentGame.makeListOfPlayerPenaltyEvents()
         except Exception as e:
-            # raise e
             if use_tqdm:
                 bar.write("Error in GAME Scraping: %s" % currentGame.gameId)
             else:

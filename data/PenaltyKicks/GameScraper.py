@@ -49,7 +49,7 @@ class GameScraper:
 
         headers = {'User-Agent': 
            'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36'}
-        r = self.session.get(self.gameUrl, headers=headers, timeout=1)
+        r = self.session.get(self.gameUrl, headers=headers, timeout=2)
         r.html.render()
         self.gameBeautifulSoup = BeautifulSoup(r.html.raw_html, "html.parser")
         # print(self.beautifulSoup.prettify())
