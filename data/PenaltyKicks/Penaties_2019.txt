@@ -1,0 +1,40 @@
+Date: 2019-08-19 | Player: Paul Pogba | Foot: right | Team: Manchester United | GameID: 541830             | Outcome: 0 | Direction:  bottom left corner
+Date: 2019-08-25 | Player: Raúl Jiménez | Foot: right | Team: Wolverhampton Wanderers | GameID: 541816             | Outcome: 1 | Direction:  centre of the goal
+Date: 2019-08-25 | Player: Raúl Jiménez | Foot: right | Team: Wolverhampton Wanderers | GameID: 541816             | Outcome: 1 | Direction:  centre of the goal
+Date: 2019-08-25 | Player: Raúl Jiménez | Foot: right | Team: Wolverhampton Wanderers | GameID: 541816             | Outcome: 1 | Direction:  centre of the goal
+Date: 2019-08-25 | Player: Raúl Jiménez | Foot: right | Team: Wolverhampton Wanderers | GameID: 541816             | Outcome: 1 | Direction:  centre of the goal
+Date: 2019-08-11 | Player: Marcus Rashford | Foot: right | Team: Manchester United | GameID: 541835             | Outcome: 1 | Direction:  top left corner
+Date: 2019-12-27 | Player: Raheem Sterling | Foot: right | Team: Manchester City | GameID: 541659             | Outcome: 0 | Direction:  bottom left corner
+Date: 2019-12-07 | Player: Marcus Rashford | Foot: right | Team: Manchester United | GameID: 541691             | Outcome: 1 | Direction:  bottom right corner
+Date: 2019-12-21 | Player: Ilkay Gündogan | Foot: right | Team: Manchester City | GameID: 541669             | Outcome: 1 | Direction:  bottom right corner
+Date: 2019-12-28 | Player: Troy Deeney | Foot: right | Team: Watford | GameID: 541645             | Outcome: 1 | Direction:  centre of the goal
+Date: 2019-12-28 | Player: Demarai Gray | Foot: right | Team: Leicester City | GameID: 541650             | Outcome: 0 | Direction:  bottom right corner
+Date: 2019-12-28 | Player: Harry Kane | Foot: right | Team: Tottenham Hotspur | GameID: 541653             | Outcome: 1 | Direction:  top right corner
+Date: 2019-12-04 | Player: Marcus Rashford | Foot: right | Team: Manchester United | GameID: 541699             | Outcome: 1 | Direction:  bottom right corner
+Date: 2019-12-04 | Player: Jamie Vardy | Foot: right | Team: Leicester City | GameID: 541703             | Outcome: 1 | Direction:  bottom right corner
+Date: 2019-12-01 | Player: Pierre-Emerick Aubameyang | Foot: right | Team: Arsenal | GameID: 541705             | Outcome: 1 | Direction:  bottom left corner
+Date: 2019-12-26 | Player: Oliver Norwood | Foot: right | Team: Sheffield United | GameID: 541663             | Outcome: 1 | Direction:  bottom left corner
+Date: 2019-12-26 | Player: James Milner | Foot: right | Team: Liverpool | GameID: 541658             | Outcome: 1 | Direction:  centre of the goal
+Date: 2019-02-23 | Player: Joshua King | Foot: right | Team: Bournemouth | GameID: 513579             | Outcome: 0 | Direction: right post
+Date: 2019-02-23 | Player: Raúl Jiménez | Foot: right | Team: Wolverhampton Wanderers | GameID: 513579             | Outcome: 1 | Direction:  bottom right corner
+Date: 2019-02-23 | Player: Joshua King | Foot: right | Team: Bournemouth | GameID: 513579             | Outcome: 1 | Direction:  bottom right corner
+Date: 2019-02-23 | Player: Joshua King | Foot: right | Team: Bournemouth | GameID: 513579             | Outcome: 0 | Direction: right post
+Date: 2019-02-23 | Player: Raúl Jiménez | Foot: right | Team: Wolverhampton Wanderers | GameID: 513579             | Outcome: 1 | Direction:  bottom right corner
+Date: 2019-02-23 | Player: Joshua King | Foot: right | Team: Bournemouth | GameID: 513579             | Outcome: 1 | Direction:  bottom right corner
+Date: 2019-02-23 | Player: Joshua King | Foot: right | Team: Bournemouth | GameID: 513579             | Outcome: 0 | Direction: right post
+Date: 2019-02-23 | Player: Raúl Jiménez | Foot: right | Team: Wolverhampton Wanderers | GameID: 513579             | Outcome: 1 | Direction:  bottom right corner
+Date: 2019-02-23 | Player: Joshua King | Foot: right | Team: Bournemouth | GameID: 513579             | Outcome: 1 | Direction:  bottom right corner
+Date: 2019-02-23 | Player: Luka Milivojevic | Foot: right | Team: Crystal Palace | GameID: 513571             | Outcome: 1 | Direction:  bottom right corner
+Date: 2019-02-02 | Player: Bobby Reid | Foot: right | Team: Cardiff City | GameID: 513591             | Outcome: 1 | Direction:  centre of the goal
+Date: 2019-02-02 | Player: Luka Milivojevic | Foot: right | Team: Crystal Palace | GameID: 513592             | Outcome: 1 | Direction:  bottom right corner
+Date: 2019-02-02 | Player: Eden Hazard | Foot: right | Team: Chelsea | GameID: 513593             | Outcome: 1 | Direction:  bottom left corner
+Date: 2019-02-02 | Player: Ashley Barnes | Foot: right | Team: Burnley | GameID: 513597             | Outcome: 1 | Direction:  bottom right corner
+Date: 2019-02-02 | Player: Rúben Neves | Foot: right | Team: Wolverhampton Wanderers | GameID: 513599             | Outcome: 1 | Direction:  bottom right corner
+Date: 2019-02-09 | Player: Mark Noble | Foot: right | Team: West Ham United | GameID: 513589             | Outcome: 1 | Direction:  bottom left corner
+Date: 2019-02-09 | Player: Paul Pogba | Foot: right | Team: Manchester United | GameID: 513587             | Outcome: 1 | Direction:  bottom right corner
+Date: 2019-02-09 | Player: Ashley Barnes | Foot: right | Team: Burnley | GameID: 513582             | Outcome: 1 | Direction:  bottom left corner
+Date: 2019-02-10 | Player: Jamie Vardy | Foot: right | Team: Leicester City | GameID: 513586             | Outcome: 0 | Direction:  bottom left corner
+Date: 2019-02-10 | Player: Sergio Agüero | Foot: right | Team: Manchester City | GameID: 513584             | Outcome: 1 | Direction:  bottom right corner
+Date: 2019-09-20 | Player: James Ward-Prowse | Foot: right | Team: Southampton | GameID: 541786             | Outcome: 1 | Direction:  top right corner
+Date: 2019-09-22 | Player: Nicolas Pépé | Foot: left | Team: Arsenal | GameID: 541785             | Outcome: 1 | Direction:  centre of the goal
+Date: 2019-09-15 | Player: Roberto Pereyra | Foot: right | Team: Watford | GameID: 541795             | Outcome: 1 | Direction:  bottom left corner

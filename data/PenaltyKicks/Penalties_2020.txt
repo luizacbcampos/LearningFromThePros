@@ -1,0 +1,120 @@
+Date: 2020-06-19 | Player: Bruno Fernandes | Foot: right | Team: Manchester United | GameID: 541551             | Outcome: 1 | Direction:  bottom left corner
+Date: 2020-06-22 | Player: Riyad Mahrez | Foot: left | Team: Manchester City | GameID: 541546             | Outcome: 1 | Direction:  bottom left corner
+Date: 2020-06-23 | Player: Neal Maupay | Foot: right | Team: Brighton and Hove Albion | GameID: 541538             | Outcome: 0 | Direction:  bottom left corner
+Date: 2020-06-17 | Player: Kevin De Bruyne | Foot: right | Team: Manchester City | GameID: 541565             | Outcome: 1 | Direction:  bottom right corner
+Date: 2020-06-25 | Player: Willian | Foot: right | Team: Chelsea | GameID: 541541             | Outcome: 1 | Direction:  top left corner
+Date: 2020-07-19 | Player: Danny Ings | Foot: right | Team: Southampton | GameID: 541483             | Outcome: 0 | Direction:  bottom right corner
+Date: 2020-07-22 | Player: Michail Antonio | Foot: right | Team: West Ham United | GameID: 541484             | Outcome: 1 | Direction:  bottom right corner
+Date: 2020-07-12 | Player: Junior Stanislas | Foot: right | Team: Bournemouth | GameID: 541500             | Outcome: 1 | Direction:  high centre of the goal
+Date: 2020-07-12 | Player: Raúl Jiménez | Foot: right | Team: Wolverhampton Wanderers | GameID: 541499             | Outcome: 1 | Direction:  bottom left corner
+Date: 2020-07-21 | Player: Raheem Sterling | Foot: right | Team: Manchester City | GameID: 541481             | Outcome: 0 | Direction:  bottom left corner
+Date: 2020-07-02 | Player: Kevin De Bruyne | Foot: right | Team: Manchester City | GameID: 541528             | Outcome: 1 | Direction:  bottom left corner
+Date: 2020-07-15 | Player: Chris Wood | Foot: right | Team: Burnley | GameID: 541494             | Outcome: 1 | Direction:  top right corner
+Date: 2020-07-09 | Player: Bruno Fernandes | Foot: right | Team: Manchester United | GameID: 541509             | Outcome: 1 | Direction:  bottom left corner
+Date: 2020-07-09 | Player: James Ward-Prowse | Foot: right | Team: Southampton | GameID: 541512             | Outcome: 0 | Direction: the bar
+Date: 2020-07-04 | Player: Willian | Foot: right | Team: Chelsea | GameID: 541523             | Outcome: 1 | Direction:  top right corner
+Date: 2020-07-04 | Player: Joshua King | Foot: right | Team: Bournemouth | GameID: 541517             | Outcome: 1 | Direction:  bottom right corner
+Date: 2020-07-04 | Player: Marcus Rashford | Foot: right | Team: Manchester United | GameID: 541517             | Outcome: 1 | Direction:  bottom right corner
+Date: 2020-07-04 | Player: Joshua King | Foot: right | Team: Bournemouth | GameID: 541517             | Outcome: 1 | Direction:  bottom right corner
+Date: 2020-07-04 | Player: Marcus Rashford | Foot: right | Team: Manchester United | GameID: 541517             | Outcome: 1 | Direction:  bottom right corner
+Date: 2020-07-01 | Player: Gylfi Sigurdsson | Foot: right | Team: Everton | GameID: 541527             | Outcome: 1 | Direction:  centre of the goal
+Date: 2020-07-01 | Player: Willian | Foot: right | Team: Chelsea | GameID: 541526             | Outcome: 1 | Direction:  bottom left corner
+Date: 2020-07-26 | Player: Joshua King | Foot: right | Team: Bournemouth | GameID: 541466             | Outcome: 1 | Direction:  bottom right corner
+Date: 2020-07-26 | Player: Bruno Fernandes | Foot: right | Team: Manchester United | GameID: 541469             | Outcome: 1 | Direction:  bottom left corner
+Date: 2020-07-26 | Player: Danny Ings | Foot: right | Team: Southampton | GameID: 541471             | Outcome: 1 | Direction:  bottom right corner
+Date: 2020-07-26 | Player: Troy Deeney | Foot: right | Team: Watford | GameID: 541473             | Outcome: 1 | Direction:  bottom right corner
+Date: 2020-07-26 | Player: Pierre-Emerick Aubameyang | Foot: right | Team: Arsenal | GameID: 541473             | Outcome: 1 | Direction:  bottom left corner
+Date: 2020-07-26 | Player: Troy Deeney | Foot: right | Team: Watford | GameID: 541473             | Outcome: 1 | Direction:  bottom right corner
+Date: 2020-07-26 | Player: Pierre-Emerick Aubameyang | Foot: right | Team: Arsenal | GameID: 541473             | Outcome: 1 | Direction:  bottom left corner
+Date: 2020-07-11 | Player: Troy Deeney | Foot: right | Team: Watford | GameID: 541502             | Outcome: 1 | Direction:  top left corner
+Date: 2020-07-11 | Player: Troy Deeney | Foot: right | Team: Watford | GameID: 541502             | Outcome: 1 | Direction:  centre of the goal
+Date: 2020-07-11 | Player: Troy Deeney | Foot: right | Team: Watford | GameID: 541502             | Outcome: 1 | Direction:  top left corner
+Date: 2020-07-11 | Player: Troy Deeney | Foot: right | Team: Watford | GameID: 541502             | Outcome: 1 | Direction:  centre of the goal
+Date: 2020-12-27 | Player: Patrick Bamford | Foot: left | Team: Leeds United | GameID: 578512             | Outcome: 1 | Direction:  top right corner
+Date: 2020-12-20 | Player: Bruno Fernandes | Foot: right | Team: Manchester United | GameID: 578524             | Outcome: 1 | Direction:  bottom right corner
+Date: 2020-12-20 | Player: Jamie Vardy | Foot: right | Team: Leicester City | GameID: 578525             | Outcome: 1 | Direction:  centre of the goal
+Date: 2020-12-20 | Player: Anwar El Ghazi | Foot: right | Team: Aston Villa | GameID: 578522             | Outcome: 1 | Direction:  high centre of the goal
+Date: 2020-12-07 | Player: Danny Ings | Foot: right | Team: Southampton | GameID: 578559             | Outcome: 1 | Direction:  bottom left corner
+Date: 2020-12-07 | Player: Pascal Groß | Foot: right | Team: Brighton and Hove Albion | GameID: 578559             | Outcome: 1 | Direction:  top right corner
+Date: 2020-12-07 | Player: Danny Ings | Foot: right | Team: Southampton | GameID: 578559             | Outcome: 1 | Direction:  bottom left corner
+Date: 2020-12-07 | Player: Pascal Groß | Foot: right | Team: Brighton and Hove Albion | GameID: 578559             | Outcome: 1 | Direction:  top right corner
+Date: 2020-12-19 | Player: Callum Wilson | Foot: right | Team: Newcastle United | GameID: 578523             | Outcome: 1 | Direction:  centre of the goal
+Date: 2020-12-12 | Player: Anwar El Ghazi | Foot: right | Team: Aston Villa | GameID: 578541             | Outcome: 1 | Direction:  bottom right corner
+Date: 2020-12-12 | Player: Gylfi Sigurdsson | Foot: right | Team: Everton | GameID: 578544             | Outcome: 1 | Direction:  centre of the goal
+Date: 2020-12-28 | Player: Kelechi Iheanacho | Foot: left | Team: Leicester City | GameID: 578505             | Outcome: 0 | Direction:  bottom right corner
+Date: 2020-12-05 | Player: Kevin De Bruyne | Foot: right | Team: Manchester City | GameID: 578554             | Outcome: 1 | Direction:  bottom right corner
+Date: 2020-12-13 | Player: Mohamed Salah | Foot: left | Team: Liverpool | GameID: 578545             | Outcome: 1 | Direction:  centre of the goal
+Date: 2020-12-26 | Player: Jorginho | Foot: right | Team: Chelsea | GameID: 578513             | Outcome: 0 | Direction:  bottom right corner
+Date: 2020-12-26 | Player: Alexandre Lacazette | Foot: right | Team: Arsenal | GameID: 578513             | Outcome: 1 | Direction:  centre of the goal
+Date: 2020-12-26 | Player: Jorginho | Foot: right | Team: Chelsea | GameID: 578513             | Outcome: 0 | Direction:  bottom right corner
+Date: 2020-12-26 | Player: Alexandre Lacazette | Foot: right | Team: Arsenal | GameID: 578513             | Outcome: 1 | Direction:  centre of the goal
+Date: 2020-12-11 | Player: Mateusz Klich | Foot: right | Team: Leeds United | GameID: 578550             | Outcome: 1 | Direction:  bottom right corner
+Date: 2020-02-22 | Player: Jay Rodriguez | Foot: right | Team: Burnley | GameID: 541576             | Outcome: 1 | Direction:  top right corner
+Date: 2020-02-22 | Player: Sergio Agüero | Foot: right | Team: Manchester City | GameID: 541579             | Outcome: 0 | Direction:  centre of the goal
+Date: 2020-02-23 | Player: Bruno Fernandes | Foot: right | Team: Manchester United | GameID: 541583             | Outcome: 1 | Direction:  bottom right corner
+Date: 2020-02-02 | Player: Ilkay Gündogan | Foot: right | Team: Manchester City | GameID: 541600             | Outcome: 0 | Direction:  bottom right corner
+Date: 2020-02-16 | Player: Son Heung-Min | Foot: right | Team: Tottenham Hotspur | GameID: 541592             | Outcome: 0 | Direction:  bottom left corner
+Date: 2020-09-20 | Player: Neal Maupay | Foot: right | Team: Brighton and Hove Albion | GameID: 578641             | Outcome: 1 | Direction:  centre of the goal
+Date: 2020-09-20 | Player: Danny Ings | Foot: right | Team: Southampton | GameID: 578648             | Outcome: 1 | Direction:  centre of the goal
+Date: 2020-09-20 | Player: Jorginho | Foot: right | Team: Chelsea | GameID: 578645             | Outcome: 0 | Direction:  bottom right corner
+Date: 2020-09-19 | Player: Mateusz Klich | Foot: right | Team: Leeds United | GameID: 578644             | Outcome: 1 | Direction:  centre of the goal
+Date: 2020-09-19 | Player: Aleksandar Mitrovic | Foot: right | Team: Fulham | GameID: 578644             | Outcome: 1 | Direction:  bottom left corner
+Date: 2020-09-19 | Player: Mateusz Klich | Foot: right | Team: Leeds United | GameID: 578644             | Outcome: 1 | Direction:  centre of the goal
+Date: 2020-09-19 | Player: Aleksandar Mitrovic | Foot: right | Team: Fulham | GameID: 578644             | Outcome: 1 | Direction:  bottom left corner
+Date: 2020-09-19 | Player: Wilfried Zaha | Foot: right | Team: Crystal Palace | GameID: 578643             | Outcome: 1 | Direction:  top left corner
+Date: 2020-09-12 | Player: Mohamed Salah | Foot: left | Team: Liverpool | GameID: 578655             | Outcome: 1 | Direction:  bottom left corner
+Date: 2020-09-12 | Player: Mohamed Salah | Foot: left | Team: Liverpool | GameID: 578655             | Outcome: 1 | Direction:  high centre of the goal
+Date: 2020-09-12 | Player: Mohamed Salah | Foot: left | Team: Liverpool | GameID: 578655             | Outcome: 1 | Direction:  bottom left corner
+Date: 2020-09-12 | Player: Mohamed Salah | Foot: left | Team: Liverpool | GameID: 578655             | Outcome: 1 | Direction:  high centre of the goal
+Date: 2020-09-26 | Player: Richarlison | Foot: right | Team: Everton | GameID: 578634             | Outcome: 1 | Direction:  top left corner
+Date: 2020-09-26 | Player: Bruno Fernandes | Foot: right | Team: Manchester United | GameID: 578637             | Outcome: 1 | Direction:  top right corner
+Date: 2020-09-26 | Player: Neal Maupay | Foot: right | Team: Brighton and Hove Albion | GameID: 578637             | Outcome: 1 | Direction:  high centre of the goal
+Date: 2020-09-26 | Player: Bruno Fernandes | Foot: right | Team: Manchester United | GameID: 578637             | Outcome: 1 | Direction:  top right corner
+Date: 2020-09-26 | Player: Neal Maupay | Foot: right | Team: Brighton and Hove Albion | GameID: 578637             | Outcome: 1 | Direction:  high centre of the goal
+Date: 2020-01-19 | Player: Jamie Vardy | Foot: right | Team: Leicester City | GameID: 541620             | Outcome: 0 | Direction:  bottom right corner
+Date: 2020-01-22 | Player: Teemu Pukki | Foot: right | Team: Norwich City | GameID: 541607             | Outcome: 1 | Direction:  bottom right corner
+Date: 2020-01-22 | Player: Ayoze Pérez | Foot: right | Team: Leicester City | GameID: 541614             | Outcome: 1 | Direction:  top left corner
+Date: 2020-01-22 | Player: Mark Noble | Foot: right | Team: West Ham United | GameID: 541614             | Outcome: 1 | Direction:  centre of the goal
+Date: 2020-01-22 | Player: Ayoze Pérez | Foot: right | Team: Leicester City | GameID: 541614             | Outcome: 1 | Direction:  top left corner
+Date: 2020-01-22 | Player: Mark Noble | Foot: right | Team: West Ham United | GameID: 541614             | Outcome: 1 | Direction:  centre of the goal
+Date: 2020-01-12 | Player: Anwar El Ghazi | Foot: right | Team: Aston Villa | GameID: 541629             | Outcome: 1 | Direction:  top left corner
+Date: 2020-01-21 | Player: Gabriel Jesus | Foot: right | Team: Manchester City | GameID: 541611             | Outcome: 0 | Direction:  bottom left corner
+Date: 2020-01-21 | Player: Jorginho | Foot: right | Team: Chelsea | GameID: 541606             | Outcome: 1 | Direction:  bottom right corner
+Date: 2020-01-01 | Player: Mark Noble | Foot: right | Team: West Ham United | GameID: 541636             | Outcome: 1 | Direction:  bottom right corner
+Date: 2020-01-18 | Player: Troy Deeney | Foot: right | Team: Watford | GameID: 541623             | Outcome: 0 | Direction:  bottom left corner
+Date: 2020-01-18 | Player: Teemu Pukki | Foot: right | Team: Norwich City | GameID: 541616             | Outcome: 1 | Direction:  high centre of the goal
+Date: 2020-01-18 | Player: Raúl Jiménez | Foot: right | Team: Wolverhampton Wanderers | GameID: 541624             | Outcome: 1 | Direction:  bottom right corner
+Date: 2020-01-29 | Player: Mohamed Salah | Foot: left | Team: Liverpool | GameID: 541670             | Outcome: 1 | Direction:  bottom right corner
+Date: 2020-01-11 | Player: Jorginho | Foot: right | Team: Chelsea | GameID: 541627             | Outcome: 1 | Direction:  bottom right corner
+Date: 2020-01-11 | Player: Marcus Rashford | Foot: right | Team: Manchester United | GameID: 541631             | Outcome: 1 | Direction:  bottom right corner
+Date: 2020-03-09 | Player: Jamie Vardy | Foot: right | Team: Leicester City | GameID: 541555             | Outcome: 1 | Direction:  centre of the goal
+Date: 2020-10-24 | Player: Sander Berge | Foot: right | Team: Sheffield United | GameID: 578608             | Outcome: 1 | Direction:  bottom right corner
+Date: 2020-10-17 | Player: Bruno Fernandes | Foot: right | Team: Manchester United | GameID: 578617             | Outcome: 0 | Direction:  bottom left corner
+Date: 2020-10-04 | Player: Harry Kane | Foot: right | Team: Tottenham Hotspur | GameID: 578628             | Outcome: 1 | Direction:  top left corner
+Date: 2020-10-04 | Player: Bruno Fernandes | Foot: right | Team: Manchester United | GameID: 578628             | Outcome: 1 | Direction:  bottom right corner
+Date: 2020-10-04 | Player: Harry Kane | Foot: right | Team: Tottenham Hotspur | GameID: 578628             | Outcome: 1 | Direction:  top left corner
+Date: 2020-10-04 | Player: Bruno Fernandes | Foot: right | Team: Manchester United | GameID: 578628             | Outcome: 1 | Direction:  bottom right corner
+Date: 2020-10-03 | Player: Jorginho | Foot: right | Team: Chelsea | GameID: 578623             | Outcome: 1 | Direction:  centre of the goal
+Date: 2020-10-03 | Player: Jorginho | Foot: right | Team: Chelsea | GameID: 578623             | Outcome: 1 | Direction:  bottom right corner
+Date: 2020-10-03 | Player: Jorginho | Foot: right | Team: Chelsea | GameID: 578623             | Outcome: 1 | Direction:  centre of the goal
+Date: 2020-10-03 | Player: Jorginho | Foot: right | Team: Chelsea | GameID: 578623             | Outcome: 1 | Direction:  bottom right corner
+Date: 2020-10-03 | Player: Callum Wilson | Foot: right | Team: Newcastle United | GameID: 578622             | Outcome: 1 | Direction:  high centre of the goal
+Date: 2020-10-31 | Player: Mohamed Salah | Foot: left | Team: Liverpool | GameID: 578600             | Outcome: 1 | Direction:  centre of the goal
+Date: 2020-11-08 | Player: Kevin De Bruyne | Foot: right | Team: Manchester City | GameID: 578585             | Outcome: 0 | Direction:  left
+Date: 2020-11-08 | Player: Mohamed Salah | Foot: left | Team: Liverpool | GameID: 578585             | Outcome: 1 | Direction:  bottom left corner
+Date: 2020-11-08 | Player: Kevin De Bruyne | Foot: right | Team: Manchester City | GameID: 578585             | Outcome: 0 | Direction:  left
+Date: 2020-11-08 | Player: Mohamed Salah | Foot: left | Team: Liverpool | GameID: 578585             | Outcome: 1 | Direction:  bottom left corner
+Date: 2020-11-08 | Player: Jamie Vardy | Foot: right | Team: Leicester City | GameID: 578590             | Outcome: 0 | Direction:  centre of the goal
+Date: 2020-11-08 | Player: Jamie Vardy | Foot: right | Team: Leicester City | GameID: 578590             | Outcome: 1 | Direction:  top right corner
+Date: 2020-11-08 | Player: Jamie Vardy | Foot: right | Team: Leicester City | GameID: 578590             | Outcome: 0 | Direction:  centre of the goal
+Date: 2020-11-08 | Player: Jamie Vardy | Foot: right | Team: Leicester City | GameID: 578590             | Outcome: 1 | Direction:  top right corner
+Date: 2020-11-07 | Player: Ademola Lookman | Foot: right | Team: Fulham | GameID: 578583             | Outcome: 0 | Direction:  bottom left corner
+Date: 2020-11-22 | Player: Ivan Cavaleiro | Foot: right | Team: Fulham | GameID: 578575             | Outcome: 0 | Direction:  left
+Date: 2020-11-30 | Player: Ollie Watkins | Foot: right | Team: Aston Villa | GameID: 578561             | Outcome: 0 | Direction: the bar
+Date: 2020-11-30 | Player: Ivan Cavaleiro | Foot: right | Team: Fulham | GameID: 578563             | Outcome: 1 | Direction:  top right corner
+Date: 2020-11-21 | Player: Bruno Fernandes | Foot: right | Team: Manchester United | GameID: 578579             | Outcome: 1 | Direction:  top left corner
+Date: 2020-11-02 | Player: Youri Tielemans | Foot: right | Team: Leicester City | GameID: 578596             | Outcome: 1 | Direction:  top left corner
+Date: 2020-11-28 | Player: Pascal Groß | Foot: right | Team: Brighton and Hove Albion | GameID: 578565             | Outcome: 1 | Direction:  centre of the goal
+Date: 2020-11-28 | Player: Neal Maupay | Foot: right | Team: Brighton and Hove Albion | GameID: 578565             | Outcome: 0 | Direction:  right
+Date: 2020-11-28 | Player: Pascal Groß | Foot: right | Team: Brighton and Hove Albion | GameID: 578565             | Outcome: 1 | Direction:  centre of the goal
+Date: 2020-11-28 | Player: Neal Maupay | Foot: right | Team: Brighton and Hove Albion | GameID: 578565             | Outcome: 0 | Direction:  right

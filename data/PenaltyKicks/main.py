@@ -241,12 +241,12 @@ def date_from_line(line):
     dt = date(int(dt[0]), int(dt[1]), int(dt[2]))
     return dt
 
-def read_games():
+def read_games(year='2020'):
     import glob
 
     sqlUpload = SQL("penaltyKicks.db")
 
-    pbar = tqdm(glob.glob('Games/2020/*/*/*.txt'))
+    pbar = tqdm(glob.glob('Games/{}/*/*/*.txt'.format(year)))
     for name in pbar:
         dt = date_from_line(name)
         currentDate = str(dt).replace("-", "")
@@ -282,6 +282,6 @@ if __name__ == "__main__":
     # TestGameScraper('480691')
 
     # read_erros()
-    read_games()
+    read_games('2019')
     # main()
 

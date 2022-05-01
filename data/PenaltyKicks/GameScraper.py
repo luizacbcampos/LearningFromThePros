@@ -248,7 +248,7 @@ class GameScraper:
         f.close()
 
     def writePenalty(self, date):
-        f = open("./Penaties_%s" % (str(date.year)+'.txt'), 'a+')
+        f = open("./Penalties_%s" % (str(date.year)+'.txt'), 'a+')
 
         for penaltyEvent in self.listOfPlayerPenaltyEvents:
             f.write("Date: "+ str(date) +" | ")
