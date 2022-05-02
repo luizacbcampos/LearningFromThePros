@@ -41,3 +41,7 @@ Date: 2019-09-15 | Player: Roberto Pereyra | Foot: right | Team: Watford | GameI
 Date: 2019-09-01 | Player: Harry Kane | Foot: right | Team: Tottenham Hotspur | GameID: 541812             | Outcome: 1 | Direction:  bottom left corner
 Date: 2019-05-12 | Player: Mark Noble | Foot: right | Team: West Ham United | GameID: 513468             | Outcome: 1 | Direction:  bottom left corner
 Date: 2019-05-12 | Player: Nathaniel Mendez-Laing | Foot: right | Team: Cardiff City | GameID: 513462             | Outcome: 1 | Direction:  centre of the goal
+Date: 2019-05-05 | Player: Glenn Murray | Foot: right | Team: Brighton and Hove Albion | GameID: 513470             | Outcome: 1 | Direction:  bottom right corner
+Date: 2019-05-05 | Player: Pierre-Emerick Aubameyang | Foot: right | Team: Arsenal | GameID: 513470             | Outcome: 1 | Direction:  bottom left corner
+Date: 2019-05-05 | Player: Glenn Murray | Foot: right | Team: Brighton and Hove Albion | GameID: 513470             | Outcome: 1 | Direction:  bottom right corner
+Date: 2019-05-05 | Player: Pierre-Emerick Aubameyang | Foot: right | Team: Arsenal | GameID: 513470             | Outcome: 1 | Direction:  bottom left corner
