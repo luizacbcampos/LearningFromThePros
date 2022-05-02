@@ -245,12 +245,33 @@ def dataDownloader(date1, date2):
 
 def download_game_from_day_list(day_list):
 
+    from os.path import exists
+
     sqlUpload = SQL("penaltyKicks.db")    
     for dt in date_from_list(day_list):
         currentDate = str(dt).replace("-", "")
-        pbar.set_description("Day %s" % currentDate)
+
+        file_path = 'Games/{}/{}/{}/{}.txt'.format(str(dt.year), str(dt.month), str(dt.day), str(dt))
+        if exists(file_path):
+            currentDay = DateScraper(currentDate)
+            with open(file_path, 'r') as f:
+                all_games = [line.strip() for line in f.readlines()]
+
+        else:
+            currentDay = getCurrentDay(dt)
+            all_games = currentDay.getAllGames()
+
+        session = currentDay.getSession()
+        progressbar = tqdm(all_games, leave=False)
+
         
-        # currentDay = DateScraper(currentDate)
+        for gameID in progressbar:
+            progressbar.set_description("Game %s" % gameID)
+            currentGame = GameScraper(gameID, currentDate, session)
+            fill_currentGame(sqlUpload, dt, currentGame, use_tqdm=True, bar=progressbar)
+
+        currentDay.closeSession()
+        sqlUpload.commitChanges()        
 
     sqlUpload.closeConnection()
     return
@@ -353,7 +374,7 @@ if __name__ == "__main__":
     # TestGameScraper('480691')
 
     # read_erros()
-    read_games('2019')
+    # read_games('2019')
 
     # read_game_errors()
     # main()
