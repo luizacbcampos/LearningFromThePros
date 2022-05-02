@@ -133,8 +133,61 @@ def drawPenaltyHistory(playerName):
     Tk.mainloop()
 
 
-def fill_currentGame(sqlUpload, dt, currentGame, use_tqdm=False, bar=None):
+# Date aux
+def dateGenerator(start, end):
+    '''
+        Generates dates from [start,finish]
+    '''
+    current = start
+    while current <= end:
+        yield current
+        current += timedelta(days=1)
+
+def date_from_list(lista):
+    '''
+        Generates dates from list
+    '''
+    for dt in lista:
+        dt = dt.split("-")
+        dt = date(int(dt[0]), int(dt[1]), int(dt[2]))
+        yield dt
+
+def date_from_line(line):
+    '''
+        Parses line to get a date
+    '''
+    dt = line.split("/")[-1].split(".")[0].split("-")
+    dt = date(int(dt[0]), int(dt[1]), int(dt[2]))
+    return dt
+
+
+# Downloders
+
+def getCurrentDay(dt):
+    '''
+        Scraps ESPN for games in a date
+    '''
     
+    currentDate = str(dt).replace("-", "")
+    print("Beginning ESPN Scrape of day: " + currentDate, end=' -> ')
+    currentDay = DateScraper(currentDate)
+
+    try:
+        currentDay.makeBeautifulSoup()
+        currentDay.makeListOfgames()
+        currentDay.writeGameList(dt)
+
+    except Exception as e:
+        # raise e
+        print("Error in DATE Scraping: " + currentDay.getDate())
+        currentDay.writeError(dt)
+    
+    return currentDay
+
+def fill_currentGame(sqlUpload, dt, currentGame, use_tqdm=False, bar=None):
+    '''
+        Gets game information
+    '''
     try:
         currentGame.makeGameBeautifulSoup()
     except Exception as e:
@@ -165,25 +218,10 @@ def fill_currentGame(sqlUpload, dt, currentGame, use_tqdm=False, bar=None):
             except:
                 print("SQL UPLOAD ERROR")
 
-def getCurrentDay(dt):
-    
-    currentDate = str(dt).replace("-", "")
-    print("Beginning ESPN Scrape of day: " + currentDate, end=' -> ')
-    currentDay = DateScraper(currentDate)
-
-    try:
-        currentDay.makeBeautifulSoup()
-        currentDay.makeListOfgames()
-        currentDay.writeGameList(dt)
-
-    except Exception as e:
-        # raise e
-        print("Error in DATE Scraping: " + currentDay.getDate())
-        currentDay.writeError(dt)
-    
-    return currentDay
-
 def dataDownloader(date1, date2):
+    '''
+        Original data downloader. Downloads all at once
+    '''
     sqlUpload = SQL("penaltyKicks.db")
 
     for dt in dateGenerator(date1, date2):
@@ -195,53 +233,43 @@ def dataDownloader(date1, date2):
 
         print("amount of games: ", currentDay.getAmountGames())
 
-        # for gameID in all_games:
-        #     # print(gameID)
-        #     currentGame = GameScraper(gameID, currentDate, session)
-        #     fill_currentGame(sqlUpload, dt, currentGame)
+        for gameID in all_games:
+            print(gameID)
+            currentGame = GameScraper(gameID, currentDate, session)
+            fill_currentGame(sqlUpload, dt, currentGame, use_tqdm=False, bar=None)
 
         currentDay.closeSession()
-        # sqlUpload.commitChanges()
-        # exit()
+        sqlUpload.commitChanges()
 
     sqlUpload.closeConnection()
 
+def download_game_from_day_list(day_list):
 
-def TestGameScraper(gameID):
-    sqlUpload = SQL("penaltyKicks.db")
-    for dt in dateGenerator(date(2018, 1, 1), date(2018, 1, 1)):
+    sqlUpload = SQL("penaltyKicks.db")    
+    for dt in date_from_list(day_list):
         currentDate = str(dt).replace("-", "")
-        currentDay = DateScraper(currentDate)
+        pbar.set_description("Day %s" % currentDate)
+        
+        # currentDay = DateScraper(currentDate)
 
-        session = currentDay.getSession()
-        currentGame = GameScraper(gameID, currentDate, session)
-        fill_currentGame(sqlUpload, dt, currentGame)
+    sqlUpload.closeConnection()
+    return
 
-        currentGame.printListOfPlayerPenaltyEvents()
-
-
-
-def dateGenerator(start, end):
-    current = start
-    while current <= end:
-        yield current
-        current += timedelta(days=1)
-
-
-def read_erros():
-    f = open("erros.txt", "r")
+# Files reading
+def read_erros(file="erros.txt"):
+    '''
+        Try the dates in file again
+    '''
+    f = open(file, "r")
     for line in f.readlines():
-        line = line.strip()
-        data = line.split("-")
+        data = line.strip().split("-")
         currentDay = getCurrentDay(date(int(data[0]), int(data[1]), int(data[2])))
         currentDay.closeSession()
 
-def date_from_line(line):
-    dt = line.split("/")[-1].split(".")[0].split("-")
-    dt = date(int(dt[0]), int(dt[1]), int(dt[2]))
-    return dt
-
 def read_game_errors():
+    '''
+        Try again games that failed
+    '''
     import glob
 
     sqlUpload = SQL("penaltyKicks.db")
@@ -263,10 +291,14 @@ def read_game_errors():
         fill_currentGame(sqlUpload, dt, currentGame, use_tqdm=True, bar=pbar)
     
         currentDay.closeSession()
+        sqlUpload.commitChanges()
 
     sqlUpload.closeConnection()
 
 def read_games(year='2020'):
+    '''
+        Get data from games from year
+    '''
     import glob
 
     sqlUpload = SQL("penaltyKicks.db")
@@ -294,9 +326,23 @@ def read_games(year='2020'):
         # break
 
         currentDay.closeSession()
+        sqlUpload.commitChanges()
 
     sqlUpload.closeConnection()
 
+
+# Tests
+def TestGameScraper(gameID):
+    sqlUpload = SQL("penaltyKicks.db")
+    for dt in dateGenerator(date(2018, 1, 1), date(2018, 1, 1)):
+        currentDate = str(dt).replace("-", "")
+        currentDay = DateScraper(currentDate)
+
+        session = currentDay.getSession()
+        currentGame = GameScraper(gameID, currentDate, session)
+        fill_currentGame(sqlUpload, dt, currentGame)
+
+        currentGame.printListOfPlayerPenaltyEvents()
 
 if __name__ == "__main__":
 
@@ -312,3 +358,6 @@ if __name__ == "__main__":
     # read_game_errors()
     # main()
 
+    day_list = ['2020-03-07', '2020-09-13', '2020-09-14', '2020-09-21', '2020-09-27', '2020-10-18', '2020-11-01', 
+    '2020-12-19', '2020-12-21']
+    download_game_from_day_list(day_list)
