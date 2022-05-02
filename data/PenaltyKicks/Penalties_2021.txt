@@ -55,3 +55,17 @@ Date: 2021-01-16 | Player: Matheus Pereira | Foot: left | Team: West Bromwich Al
 Date: 2021-01-01 | Player: Bruno Fernandes | Foot: right | Team: Manchester United | GameID: 578492             | Outcome: 1 | Direction:  bottom left corner
 Date: 2021-01-13 | Player: Raheem Sterling | Foot: right | Team: Manchester City | GameID: 578481             | Outcome: 0 | Direction: just a bit too high
 Date: 2021-01-21 | Player: Ashley Barnes | Foot: right | Team: Burnley | GameID: 578482             | Outcome: 1 | Direction:  bottom right corner
+Date: 2021-01-02 | Player: Neal Maupay | Foot: right | Team: Brighton and Hove Albion | GameID: 578500             | Outcome: 1 | Direction:  high centre of the goal
+Date: 2021-01-02 | Player: Rúben Neves | Foot: right | Team: Wolverhampton Wanderers | GameID: 578500             | Outcome: 1 | Direction:  bottom right corner
+Date: 2021-01-02 | Player: Neal Maupay | Foot: right | Team: Brighton and Hove Albion | GameID: 578500             | Outcome: 1 | Direction:  high centre of the goal
+Date: 2021-01-02 | Player: Rúben Neves | Foot: right | Team: Wolverhampton Wanderers | GameID: 578500             | Outcome: 1 | Direction:  bottom right corner
+Date: 2021-01-02 | Player: Harry Kane | Foot: right | Team: Tottenham Hotspur | GameID: 578494             | Outcome: 1 | Direction:  centre of the goal
+Date: 2021-01-02 | Player: Harry Kane | Foot: right | Team: Tottenham Hotspur | GameID: 578494             | Outcome: 1 | Direction:  centre of the goal
+Date: 2021-01-02 | Player: Neal Maupay | Foot: right | Team: Brighton and Hove Albion | GameID: 578500             | Outcome: 1 | Direction:  high centre of the goal
+Date: 2021-01-02 | Player: Rúben Neves | Foot: right | Team: Wolverhampton Wanderers | GameID: 578500             | Outcome: 1 | Direction:  bottom right corner
+Date: 2021-01-02 | Player: Neal Maupay | Foot: right | Team: Brighton and Hove Albion | GameID: 578500             | Outcome: 1 | Direction:  high centre of the goal
+Date: 2021-01-02 | Player: Rúben Neves | Foot: right | Team: Wolverhampton Wanderers | GameID: 578500             | Outcome: 1 | Direction:  bottom right corner
+Date: 2021-01-12 | Player: Billy Sharp | Foot: right | Team: Sheffield United | GameID: 578487             | Outcome: 1 | Direction:  bottom left corner
+Date: 2021-01-20 | Player: Ilkay Gündogan | Foot: right | Team: Manchester City | GameID: 578659             | Outcome: 1 | Direction:  centre of the goal
+Date: 2021-02-02 | Player: Bruno Fernandes | Foot: right | Team: Manchester United | GameID: 578444             | Outcome: 1 | Direction:  centre of the goal
+Date: 2021-02-02 | Player: Rúben Neves | Foot: right | Team: Wolverhampton Wanderers | GameID: 578445             | Outcome: 1 | Direction:  top right corner

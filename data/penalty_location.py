@@ -26,7 +26,14 @@ def read_penalties(path):
 	pen_df = pd.read_csv(path)
 	pen_df['Date'] = pd.to_datetime(pen_df['Date'])
 	pen_df['outcome'] = pen_df['Outcome'].replace({0: 'Missed', 1: 'Scored'})
+	pen_df['Player'] = pen_df['Player'].replace(player_name_dict())
 	return pen_df.drop_duplicates()
+
+def read():
+	df_17_19 = pd.read_csv("events/prem_pens_17181819.csv")
+	df_17_19['player_name'] = df_17_19['player_name'].replace(player_name_dict())
+	df_19_21 = pd.read_csv("events/prem_pens_19202021.csv")
+	return df_17_19, df_19_21
 
 def load_penalties():
 	penalty_df = {}
@@ -48,6 +55,26 @@ def split_url(df_19_21):
 	# df_19_21['league'] = df_19_21['list'].str[4].str.extract(r'\w+-\d+-\d+-([\w-]+)')
 
 	return df_19_21.drop(columns='list')
+
+def player_name_dict():
+	d = {
+		"Aleksandar Mitrovic": "Aleksandar Mitrović",
+		"Alexis Alejandro Sánchez Sánchez": "Alexis Sánchez",
+		"Daniel William John Ings": "Danny Ings",
+		"Gabriel Fernando de Jesus": "Gabriel Jesus",
+		"Gylfi Sigurdsson": "Gylfi Sigurðsson",
+		"Gylfi Þór Sigurðsson": "Gylfi Sigurðsson",
+		"Ilkay Gündogan": "İlkay Gündoğan",
+		"James Philip Milner": "James Milner",
+		"Jorge Luiz Frello Filho": "Jorginho",
+		"Raheem Shaquille Sterling": "Raheem Sterling",
+		"Raúl Alonso Jiménez Rodríguez": "Raúl Jiménez",
+		"Rúben Diogo Da Silva Neves": "Rúben Neves", 
+		"Sergio Leonel Agüero del Castillo": "Sergio Agüero",
+		"Son Heung-Min": "Son Heung-min",
+		"Willian Borges da Silva": "Willian",
+	}
+	return d
 
 def Player_Names(penalty_df, df_19_21):
 	player_set = set(df_19_21['pen_taker'].unique().tolist())
@@ -107,11 +134,17 @@ if __name__ == '__main__':
 	penalty_df = load_penalties()
 	# print_full(penalty_df['2020'].sort_values(by=['Player', 'Date']))
 
-	df_19_21 = pd.read_csv("events/prem_pens_19202021.csv")
+	df_17_19, df_19_21 = read()
+	# print(df_17_19)
 	df_19_21 = split_url(df_19_21)
 	# print(df_19_21)
+	Player_Names(penalty_df, df_19_21)
 
-	# Player_Names(penalty_df, df_19_21)
+	out = set(pd.concat([df_19_21['pen_taker'], df_17_19['player_name']]).sort_values().unique().tolist())
+	print(out - set(df_19_21['pen_taker'].unique().tolist()))
+
+	exit()
+
 
 	pen_df = concat_dfs(penalty_df)
 	# Mais de um penaltis cobrado pelo mesmo jogador numa mesma partica com mesmo outcome: dá problema

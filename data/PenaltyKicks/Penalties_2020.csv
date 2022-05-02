@@ -18,7 +18,7 @@ Date,Player,Foot,Team,GameID,Outcome,Direction
 2020-07-04,Marcus Rashford,right,Manchester United,541517,1,bottom right corner
 2020-07-04,Joshua King,right,Bournemouth,541517,1,bottom right corner
 2020-07-04,Marcus Rashford,right,Manchester United,541517,1,bottom right corner
-2020-07-01,Gylfi Sigurðsson,right,Everton,541527,1,centre of the goal
+2020-07-01,Gylfi Sigurdsson,right,Everton,541527,1,centre of the goal
 2020-07-01,Willian,right,Chelsea,541526,1,bottom left corner
 2020-07-26,Joshua King,right,Bournemouth,541466,1,bottom right corner
 2020-07-26,Bruno Fernandes,right,Manchester United,541469,1,bottom left corner
@@ -41,7 +41,7 @@ Date,Player,Foot,Team,GameID,Outcome,Direction
 2020-12-07,Pascal Groß,right,Brighton and Hove Albion,578559,1,top right corner
 2020-12-19,Callum Wilson,right,Newcastle United,578523,1,centre of the goal
 2020-12-12,Anwar El Ghazi,right,Aston Villa,578541,1,bottom right corner
-2020-12-12,Gylfi Sigurðsson,right,Everton,578544,1,centre of the goal
+2020-12-12,Gylfi Sigurdsson,right,Everton,578544,1,centre of the goal
 2020-12-28,Kelechi Iheanacho,left,Leicester City,578505,0,bottom right corner
 2020-12-05,Kevin De Bruyne,right,Manchester City,578554,1,bottom right corner
 2020-12-13,Mohamed Salah,left,Liverpool,578545,1,centre of the goal
@@ -53,15 +53,15 @@ Date,Player,Foot,Team,GameID,Outcome,Direction
 2020-02-22,Jay Rodriguez,right,Burnley,541576,1,top right corner
 2020-02-22,Sergio Agüero,right,Manchester City,541579,0,centre of the goal
 2020-02-23,Bruno Fernandes,right,Manchester United,541583,1,bottom right corner
-2020-02-02,İlkay Gündoğan,right,Manchester City,541600,0,bottom right corner
-2020-02-16,Son Heung-min,right,Tottenham Hotspur,541592,0,bottom left corner
+2020-02-02,Ilkay Gündogan,right,Manchester City,541600,0,bottom right corner
+2020-02-16,Son Heung-Min,right,Tottenham Hotspur,541592,0,bottom left corner
 2020-09-20,Neal Maupay,right,Brighton and Hove Albion,578641,1,centre of the goal
 2020-09-20,Danny Ings,right,Southampton,578648,1,centre of the goal
 2020-09-20,Jorginho,right,Chelsea,578645,0,bottom right corner
 2020-09-19,Mateusz Klich,right,Leeds United,578644,1,centre of the goal
-2020-09-19,Aleksandar Mitrović,right,Fulham,578644,1,bottom left corner
+2020-09-19,Aleksandar Mitrovic,right,Fulham,578644,1,bottom left corner
 2020-09-19,Mateusz Klich,right,Leeds United,578644,1,centre of the goal
-2020-09-19,Aleksandar Mitrović,right,Fulham,578644,1,bottom left corner
+2020-09-19,Aleksandar Mitrovic,right,Fulham,578644,1,bottom left corner
 2020-09-19,Wilfried Zaha,right,Crystal Palace,578643,1,top left corner
 2020-09-12,Mohamed Salah,left,Liverpool,578655,1,bottom left corner
 2020-09-12,Mohamed Salah,left,Liverpool,578655,1,high centre of the goal
@@ -119,3 +119,5 @@ Date,Player,Foot,Team,GameID,Outcome,Direction
 2020-11-28,Neal Maupay,right,Brighton and Hove Albion,578565,0,right
 2020-11-28,Pascal Groß,right,Brighton and Hove Albion,578565,1,centre of the goal
 2020-11-28,Neal Maupay,right,Brighton and Hove Albion,578565,0,right
+2020-12-19,Callum Wilson,right,Newcastle United,578523,1,centre of the goal
+2020-12-19,Nicolas Pépé,left,Arsenal,578521,1,bottom left corner

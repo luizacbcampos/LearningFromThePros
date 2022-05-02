@@ -2,10 +2,12 @@ from DateScraper import *
 from GameScraper import *
 from SQL import *
 from datetime import *
+
 import matplotlib.pyplot as plt
 # from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2TkAgg
 # from Tkinter import *
 # import Tkinter as Tk
+import glob
 from tqdm import tqdm
 from os.path import exists
 
@@ -183,11 +185,9 @@ def games_from_date(dt):
 # Games
 
 def files_from_year(year='2020'):
-    import glob
     return glob.glob('Games/{}/*/*/*.txt'.format(year))
 
 def failed_files():
-    import glob
     return glob.glob('GameErrors/*/*/*/*.txt')
 
 # Downloders
@@ -207,7 +207,6 @@ def getCurrentDay(dt):
         currentDay.writeGameList(dt)
 
     except Exception as e:
-        # raise e
         print("Error in DATE Scraping: " + currentDay.getDate())
         currentDay.writeError(dt)
     
@@ -277,6 +276,7 @@ def Download_data(**kwargs):
     sqlUpload = SQL("penaltyKicks.db")
 
     for dt in dateGenerator(**kwargs):
+        print(dt)
         currentDate = str(dt).replace("-", "")
 
         if fetched_date(dt):
@@ -287,8 +287,8 @@ def Download_data(**kwargs):
             all_games = currentDay.getAllGames()
 
         session = currentDay.getSession()
-        progressbar = tqdm(all_games, leave=False)
 
+        progressbar = tqdm(all_games, leave=False)
         for gameID in progressbar:
             progressbar.set_description("Game %s" % gameID)
             currentGame = GameScraper(gameID, currentDate, session)
@@ -299,7 +299,7 @@ def Download_data(**kwargs):
     
     sqlUpload.closeConnection()
 
-# Files reading
+# --- Files reading --- 
 def read_erros(file="erros.txt"):
     '''
         Try the dates in file again
@@ -314,7 +314,7 @@ def read_game_errors():
     '''
         Try again games that failed
     '''
-    
+
     sqlUpload = SQL("penaltyKicks.db")
     pbar = tqdm(failed_files())
     
@@ -353,14 +353,14 @@ def read_games(year='2020'):
         currentDay = DateScraper(currentDate)
         session = currentDay.getSession()
         # print("Day: " + currentDate)
-        
-        progressbar = tqdm(games_from_date(dt), leave=False)
-        for line in progressbar:
-            gameID = line.strip()
-            progressbar.set_description("Game %s" % gameID)
-            # print("\tGame: "+ str(gameID), end=' -> ')
-            currentGame = GameScraper(gameID, currentDate, session)
-            fill_currentGame(sqlUpload, dt, currentGame, use_tqdm=True, bar=progressbar)
+        if currentDay.getAmountGames() != -1:
+            progressbar = tqdm(games_from_date(dt), leave=False)
+            for line in progressbar:
+                gameID = line.strip()
+                progressbar.set_description("Game %s" % gameID)
+                # print("\tGame: "+ str(gameID), end=' -> ')
+                currentGame = GameScraper(gameID, currentDate, session)
+                fill_currentGame(sqlUpload, dt, currentGame, use_tqdm=True, bar=progressbar)
 
         currentDay.closeSession()
         sqlUpload.commitChanges()
@@ -395,7 +395,9 @@ if __name__ == "__main__":
     # read_game_errors()
     # main()
 
-    day_list = ['2020-03-07', '2020-09-13', '2020-09-14', '2020-09-21', '2020-09-27', '2020-10-18', '2020-11-01', 
-    '2020-12-19', '2020-12-21']
+    # day_list = ['2020-03-07', '2020-09-13', '2020-09-14', '2020-09-21', '2020-09-27', '2020-10-18', '2020-11-01', 
+    # '2020-12-19', '2020-12-21']
+
+    day_list = ['2021-02-13', '2021-02-27', '2021-03-06', '2021-03-13', '2021-04-17', '2021-05-01', '2021-05-09']
 
     Download_data(lista=day_list)
