@@ -76,8 +76,9 @@ def player_name_dict():
 	}
 	return d
 
-def Player_Names(penalty_df, df_19_21):
-	player_set = set(df_19_21['pen_taker'].unique().tolist())
+def Player_Names(penalty_df, df_19_21, df_17_19):
+	
+	player_set = set(pd.concat([df_19_21['pen_taker'], df_17_19['player_name']]).unique().tolist())
 
 	for k in penalty_df.keys():
 		print(k)
@@ -88,6 +89,7 @@ def Player_Names(penalty_df, df_19_21):
 		print("---"*20)
 
 	print(sorted(player_set))
+	print("___"*20)
 
 
 def show_missed(df):
@@ -138,12 +140,7 @@ if __name__ == '__main__':
 	# print(df_17_19)
 	df_19_21 = split_url(df_19_21)
 	# print(df_19_21)
-	Player_Names(penalty_df, df_19_21)
-
-	out = set(pd.concat([df_19_21['pen_taker'], df_17_19['player_name']]).sort_values().unique().tolist())
-	print(out - set(df_19_21['pen_taker'].unique().tolist()))
-
-	exit()
+	Player_Names(penalty_df, df_19_21, df_17_19)
 
 
 	pen_df = concat_dfs(penalty_df)

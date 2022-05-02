@@ -288,11 +288,12 @@ def Download_data(**kwargs):
 
         session = currentDay.getSession()
 
-        progressbar = tqdm(all_games, leave=False)
-        for gameID in progressbar:
-            progressbar.set_description("Game %s" % gameID)
-            currentGame = GameScraper(gameID, currentDate, session)
-            fill_currentGame(sqlUpload, dt, currentGame, use_tqdm=True, bar=progressbar)
+        if all_games is not None:
+            progressbar = tqdm(all_games, leave=False)
+            for gameID in progressbar:
+                progressbar.set_description("Game %s" % gameID)
+                currentGame = GameScraper(gameID, currentDate, session)
+                fill_currentGame(sqlUpload, dt, currentGame, use_tqdm=True, bar=progressbar)
 
         currentDay.closeSession()
         sqlUpload.commitChanges()
@@ -353,14 +354,13 @@ def read_games(year='2020'):
         currentDay = DateScraper(currentDate)
         session = currentDay.getSession()
         # print("Day: " + currentDate)
-        if currentDay.getAmountGames() != -1:
-            progressbar = tqdm(games_from_date(dt), leave=False)
-            for line in progressbar:
-                gameID = line.strip()
-                progressbar.set_description("Game %s" % gameID)
-                # print("\tGame: "+ str(gameID), end=' -> ')
-                currentGame = GameScraper(gameID, currentDate, session)
-                fill_currentGame(sqlUpload, dt, currentGame, use_tqdm=True, bar=progressbar)
+        progressbar = tqdm(games_from_date(dt), leave=False)
+        for line in progressbar:
+            gameID = line.strip()
+            progressbar.set_description("Game %s" % gameID)
+            # print("\tGame: "+ str(gameID), end=' -> ')
+            currentGame = GameScraper(gameID, currentDate, session)
+            fill_currentGame(sqlUpload, dt, currentGame, use_tqdm=True, bar=progressbar)
 
         currentDay.closeSession()
         sqlUpload.commitChanges()
@@ -394,9 +394,7 @@ if __name__ == "__main__":
 
     # read_game_errors()
     # main()
-
-    # day_list = ['2020-03-07', '2020-09-13', '2020-09-14', '2020-09-21', '2020-09-27', '2020-10-18', '2020-11-01', 
-    # '2020-12-19', '2020-12-21']
+    # day_list = ['2020-03-07', '2020-09-13', '2020-09-14', '2020-09-21', '2020-09-27', '2020-10-18', '2020-11-01', '2020-12-21']
 
     day_list = ['2021-02-13', '2021-02-27', '2021-03-06', '2021-03-13', '2021-04-17', '2021-05-01', '2021-05-09']
 

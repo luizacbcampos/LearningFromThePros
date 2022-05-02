@@ -69,3 +69,4 @@ Date: 2021-01-12 | Player: Billy Sharp | Foot: right | Team: Sheffield United | 
 Date: 2021-01-20 | Player: Ilkay Gündogan | Foot: right | Team: Manchester City | GameID: 578659             | Outcome: 1 | Direction:  centre of the goal
 Date: 2021-02-02 | Player: Bruno Fernandes | Foot: right | Team: Manchester United | GameID: 578444             | Outcome: 1 | Direction:  centre of the goal
 Date: 2021-02-02 | Player: Rúben Neves | Foot: right | Team: Wolverhampton Wanderers | GameID: 578445             | Outcome: 1 | Direction:  top right corner
+Date: 2021-02-13 | Player: Rodrigo | Foot: right | Team: Manchester City | GameID: 578429             | Outcome: 1 | Direction:  top left corner
