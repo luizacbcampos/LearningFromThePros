@@ -118,3 +118,4 @@ Date: 2020-11-28 | Player: Pascal Groß | Foot: right | Team: Brighton and Hove 
 Date: 2020-11-28 | Player: Neal Maupay | Foot: right | Team: Brighton and Hove Albion | GameID: 578565             | Outcome: 0 | Direction:  right
 Date: 2020-11-28 | Player: Pascal Groß | Foot: right | Team: Brighton and Hove Albion | GameID: 578565             | Outcome: 1 | Direction:  centre of the goal
 Date: 2020-11-28 | Player: Neal Maupay | Foot: right | Team: Brighton and Hove Albion | GameID: 578565             | Outcome: 0 | Direction:  right
+Date: 2020-12-19 | Player: Callum Wilson | Foot: right | Team: Newcastle United | GameID: 578523             | Outcome: 1 | Direction:  centre of the goal

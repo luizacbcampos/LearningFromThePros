@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 # from Tkinter import *
 # import Tkinter as Tk
 from tqdm import tqdm
+from os.path import exists
 
 import warnings
 warnings.filterwarnings("ignore")
@@ -133,25 +134,27 @@ def drawPenaltyHistory(playerName):
     Tk.mainloop()
 
 
-# Date aux
-def dateGenerator(start, end):
-    '''
-        Generates dates from [start,finish]
-    '''
-    current = start
-    while current <= end:
-        yield current
-        current += timedelta(days=1)
+# --- Date aux ---
 
-def date_from_list(lista):
-    '''
+def dateGenerator(**kwargs):
+    
+    if 'lista' in kwargs:
+        '''
         Generates dates from list
-    '''
-    for dt in lista:
-        dt = dt.split("-")
-        dt = date(int(dt[0]), int(dt[1]), int(dt[2]))
-        yield dt
-
+        '''
+        for dt in kwargs['lista']:
+            dt = dt.split("-")
+            dt = date(int(dt[0]), int(dt[1]), int(dt[2]))
+            yield dt
+    else:
+        '''
+        Generates dates from [start,finish]
+        '''
+        current = kwargs['start']
+        while current <= kwargs['end']:
+            yield current
+            current += timedelta(days=1)
+                
 def date_from_line(line):
     '''
         Parses line to get a date
@@ -160,6 +163,32 @@ def date_from_line(line):
     dt = date(int(dt[0]), int(dt[1]), int(dt[2]))
     return dt
 
+def fetched_date(dt):
+    '''
+        Returns whether or not a Date was scrapped
+    '''
+
+    file_path = 'Games/{}/{}/{}/{}.txt'.format(str(dt.year), str(dt.month), str(dt.day), str(dt))
+    return exists(file_path)
+
+def games_from_date(dt):
+    '''
+        Returns all games from a fetched date
+    '''
+    file_path = 'Games/{}/{}/{}/{}.txt'.format(str(dt.year), str(dt.month), str(dt.day), str(dt))
+    with open(file_path, 'r') as f:
+        all_games = [line.strip() for line in f.readlines()]
+    return all_games
+
+# Games
+
+def files_from_year(year='2020'):
+    import glob
+    return glob.glob('Games/{}/*/*/*.txt'.format(year))
+
+def failed_files():
+    import glob
+    return glob.glob('GameErrors/*/*/*/*.txt')
 
 # Downloders
 
@@ -224,7 +253,7 @@ def dataDownloader(date1, date2):
     '''
     sqlUpload = SQL("penaltyKicks.db")
 
-    for dt in dateGenerator(date1, date2):
+    for dt in dateGenerator(start=date1, end=date2):
         currentDate = str(dt).replace("-", "")
         currentDay = getCurrentDay(dt)
 
@@ -243,20 +272,16 @@ def dataDownloader(date1, date2):
 
     sqlUpload.closeConnection()
 
-def download_game_from_day_list(day_list):
+def Download_data(**kwargs):
 
-    from os.path import exists
+    sqlUpload = SQL("penaltyKicks.db")
 
-    sqlUpload = SQL("penaltyKicks.db")    
-    for dt in date_from_list(day_list):
+    for dt in dateGenerator(**kwargs):
         currentDate = str(dt).replace("-", "")
 
-        file_path = 'Games/{}/{}/{}/{}.txt'.format(str(dt.year), str(dt.month), str(dt.day), str(dt))
-        if exists(file_path):
+        if fetched_date(dt):
             currentDay = DateScraper(currentDate)
-            with open(file_path, 'r') as f:
-                all_games = [line.strip() for line in f.readlines()]
-
+            all_games = games_from_date(dt)
         else:
             currentDay = getCurrentDay(dt)
             all_games = currentDay.getAllGames()
@@ -264,17 +289,15 @@ def download_game_from_day_list(day_list):
         session = currentDay.getSession()
         progressbar = tqdm(all_games, leave=False)
 
-        
         for gameID in progressbar:
             progressbar.set_description("Game %s" % gameID)
             currentGame = GameScraper(gameID, currentDate, session)
             fill_currentGame(sqlUpload, dt, currentGame, use_tqdm=True, bar=progressbar)
 
         currentDay.closeSession()
-        sqlUpload.commitChanges()        
-
+        sqlUpload.commitChanges()
+    
     sqlUpload.closeConnection()
-    return
 
 # Files reading
 def read_erros(file="erros.txt"):
@@ -291,10 +314,9 @@ def read_game_errors():
     '''
         Try again games that failed
     '''
-    import glob
-
+    
     sqlUpload = SQL("penaltyKicks.db")
-    pbar = tqdm(glob.glob('GameErrors/*/*/*/*.txt'))
+    pbar = tqdm(failed_files())
     
     for name in pbar:
         Lname = name.split('/')
@@ -320,11 +342,9 @@ def read_games(year='2020'):
     '''
         Get data from games from year
     '''
-    import glob
-
     sqlUpload = SQL("penaltyKicks.db")
 
-    pbar = tqdm(glob.glob('Games/{}/*/*/*.txt'.format(year)))
+    pbar = tqdm(files_from_year(year))
     for name in pbar:
         dt = date_from_line(name)
         currentDate = str(dt).replace("-", "")
@@ -334,17 +354,13 @@ def read_games(year='2020'):
         session = currentDay.getSession()
         # print("Day: " + currentDate)
         
-        f = open(name, "r")
-
-        progressbar = tqdm(f.readlines(), leave=False)
+        progressbar = tqdm(games_from_date(dt), leave=False)
         for line in progressbar:
             gameID = line.strip()
             progressbar.set_description("Game %s" % gameID)
             # print("\tGame: "+ str(gameID), end=' -> ')
             currentGame = GameScraper(gameID, currentDate, session)
             fill_currentGame(sqlUpload, dt, currentGame, use_tqdm=True, bar=progressbar)
-        f.close()
-        # break
 
         currentDay.closeSession()
         sqlUpload.commitChanges()
@@ -381,4 +397,5 @@ if __name__ == "__main__":
 
     day_list = ['2020-03-07', '2020-09-13', '2020-09-14', '2020-09-21', '2020-09-27', '2020-10-18', '2020-11-01', 
     '2020-12-19', '2020-12-21']
-    download_game_from_day_list(day_list)
+
+    Download_data(lista=day_list)

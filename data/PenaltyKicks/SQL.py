@@ -38,9 +38,10 @@ class SQL:
         #     print "Invalid Player!"
 
 
-    def commitChanges(self):
+    def commitChanges(self, ptr=False):
         self.conn.commit()
-        print("Successfully committed")
+        if ptr:
+            print("Successfully committed")
 
     def closeConnection(self):
         self.cur.close()
