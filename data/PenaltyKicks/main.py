@@ -241,6 +241,31 @@ def date_from_line(line):
     dt = date(int(dt[0]), int(dt[1]), int(dt[2]))
     return dt
 
+def read_game_errors():
+    import glob
+
+    sqlUpload = SQL("penaltyKicks.db")
+    pbar = tqdm(glob.glob('GameErrors/*/*/*/*.txt'))
+    
+    for name in pbar:
+        Lname = name.split('/')
+        dt = date(int(Lname[1]), int(Lname[2]), int(Lname[3]))
+
+        currentDate = str(dt).replace("-", "")
+        pbar.set_description("Day %s" % currentDate)
+        
+        currentDay = DateScraper(currentDate)
+        session = currentDay.getSession()
+
+        gameID = Lname[-1].split('.')[0]
+
+        currentGame = GameScraper(gameID, currentDate, session)
+        fill_currentGame(sqlUpload, dt, currentGame, use_tqdm=True, bar=pbar)
+    
+        currentDay.closeSession()
+
+    sqlUpload.closeConnection()
+
 def read_games(year='2020'):
     import glob
 
@@ -283,5 +308,7 @@ if __name__ == "__main__":
 
     # read_erros()
     read_games('2019')
+
+    # read_game_errors()
     # main()
 
