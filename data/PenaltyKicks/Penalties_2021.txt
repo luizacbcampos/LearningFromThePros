@@ -1,0 +1,57 @@
+Date: 2021-05-14 | Player: Joseph Willock | Foot: right | Team: Newcastle United | GameID: 578304             | Outcome: 0 | Direction:  bottom right corner
+Date: 2021-05-14 | Player: Joelinton | Foot: right | Team: Newcastle United | GameID: 578304             | Outcome: 1 | Direction:  bottom left corner
+Date: 2021-05-14 | Player: Joseph Willock | Foot: right | Team: Newcastle United | GameID: 578304             | Outcome: 0 | Direction:  bottom right corner
+Date: 2021-05-14 | Player: Joelinton | Foot: right | Team: Newcastle United | GameID: 578304             | Outcome: 1 | Direction:  bottom left corner
+Date: 2021-05-08 | Player: Sergio Agüero | Foot: right | Team: Manchester City | GameID: 578313             | Outcome: 0 | Direction:  top centre of the goal
+Date: 2021-05-03 | Player: Chris Wood | Foot: right | Team: Burnley | GameID: 578329             | Outcome: 1 | Direction:  bottom left corner
+Date: 2021-05-23 | Player: Fabian Schär | Foot: right | Team: Newcastle United | GameID: 578287             | Outcome: 1 | Direction:  bottom left corner
+Date: 2021-05-23 | Player: Patrick Bamford | Foot: left | Team: Leeds United | GameID: 578290             | Outcome: 1 | Direction:  centre of the goal
+Date: 2021-05-23 | Player: Jamie Vardy | Foot: right | Team: Leicester City | GameID: 578289             | Outcome: 1 | Direction:  bottom right corner
+Date: 2021-05-23 | Player: Jamie Vardy | Foot: right | Team: Leicester City | GameID: 578289             | Outcome: 1 | Direction:  bottom right corner
+Date: 2021-05-23 | Player: Jamie Vardy | Foot: right | Team: Leicester City | GameID: 578289             | Outcome: 1 | Direction:  bottom right corner
+Date: 2021-05-23 | Player: Jamie Vardy | Foot: right | Team: Leicester City | GameID: 578289             | Outcome: 1 | Direction:  bottom right corner
+Date: 2021-05-23 | Player: Gylfi Sigurdsson | Foot: right | Team: Everton | GameID: 578285             | Outcome: 0 | Direction:  bottom left corner
+Date: 2021-05-23 | Player: Juan Mata | Foot: left | Team: Manchester United | GameID: 578286             | Outcome: 1 | Direction:  top left corner
+Date: 2021-05-23 | Player: Anwar El Ghazi | Foot: right | Team: Aston Villa | GameID: 578283             | Outcome: 1 | Direction:  bottom right corner
+Date: 2021-05-19 | Player: Declan Rice | Foot: right | Team: West Ham United | GameID: 578299             | Outcome: 0 | Direction: left post
+Date: 2021-05-18 | Player: Jorginho | Foot: right | Team: Chelsea | GameID: 578295             | Outcome: 1 | Direction:  bottom right corner
+Date: 2021-05-11 | Player: Luka Milivojevic | Foot: right | Team: Crystal Palace | GameID: 578343             | Outcome: 0 | Direction:  bottom right corner
+Date: 2021-04-30 | Player: James Ward-Prowse | Foot: right | Team: Southampton | GameID: 578325             | Outcome: 1 | Direction:  bottom left corner
+Date: 2021-04-12 | Player: James Ward-Prowse | Foot: right | Team: Southampton | GameID: 578359             | Outcome: 0 | Direction:  bottom left corner
+Date: 2021-04-12 | Player: Matheus Pereira | Foot: left | Team: West Bromwich Albion | GameID: 578359             | Outcome: 1 | Direction:  centre of the goal
+Date: 2021-04-12 | Player: James Ward-Prowse | Foot: right | Team: Southampton | GameID: 578359             | Outcome: 0 | Direction:  bottom left corner
+Date: 2021-04-12 | Player: Matheus Pereira | Foot: left | Team: West Bromwich Albion | GameID: 578359             | Outcome: 1 | Direction:  centre of the goal
+Date: 2021-04-04 | Player: Chris Wood | Foot: right | Team: Burnley | GameID: 578362             | Outcome: 1 | Direction:  centre of the goal
+Date: 2021-04-25 | Player: Matheus Pereira | Foot: left | Team: West Bromwich Albion | GameID: 578340             | Outcome: 1 | Direction:  top right corner
+Date: 2021-04-25 | Player: Anwar El Ghazi | Foot: right | Team: Aston Villa | GameID: 578340             | Outcome: 1 | Direction:  bottom left corner
+Date: 2021-04-25 | Player: Matheus Pereira | Foot: left | Team: West Bromwich Albion | GameID: 578340             | Outcome: 1 | Direction:  top right corner
+Date: 2021-04-25 | Player: Anwar El Ghazi | Foot: right | Team: Aston Villa | GameID: 578340             | Outcome: 1 | Direction:  bottom left corner
+Date: 2021-04-21 | Player: Son Heung-Min | Foot: right | Team: Tottenham Hotspur | GameID: 578379             | Outcome: 1 | Direction:  bottom right corner
+Date: 2021-04-18 | Player: Josh Maja | Foot: right | Team: Fulham | GameID: 578344             | Outcome: 1 | Direction:  top left corner
+Date: 2021-04-16 | Player: Gylfi Sigurdsson | Foot: right | Team: Everton | GameID: 578348             | Outcome: 1 | Direction:  bottom right corner
+Date: 2021-03-08 | Player: Jesse Lingard | Foot: right | Team: West Ham United | GameID: 578395             | Outcome: 0 | Direction:  bottom left corner
+Date: 2021-03-08 | Player: Jorginho | Foot: right | Team: Chelsea | GameID: 578393             | Outcome: 1 | Direction:  bottom left corner
+Date: 2021-03-10 | Player: James Ward-Prowse | Foot: right | Team: Southampton | GameID: 578338             | Outcome: 1 | Direction:  centre of the goal
+Date: 2021-03-07 | Player: Bruno Fernandes | Foot: right | Team: Manchester United | GameID: 578397             | Outcome: 1 | Direction:  bottom left corner
+Date: 2021-03-21 | Player: Harry Kane | Foot: right | Team: Tottenham Hotspur | GameID: 578489             | Outcome: 1 | Direction:  bottom left corner
+Date: 2021-03-14 | Player: Alexandre Lacazette | Foot: right | Team: Arsenal | GameID: 578388             | Outcome: 1 | Direction:  bottom right corner
+Date: 2021-02-28 | Player: Alexandre Lacazette | Foot: right | Team: Arsenal | GameID: 578401             | Outcome: 1 | Direction:  bottom left corner
+Date: 2021-02-21 | Player: Bruno Fernandes | Foot: right | Team: Manchester United | GameID: 578417             | Outcome: 1 | Direction:  bottom left corner
+Date: 2021-02-07 | Player: Jorginho | Foot: right | Team: Chelsea | GameID: 578433             | Outcome: 1 | Direction:  bottom right corner
+Date: 2021-02-07 | Player: Mohamed Salah | Foot: left | Team: Liverpool | GameID: 578437             | Outcome: 1 | Direction:  top left corner
+Date: 2021-02-07 | Player: Ilkay Gündogan | Foot: right | Team: Manchester City | GameID: 578437             | Outcome: 0 | Direction: too high
+Date: 2021-02-07 | Player: Mohamed Salah | Foot: left | Team: Liverpool | GameID: 578437             | Outcome: 1 | Direction:  top left corner
+Date: 2021-02-07 | Player: Ilkay Gündogan | Foot: right | Team: Manchester City | GameID: 578437             | Outcome: 0 | Direction: too high
+Date: 2021-02-04 | Player: Jorginho | Foot: right | Team: Chelsea | GameID: 578442             | Outcome: 1 | Direction:  bottom left corner
+Date: 2021-02-20 | Player: Gylfi Sigurdsson | Foot: right | Team: Everton | GameID: 578413             | Outcome: 1 | Direction:  bottom left corner
+Date: 2021-02-20 | Player: Mason Mount | Foot: right | Team: Chelsea | GameID: 578411             | Outcome: 1 | Direction:  bottom right corner
+Date: 2021-02-15 | Player: Declan Rice | Foot: right | Team: West Ham United | GameID: 578428             | Outcome: 1 | Direction:  bottom left corner
+Date: 2021-02-14 | Player: Rúben Neves | Foot: right | Team: Wolverhampton Wanderers | GameID: 578430             | Outcome: 1 | Direction:  bottom right corner
+Date: 2021-02-14 | Player: Pierre-Emerick Aubameyang | Foot: right | Team: Arsenal | GameID: 578424             | Outcome: 1 | Direction:  bottom left corner
+Date: 2021-01-16 | Player: Matheus Pereira | Foot: left | Team: West Bromwich Albion | GameID: 578480             | Outcome: 1 | Direction:  bottom right corner
+Date: 2021-01-16 | Player: Matheus Pereira | Foot: left | Team: West Bromwich Albion | GameID: 578480             | Outcome: 1 | Direction:  bottom left corner
+Date: 2021-01-16 | Player: Matheus Pereira | Foot: left | Team: West Bromwich Albion | GameID: 578480             | Outcome: 1 | Direction:  bottom right corner
+Date: 2021-01-16 | Player: Matheus Pereira | Foot: left | Team: West Bromwich Albion | GameID: 578480             | Outcome: 1 | Direction:  bottom left corner
+Date: 2021-01-01 | Player: Bruno Fernandes | Foot: right | Team: Manchester United | GameID: 578492             | Outcome: 1 | Direction:  bottom left corner
+Date: 2021-01-13 | Player: Raheem Sterling | Foot: right | Team: Manchester City | GameID: 578481             | Outcome: 0 | Direction: just a bit too high
+Date: 2021-01-21 | Player: Ashley Barnes | Foot: right | Team: Burnley | GameID: 578482             | Outcome: 1 | Direction:  bottom right corner
