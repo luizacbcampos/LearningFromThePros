@@ -401,4 +401,6 @@ if __name__ == "__main__":
     
     day_list = ['2020-03-07', '2020-10-18', '2021-03-06', '2021-03-13', '2021-04-17', '2021-05-01', '2021-05-09']
 
-    Download_data(lista=day_list)
+    # Download_data(lista=day_list)
+
+    Download_data(lista=season18_19)

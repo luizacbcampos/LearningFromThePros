@@ -173,4 +173,4 @@ if __name__ == '__main__':
 	dele = pd.read_csv("dele.csv")
 	print(dele[dele['gk_team'] == '3'].drop_duplicates(subset=['gk_name']))
 
-	print(dele[dele['player_team'] == 'team'].drop_duplicates(subset=['player_name']))
+	print(dele[(dele['player_team'] == 'team') & (dele['season'].isnull())].drop_duplicates(subset=['player_name']))

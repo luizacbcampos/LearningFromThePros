@@ -142,3 +142,8 @@ Date: 2020-11-01 | Player: Callum Wilson | Foot: right | Team: Newcastle United 
 Date: 2020-11-01 | Player: Harry Kane | Foot: right | Team: Tottenham Hotspur | GameID: 578592             | Outcome: 1 | Direction:  bottom right corner
 Date: 2020-11-01 | Player: Pierre-Emerick Aubameyang | Foot: right | Team: Arsenal | GameID: 578591             | Outcome: 1 | Direction:  bottom right corner
 Date: 2020-11-01 | Player: Ollie Watkins | Foot: right | Team: Aston Villa | GameID: 578598             | Outcome: 1 | Direction:  top right corner
+Date: 2020-10-18 | Player: Wilfried Zaha | Foot: right | Team: Crystal Palace | GameID: 578613             | Outcome: 1 | Direction:  bottom right corner
+Date: 2020-10-18 | Player: Billy Sharp | Foot: right | Team: Sheffield United | GameID: 578615             | Outcome: 1 | Direction:  top right corner
+Date: 2020-10-18 | Player: Aleksandar Mitrovic | Foot: right | Team: Fulham | GameID: 578615             | Outcome: 0 | Direction: the bar
+Date: 2020-10-18 | Player: Billy Sharp | Foot: right | Team: Sheffield United | GameID: 578615             | Outcome: 1 | Direction:  top right corner
+Date: 2020-10-18 | Player: Aleksandar Mitrovic | Foot: right | Team: Fulham | GameID: 578615             | Outcome: 0 | Direction: the bar
