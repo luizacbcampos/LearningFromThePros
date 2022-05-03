@@ -37,6 +37,7 @@ def read():
 
 def load_penalties():
 	penalty_df = {}
+	penalty_df['2017'] = read_penalties("PenaltyKicks/Penalties_2017.csv")
 	penalty_df['2020'] = read_penalties("PenaltyKicks/Penalties_2020.csv")
 	penalty_df['2021'] = read_penalties("PenaltyKicks/Penalties_2021.csv")
 	return penalty_df
@@ -61,17 +62,23 @@ def player_name_dict():
 		"Aleksandar Mitrovic": "Aleksandar Mitrović",
 		"Alexis Alejandro Sánchez Sánchez": "Alexis Sánchez",
 		"Daniel William John Ings": "Danny Ings",
+		"Dusan Tadic": "Dušan Tadić",
 		"Gabriel Fernando de Jesus": "Gabriel Jesus",
 		"Gylfi Sigurdsson": "Gylfi Sigurðsson",
 		"Gylfi Þór Sigurðsson": "Gylfi Sigurðsson",
 		"Ilkay Gündogan": "İlkay Gündoğan",
 		"James Philip Milner": "James Milner",
 		"Jorge Luiz Frello Filho": "Jorginho",
+		"Joseph Willock": "Joe Willock",
+		"Luka Milivojevic": "Luka Milivojević",
+		"Marko Arnautovic": "Marko Arnautović",
 		"Raheem Shaquille Sterling": "Raheem Sterling",
 		"Raúl Alonso Jiménez Rodríguez": "Raúl Jiménez",
+		"Rodrigo": "Rodri",
 		"Rúben Diogo Da Silva Neves": "Rúben Neves", 
 		"Sergio Leonel Agüero del Castillo": "Sergio Agüero",
 		"Son Heung-Min": "Son Heung-min",
+		"Wayne Mark Rooney": "Wayne Rooney",
 		"Willian Borges da Silva": "Willian",
 	}
 	return d
@@ -155,5 +162,15 @@ if __name__ == '__main__':
 	for key, value in dates.items():
 		print('{}: {}'.format(key, value))
 
+	print(df[df['date'].isnull()])
+
+	# print_full(df_17_19)
+
 	# show_missed(df)
 	# show_scored(df)
+
+	print("///"*25)
+	dele = pd.read_csv("dele.csv")
+	print(dele[dele['gk_team'] == '3'].drop_duplicates(subset=['gk_name']))
+
+	print(dele[dele['player_team'] == 'team'].drop_duplicates(subset=['player_name']))

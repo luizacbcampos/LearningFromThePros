@@ -120,3 +120,25 @@ Date: 2020-11-28 | Player: Pascal Groß | Foot: right | Team: Brighton and Hove 
 Date: 2020-11-28 | Player: Neal Maupay | Foot: right | Team: Brighton and Hove Albion | GameID: 578565             | Outcome: 0 | Direction:  right
 Date: 2020-12-19 | Player: Callum Wilson | Foot: right | Team: Newcastle United | GameID: 578523             | Outcome: 1 | Direction:  centre of the goal
 Date: 2020-12-19 | Player: Nicolas Pépé | Foot: left | Team: Arsenal | GameID: 578521             | Outcome: 1 | Direction:  bottom left corner
+Date: 2020-12-21 | Player: Fábio Silva | Foot: right | Team: Wolverhampton Wanderers | GameID: 578530             | Outcome: 1 | Direction:  bottom left corner
+Date: 2020-09-13 | Player: Jamie Vardy | Foot: right | Team: Leicester City | GameID: 578656             | Outcome: 1 | Direction:  bottom left corner
+Date: 2020-09-13 | Player: Jamie Vardy | Foot: right | Team: Leicester City | GameID: 578656             | Outcome: 1 | Direction:  bottom left corner
+Date: 2020-09-13 | Player: Jamie Vardy | Foot: right | Team: Leicester City | GameID: 578656             | Outcome: 1 | Direction:  bottom left corner
+Date: 2020-09-13 | Player: Jamie Vardy | Foot: right | Team: Leicester City | GameID: 578656             | Outcome: 1 | Direction:  bottom left corner
+Date: 2020-09-14 | Player: Jorginho | Foot: right | Team: Chelsea | GameID: 578651             | Outcome: 1 | Direction:  bottom left corner
+Date: 2020-09-21 | Player: Kevin De Bruyne | Foot: right | Team: Manchester City | GameID: 578646             | Outcome: 1 | Direction:  bottom right corner
+Date: 2020-09-21 | Player: John Lundstram | Foot: right | Team: Sheffield United | GameID: 578647             | Outcome: 0 | Direction:  bottom left corner
+Date: 2020-09-27 | Player: Callum Wilson | Foot: right | Team: Newcastle United | GameID: 578638             | Outcome: 1 | Direction:  bottom left corner
+Date: 2020-09-27 | Player: Youri Tielemans | Foot: right | Team: Leicester City | GameID: 578636             | Outcome: 1 | Direction:  bottom right corner
+Date: 2020-09-27 | Player: Jamie Vardy | Foot: right | Team: Leicester City | GameID: 578636             | Outcome: 1 | Direction:  bottom right corner
+Date: 2020-09-27 | Player: Jamie Vardy | Foot: right | Team: Leicester City | GameID: 578636             | Outcome: 1 | Direction:  top left corner
+Date: 2020-09-27 | Player: Youri Tielemans | Foot: right | Team: Leicester City | GameID: 578636             | Outcome: 1 | Direction:  bottom right corner
+Date: 2020-09-27 | Player: Jamie Vardy | Foot: right | Team: Leicester City | GameID: 578636             | Outcome: 1 | Direction:  bottom right corner
+Date: 2020-09-27 | Player: Jamie Vardy | Foot: right | Team: Leicester City | GameID: 578636             | Outcome: 1 | Direction:  top left corner
+Date: 2020-09-27 | Player: Youri Tielemans | Foot: right | Team: Leicester City | GameID: 578636             | Outcome: 1 | Direction:  bottom right corner
+Date: 2020-09-27 | Player: Jamie Vardy | Foot: right | Team: Leicester City | GameID: 578636             | Outcome: 1 | Direction:  bottom right corner
+Date: 2020-09-27 | Player: Jamie Vardy | Foot: right | Team: Leicester City | GameID: 578636             | Outcome: 1 | Direction:  top left corner
+Date: 2020-11-01 | Player: Callum Wilson | Foot: right | Team: Newcastle United | GameID: 578595             | Outcome: 1 | Direction:  centre of the goal
+Date: 2020-11-01 | Player: Harry Kane | Foot: right | Team: Tottenham Hotspur | GameID: 578592             | Outcome: 1 | Direction:  bottom right corner
+Date: 2020-11-01 | Player: Pierre-Emerick Aubameyang | Foot: right | Team: Arsenal | GameID: 578591             | Outcome: 1 | Direction:  bottom right corner
+Date: 2020-11-01 | Player: Ollie Watkins | Foot: right | Team: Aston Villa | GameID: 578598             | Outcome: 1 | Direction:  top right corner
