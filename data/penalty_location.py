@@ -38,6 +38,7 @@ def read():
 def load_penalties():
 	penalty_df = {}
 	penalty_df['2017'] = read_penalties("PenaltyKicks/Penalties_2017.csv")
+	penalty_df['2019'] = read_penalties("PenaltyKicks/Penalties_2019.csv")
 	penalty_df['2020'] = read_penalties("PenaltyKicks/Penalties_2020.csv")
 	penalty_df['2021'] = read_penalties("PenaltyKicks/Penalties_2021.csv")
 	return penalty_df
@@ -85,15 +86,19 @@ def player_name_dict():
 
 def Player_Names(penalty_df, df_19_21, df_17_19):
 	
+	print("Player names: ")
 	player_set = set(pd.concat([df_19_21['pen_taker'], df_17_19['player_name']]).unique().tolist())
 
 	for k in penalty_df.keys():
-		print(k)
+		year_list = []
 		player_list = penalty_df[k]['Player'].unique().tolist()
 		for player in player_list:
 			if player not in player_set:
-				print(player)
-		print("---"*20)
+				year_list.append(player)
+		
+		if len(year_list) > 0:
+			print("{}:\t{}".format(k, year_list))
+			print("---"*20)
 
 	print(sorted(player_set))
 	print("___"*20)
@@ -133,10 +138,30 @@ def show_problematic(df):
 	'''
 	print("Problematic rows: ")
 	duplicate = df.duplicated(subset=['Player','Date', 'Outcome'], keep=False)
-	print(df[duplicate])
+	print_full(df[duplicate])
 	print("---"*20)
 
+def merge_dfs(pen_df, df_19_21):
 
+	df = df_19_21.merge(pen_df, how='left', left_on=['date', 'pen_taker', 'outcome'], right_on=['Date', 'Player', 'outcome'])
+	return df
+
+def missing_info_17_19(dele):
+	dele = dele[(dele['gk_team']=='3') | (dele['player_team']=='team') | (dele['season'].isnull())]
+	name_count = pd.concat([dele['player_name'], dele['gk_name']])
+	name_count = name_count.value_counts().reset_index(level=0).rename({'index':'name', 0: 'count'}, axis = 'columns')
+	dele['name'] = ''
+	
+	for index, row in dele.iterrows():
+		gk, player = row['gk_name'], row['player_name']
+		gk_c, player_c = name_count[name_count['name'] == gk]['count'].values[0], name_count[name_count['name'] == player]['count'].values[0]
+
+		if player_c > gk_c:
+			dele.at[index, 'name'] = player
+		else:
+			dele.at[index, 'name'] = gk
+	dele = dele.sort_values(['name', 'gk_name', 'player_name'])
+	return dele.drop(columns='name')
 
 if __name__ == '__main__':
 	
@@ -151,35 +176,30 @@ if __name__ == '__main__':
 
 
 	pen_df = concat_dfs(penalty_df)
-	# Mais de um penaltis cobrado pelo mesmo jogador numa mesma partica com mesmo outcome: dá problema
+
+	# Mais de um penalti cobrado pelo mesmo jogador numa mesma partica com mesmo outcome: dá problema
 	show_problematic(pen_df)
 
-	df = df_19_21.merge(pen_df, how='outer', left_on=['date', 'pen_taker', 'outcome'], right_on=['Date', 'Player', 'outcome'])
+	df = merge_dfs(pen_df, df_19_21)
 	# df = df.dropna(subset=['Player'])
+
 	useful = ['Date', 'Player', 'Foot', 'Team', 'Outcome', 'url', 'pen_taker', 'outcome', 'off_target', 'date']
 	dates = show_missing(df[useful])
 
 	for key, value in dates.items():
 		print('{}: {}'.format(key, value))
 
-	print(df[df['date'].isnull()])
-
-	# print_full(df_17_19)
-
-	# show_missed(df)
-	# show_scored(df)
+	# print(df[df['date'].isnull()])
 
 	print("///"*25, '\n')
 
+
+	print("Looking at df_17_19: ")
 	dele = pd.read_csv("dele.csv")
 
-	print("has season info:")
-	print(dele[(dele['season'].notnull()) & ((dele['gk_team']=='3') | (dele['player_team']=='team'))])
 	
 	print("Missing info:")
-	print_full(dele[(dele['gk_team'] == '3') & (dele['season'].isnull())])
-	
-	print(dele[(dele['player_team'] == 'team') & (dele['season'].isnull())].drop_duplicates(subset=['player_name']))
+	print_full(missing_info_17_19(dele))
 
 	print("erro:")
 	print(dele[dele['player_team'] == dele['gk_team']])
