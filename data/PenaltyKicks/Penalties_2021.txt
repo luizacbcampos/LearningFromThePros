@@ -84,3 +84,4 @@ Date: 2021-03-13 | Player: Luka Milivojevic | Foot: right | Team: Crystal Palace
 Date: 2021-03-13 | Player: Sergio Agüero | Foot: right | Team: Manchester City | GameID: 578386             | Outcome: 1 | Direction:  bottom left corner
 Date: 2021-05-01 | Player: Pascal Groß | Foot: right | Team: Brighton and Hove Albion | GameID: 578324             | Outcome: 1 | Direction:  bottom left corner
 Date: 2021-05-09 | Player: Bruno Fernandes | Foot: right | Team: Manchester United | GameID: 578316             | Outcome: 1 | Direction:  bottom right corner
+Date: 2021-04-17 | Player: Jesse Lingard | Foot: right | Team: West Ham United | GameID: 578350             | Outcome: 1 | Direction:  bottom left corner
