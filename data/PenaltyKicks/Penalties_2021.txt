@@ -75,3 +75,12 @@ Date: 2021-02-27 | Player: Pascal Groß | Foot: right | Team: Brighton and Hove 
 Date: 2021-02-27 | Player: Danny Welbeck | Foot: right | Team: Brighton and Hove Albion | GameID: 578403             | Outcome: 0 | Direction: left post
 Date: 2021-02-27 | Player: Pascal Groß | Foot: right | Team: Brighton and Hove Albion | GameID: 578403             | Outcome: 0 | Direction: the bar
 Date: 2021-05-09 | Player: Bruno Fernandes | Foot: right | Team: Manchester United | GameID: 578316             | Outcome: 1 | Direction:  bottom right corner
+Date: 2021-03-06 | Player: James Ward-Prowse | Foot: right | Team: Southampton | GameID: 578399             | Outcome: 1 | Direction:  bottom left corner
+Date: 2021-03-13 | Player: Luka Milivojevic | Foot: right | Team: Crystal Palace | GameID: 578389             | Outcome: 1 | Direction:  bottom right corner
+Date: 2021-03-13 | Player: Sergio Agüero | Foot: right | Team: Manchester City | GameID: 578386             | Outcome: 1 | Direction:  bottom left corner
+Date: 2021-05-01 | Player: Pascal Groß | Foot: right | Team: Brighton and Hove Albion | GameID: 578324             | Outcome: 1 | Direction:  bottom left corner
+Date: 2021-03-06 | Player: James Ward-Prowse | Foot: right | Team: Southampton | GameID: 578399             | Outcome: 1 | Direction:  bottom left corner
+Date: 2021-03-13 | Player: Luka Milivojevic | Foot: right | Team: Crystal Palace | GameID: 578389             | Outcome: 1 | Direction:  bottom right corner
+Date: 2021-03-13 | Player: Sergio Agüero | Foot: right | Team: Manchester City | GameID: 578386             | Outcome: 1 | Direction:  bottom left corner
+Date: 2021-05-01 | Player: Pascal Groß | Foot: right | Team: Brighton and Hove Albion | GameID: 578324             | Outcome: 1 | Direction:  bottom left corner
+Date: 2021-05-09 | Player: Bruno Fernandes | Foot: right | Team: Manchester United | GameID: 578316             | Outcome: 1 | Direction:  bottom right corner

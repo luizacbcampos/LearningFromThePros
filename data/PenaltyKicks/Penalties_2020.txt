@@ -147,3 +147,18 @@ Date: 2020-10-18 | Player: Billy Sharp | Foot: right | Team: Sheffield United | 
 Date: 2020-10-18 | Player: Aleksandar Mitrovic | Foot: right | Team: Fulham | GameID: 578615             | Outcome: 0 | Direction: the bar
 Date: 2020-10-18 | Player: Billy Sharp | Foot: right | Team: Sheffield United | GameID: 578615             | Outcome: 1 | Direction:  top right corner
 Date: 2020-10-18 | Player: Aleksandar Mitrovic | Foot: right | Team: Fulham | GameID: 578615             | Outcome: 0 | Direction: the bar
+Date: 2020-03-07 | Player: Matt Ritchie | Foot: left | Team: Newcastle United | GameID: 541560             | Outcome: 0 | Direction:  bottom right corner
+Date: 2020-10-18 | Player: Wilfried Zaha | Foot: right | Team: Crystal Palace | GameID: 578613             | Outcome: 1 | Direction:  bottom right corner
+Date: 2020-10-18 | Player: Billy Sharp | Foot: right | Team: Sheffield United | GameID: 578615             | Outcome: 1 | Direction:  top right corner
+Date: 2020-10-18 | Player: Aleksandar Mitrovic | Foot: right | Team: Fulham | GameID: 578615             | Outcome: 0 | Direction: the bar
+Date: 2020-10-18 | Player: Billy Sharp | Foot: right | Team: Sheffield United | GameID: 578615             | Outcome: 1 | Direction:  top right corner
+Date: 2020-10-18 | Player: Aleksandar Mitrovic | Foot: right | Team: Fulham | GameID: 578615             | Outcome: 0 | Direction: the bar
+Date: 2020-03-07 | Player: Matt Ritchie | Foot: left | Team: Newcastle United | GameID: 541560             | Outcome: 0 | Direction:  bottom right corner
+Date: 2020-03-07 | Player: Dele Alli | Foot: right | Team: Tottenham Hotspur | GameID: 541562             | Outcome: 1 | Direction:  bottom right corner
+Date: 2020-03-07 | Player: Matt Ritchie | Foot: left | Team: Newcastle United | GameID: 541560             | Outcome: 0 | Direction:  bottom right corner
+Date: 2020-03-07 | Player: Dele Alli | Foot: right | Team: Tottenham Hotspur | GameID: 541562             | Outcome: 1 | Direction:  bottom right corner
+Date: 2020-10-18 | Player: Wilfried Zaha | Foot: right | Team: Crystal Palace | GameID: 578613             | Outcome: 1 | Direction:  bottom right corner
+Date: 2020-10-18 | Player: Billy Sharp | Foot: right | Team: Sheffield United | GameID: 578615             | Outcome: 1 | Direction:  top right corner
+Date: 2020-10-18 | Player: Aleksandar Mitrovic | Foot: right | Team: Fulham | GameID: 578615             | Outcome: 0 | Direction: the bar
+Date: 2020-10-18 | Player: Billy Sharp | Foot: right | Team: Sheffield United | GameID: 578615             | Outcome: 1 | Direction:  top right corner
+Date: 2020-10-18 | Player: Aleksandar Mitrovic | Foot: right | Team: Fulham | GameID: 578615             | Outcome: 0 | Direction: the bar

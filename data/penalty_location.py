@@ -169,8 +169,17 @@ if __name__ == '__main__':
 	# show_missed(df)
 	# show_scored(df)
 
-	print("///"*25)
-	dele = pd.read_csv("dele.csv")
-	print(dele[dele['gk_team'] == '3'].drop_duplicates(subset=['gk_name']))
+	print("///"*25, '\n')
 
+	dele = pd.read_csv("dele.csv")
+
+	print("has season info:")
+	print(dele[(dele['season'].notnull()) & ((dele['gk_team']=='3') | (dele['player_team']=='team'))])
+	
+	print("Missing info:")
+	print_full(dele[(dele['gk_team'] == '3') & (dele['season'].isnull())])
+	
 	print(dele[(dele['player_team'] == 'team') & (dele['season'].isnull())].drop_duplicates(subset=['player_name']))
+
+	print("erro:")
+	print(dele[dele['player_team'] == dele['gk_team']])
