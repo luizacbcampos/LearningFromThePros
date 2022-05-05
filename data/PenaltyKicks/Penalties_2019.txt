@@ -97,3 +97,23 @@ Date: 2019-02-02 | Player: Eden Hazard | Foot: right | Team: Chelsea | GameID: 5
 Date: 2019-02-02 | Player: Ashley Barnes | Foot: right | Team: Burnley | GameID: 513597             | Outcome: 1 | Direction:  bottom right corner
 Date: 2019-02-02 | Player: Rúben Neves | Foot: right | Team: Wolverhampton Wanderers | GameID: 513599             | Outcome: 1 | Direction:  bottom right corner
 Date: 2019-12-14 | Player: Jack Grealish | Foot: right | Team: Aston Villa | GameID: 541675             | Outcome: 0 | Direction: the bar
+Date: 2019-08-17 | Player: Joshua King | Foot: right | Team: Bournemouth | GameID: 541825             | Outcome: 1 | Direction:  bottom left corner
+Date: 2019-08-24 | Player: Marcus Rashford | Foot: right | Team: Manchester United | GameID: 541818             | Outcome: 0 | Direction: left post
+Date: 2019-08-24 | Player: Mark Noble | Foot: right | Team: West Ham United | GameID: 541824             | Outcome: 1 | Direction:  bottom left corner
+Date: 2019-08-24 | Player: Mohamed Salah | Foot: left | Team: Liverpool | GameID: 541815             | Outcome: 1 | Direction:  top left corner
+Date: 2019-09-14 | Player: Marcus Rashford | Foot: right | Team: Manchester United | GameID: 541800             | Outcome: 1 | Direction:  bottom right corner
+Date: 2019-09-21 | Player: Sergio Agüero | Foot: right | Team: Manchester City | GameID: 541793             | Outcome: 1 | Direction:  centre of the goal
+Date: 2019-09-28 | Player: Jorginho | Foot: right | Team: Chelsea | GameID: 541776             | Outcome: 1 | Direction:  bottom left corner
+Date: 2019-09-28 | Player: Luka Milivojevic | Foot: right | Team: Crystal Palace | GameID: 541781             | Outcome: 1 | Direction:  top right corner
+Date: 2019-10-05 | Player: James Milner | Foot: right | Team: Liverpool | GameID: 541770             | Outcome: 1 | Direction:  bottom right corner
+Date: 2019-10-05 | Player: Patrick van Aanholt | Foot: left | Team: Crystal Palace | GameID: 541768             | Outcome: 1 | Direction:  bottom left corner
+Date: 2019-10-19 | Player: Raúl Jiménez | Foot: right | Team: Wolverhampton Wanderers | GameID: 541762             | Outcome: 1 | Direction:  bottom left corner
+Date: 2019-11-02 | Player: Gerard Deulofeu | Foot: right | Team: Watford | GameID: 541736             | Outcome: 1 | Direction:  bottom left corner
+Date: 2019-10-05 | Player: James Milner | Foot: right | Team: Liverpool | GameID: 541770             | Outcome: 1 | Direction:  bottom right corner
+Date: 2019-10-05 | Player: Wesley Moraes | Foot: right | Team: Aston Villa | GameID: 541765             | Outcome: 0 | Direction:  bottom left corner
+Date: 2019-10-05 | Player: Patrick van Aanholt | Foot: left | Team: Crystal Palace | GameID: 541768             | Outcome: 1 | Direction:  bottom left corner
+Date: 2019-08-10 | Player: Sergio Agüero | Foot: right | Team: Manchester City | GameID: 541843             | Outcome: 1 | Direction:  bottom left corner
+Date: 2019-10-05 | Player: James Milner | Foot: right | Team: Liverpool | GameID: 541770             | Outcome: 1 | Direction:  bottom right corner
+Date: 2019-10-05 | Player: Patrick van Aanholt | Foot: left | Team: Crystal Palace | GameID: 541768             | Outcome: 1 | Direction:  bottom left corner
+Date: 2019-12-22 | Player: Troy Deeney | Foot: right | Team: Watford | GameID: 541671             | Outcome: 1 | Direction:  centre of the goal
+Date: 2019-12-22 | Player: Willian | Foot: right | Team: Chelsea | GameID: 541667             | Outcome: 1 | Direction:  bottom right corner
