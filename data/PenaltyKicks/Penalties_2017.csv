@@ -1,2 +1,2 @@
-Player,Team,Date,GameID,Foot,Outcome,Direction
-Wayne Rooney,Everton,2017-12-10,480750,right,1, high centre of the goal
+Date,Player,Foot,Team,GameID,Outcome,Direction
+2017-12-10,Wayne Rooney,right,Everton,480750,1,high centre of the goal
