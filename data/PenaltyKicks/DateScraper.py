@@ -8,10 +8,10 @@ from requests_html import HTMLSession
 class DateScraper:
 
     # Initialize a new scraper of the date page on espn.
-    def __init__(self, date,timeout=5):
+    def __init__(self, date,timeout=8):
         self.date = date
         # self.datePageUrl = "http://www.espnfc.us/scores?date=" + date
-        self.datePageUrl = "https://www.espn.com/soccer/scoreboard?date=" + date
+        self.datePageUrl = "https://www.espn.com/soccer/scoreboard?date=" + date 
         self.beautifulSoup = None
         self.allGames = None
         self.session = HTMLSession()
