@@ -1,0 +1,8 @@
+Date: 2018-10-01 | Player: Junior Stanislas | Foot: right | Team: Bournemouth | GameID: 513772             | Outcome: 1 | Direction:  centre of the goal
+Date: 2018-08-20 | Player: James Milner | Foot: right | Team: Liverpool | GameID: 513824             | Outcome: 1 | Direction:  bottom right corner
+Date: 2018-10-01 | Player: Junior Stanislas | Foot: right | Team: Bournemouth | GameID: 513772             | Outcome: 1 | Direction:  centre of the goal
+Date: 2018-01-03 | Player: Eden Hazard | Foot: right | Team: Chelsea | GameID: 480687             | Outcome: 1 | Direction:  centre of the goal
+Date: 2018-01-30 | Player: Mohamed Salah | Foot: left | Team: Liverpool | GameID: 480665             | Outcome: 1 | Direction:  centre of the goal
+Date: 2018-01-30 | Player: Mark Noble | Foot: right | Team: West Ham United | GameID: 480664             | Outcome: 1 | Direction:  bottom left corner
+Date: 2018-02-05 | Player: Troy Deeney | Foot: right | Team: Watford | GameID: 480646             | Outcome: 1 | Direction:  bottom left corner
+Date: 2018-03-01 | Player: Pierre-Emerick Aubameyang | Foot: right | Team: Arsenal | GameID: 480629             | Outcome: 0 | Direction:  bottom right corner

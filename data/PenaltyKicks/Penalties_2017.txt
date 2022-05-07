@@ -1,0 +1,10 @@
+Date: 2017-11-29 | Player: Manuel Lanzini | Foot: right | Team: West Ham United | GameID: 480769             | Outcome: 0 | Direction:  bottom left corner
+Date: 2017-11-29 | Player: Wayne Rooney | Foot: right | Team: Everton | GameID: 480769             | Outcome: 0 | Direction:  bottom left corner
+Date: 2017-11-29 | Player: Manuel Lanzini | Foot: right | Team: West Ham United | GameID: 480769             | Outcome: 0 | Direction:  bottom left corner
+Date: 2017-11-29 | Player: Wayne Rooney | Foot: right | Team: Everton | GameID: 480769             | Outcome: 0 | Direction:  bottom left corner
+Date: 2017-12-18 | Player: Wayne Rooney | Foot: right | Team: Everton | GameID: 480733             | Outcome: 1 | Direction:  bottom left corner
+Date: 2017-12-18 | Player: Wayne Rooney | Foot: right | Team: Everton | GameID: 480733             | Outcome: 0 | Direction:  bottom right corner
+Date: 2017-12-18 | Player: Wayne Rooney | Foot: right | Team: Everton | GameID: 480733             | Outcome: 1 | Direction:  bottom left corner
+Date: 2017-12-18 | Player: Wayne Rooney | Foot: right | Team: Everton | GameID: 480733             | Outcome: 0 | Direction:  bottom right corner
+Date: 2017-12-31 | Player: Jay Rodriguez | Foot: right | Team: West Bromwich Albion | GameID: 480696             | Outcome: 1 | Direction:  centre of the goal
+Date: 2017-12-31 | Player: Luka Milivojevic | Foot: right | Team: Crystal Palace | GameID: 480701             | Outcome: 0 | Direction:  centre of the goal
