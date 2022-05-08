@@ -127,3 +127,21 @@ Date: 2019-01-29 | Player: Paul Pogba | Foot: right | Team: Manchester United | 
 Date: 2019-01-29 | Player: Pierre-Emerick Aubameyang | Foot: right | Team: Arsenal | GameID: 513606             | Outcome: 1 | Direction:  centre of the goal
 Date: 2019-03-16 | Player: Joshua King | Foot: right | Team: Bournemouth | GameID: 513538             | Outcome: 1 | Direction:  centre of the goal
 Date: 2019-03-16 | Player: Mark Noble | Foot: right | Team: West Ham United | GameID: 513534             | Outcome: 1 | Direction:  centre of the goal
+Date: 2019-03-02 | Player: Pierre-Emerick Aubameyang | Foot: right | Team: Arsenal | GameID: 513550             | Outcome: 0 | Direction:  bottom left corner
+Date: 2019-03-02 | Player: Harry Kane | Foot: right | Team: Tottenham Hotspur | GameID: 513550             | Outcome: 1 | Direction:  bottom right corner
+Date: 2019-03-02 | Player: Pierre-Emerick Aubameyang | Foot: right | Team: Arsenal | GameID: 513550             | Outcome: 0 | Direction:  bottom left corner
+Date: 2019-03-02 | Player: Harry Kane | Foot: right | Team: Tottenham Hotspur | GameID: 513550             | Outcome: 1 | Direction:  bottom right corner
+Date: 2019-03-02 | Player: Mark Noble | Foot: right | Team: West Ham United | GameID: 513558             | Outcome: 1 | Direction:  top left corner
+Date: 2019-03-02 | Player: Paul Pogba | Foot: right | Team: Manchester United | GameID: 513559             | Outcome: 0 | Direction:  centre of the goal
+Date: 2019-03-09 | Player: Luka Milivojevic | Foot: right | Team: Crystal Palace | GameID: 513541             | Outcome: 1 | Direction:  top right corner
+Date: 2019-03-09 | Player: Matt Ritchie | Foot: left | Team: Newcastle United | GameID: 513543             | Outcome: 0 | Direction:  centre of the goal
+Date: 2019-04-06 | Player: Luka Milivojevic | Foot: right | Team: Crystal Palace | GameID: 513514             | Outcome: 1 | Direction:  bottom left corner
+Date: 2019-04-06 | Player: Jamie Vardy | Foot: right | Team: Leicester City | GameID: 513516             | Outcome: 1 | Direction:  top right corner
+Date: 2019-04-06 | Player: Aaron Mooy | Foot: right | Team: Huddersfield Town | GameID: 513516             | Outcome: 1 | Direction:  bottom right corner
+Date: 2019-04-06 | Player: Jamie Vardy | Foot: right | Team: Leicester City | GameID: 513516             | Outcome: 1 | Direction:  top right corner
+Date: 2019-04-06 | Player: Aaron Mooy | Foot: right | Team: Huddersfield Town | GameID: 513516             | Outcome: 1 | Direction:  bottom right corner
+Date: 2019-04-13 | Player: Paul Pogba | Foot: right | Team: Manchester United | GameID: 513508             | Outcome: 1 | Direction:  bottom left corner
+Date: 2019-04-13 | Player: Paul Pogba | Foot: right | Team: Manchester United | GameID: 513508             | Outcome: 1 | Direction:  centre of the goal
+Date: 2019-04-13 | Player: Paul Pogba | Foot: right | Team: Manchester United | GameID: 513508             | Outcome: 1 | Direction:  bottom left corner
+Date: 2019-04-13 | Player: Paul Pogba | Foot: right | Team: Manchester United | GameID: 513508             | Outcome: 1 | Direction:  centre of the goal
+Date: 2019-02-27 | Player: Sergio Agüero | Foot: right | Team: Manchester City | GameID: 513561             | Outcome: 1 | Direction:  bottom right corner
