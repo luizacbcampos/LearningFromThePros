@@ -117,3 +117,13 @@ Date: 2019-10-05 | Player: James Milner | Foot: right | Team: Liverpool | GameID
 Date: 2019-10-05 | Player: Patrick van Aanholt | Foot: left | Team: Crystal Palace | GameID: 541768             | Outcome: 1 | Direction:  bottom left corner
 Date: 2019-12-22 | Player: Troy Deeney | Foot: right | Team: Watford | GameID: 541671             | Outcome: 1 | Direction:  centre of the goal
 Date: 2019-12-22 | Player: Willian | Foot: right | Team: Chelsea | GameID: 541667             | Outcome: 1 | Direction:  bottom right corner
+Date: 2019-01-02 | Player: Luka Milivojevic | Foot: right | Team: Crystal Palace | GameID: 513632             | Outcome: 1 | Direction:  top left corner
+Date: 2019-01-12 | Player: James Ward-Prowse | Foot: right | Team: Southampton | GameID: 513627             | Outcome: 1 | Direction:  top left corner
+Date: 2019-01-12 | Player: Mohamed Salah | Foot: left | Team: Liverpool | GameID: 513624             | Outcome: 1 | Direction:  bottom right corner
+Date: 2019-01-14 | Player: Gabriel Jesus | Foot: right | Team: Manchester City | GameID: 513629             | Outcome: 1 | Direction:  bottom right corner
+Date: 2019-01-19 | Player: Paul Pogba | Foot: right | Team: Manchester United | GameID: 513610             | Outcome: 1 | Direction:  bottom right corner
+Date: 2019-01-29 | Player: Matt Ritchie | Foot: left | Team: Newcastle United | GameID: 513603             | Outcome: 1 | Direction:  bottom right corner
+Date: 2019-01-29 | Player: Paul Pogba | Foot: right | Team: Manchester United | GameID: 513604             | Outcome: 1 | Direction:  top left corner
+Date: 2019-01-29 | Player: Pierre-Emerick Aubameyang | Foot: right | Team: Arsenal | GameID: 513606             | Outcome: 1 | Direction:  centre of the goal
+Date: 2019-03-16 | Player: Joshua King | Foot: right | Team: Bournemouth | GameID: 513538             | Outcome: 1 | Direction:  centre of the goal
+Date: 2019-03-16 | Player: Mark Noble | Foot: right | Team: West Ham United | GameID: 513534             | Outcome: 1 | Direction:  centre of the goal
