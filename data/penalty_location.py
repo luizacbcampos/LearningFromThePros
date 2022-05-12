@@ -223,7 +223,6 @@ if __name__ == '__main__':
 	df_17_19 = edit_2017(df_17_19)
 	
 	joined_df = cleanPenDataFrames(df_19_21.copy(), df_17_19.copy())
-	print(joined_df)
 
 
 	# print(df_19_21)
