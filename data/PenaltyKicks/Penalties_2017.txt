@@ -1,3 +1,4 @@
+Date: 2017-12-10 | Player: Wayne Rooney | Foot: right | Team: Everton | GameID: 480750             | Outcome: 1 | Direction:  high centre of the goal
 Date: 2017-11-29 | Player: Manuel Lanzini | Foot: right | Team: West Ham United | GameID: 480769             | Outcome: 0 | Direction:  bottom left corner
 Date: 2017-11-29 | Player: Wayne Rooney | Foot: right | Team: Everton | GameID: 480769             | Outcome: 0 | Direction:  bottom left corner
 Date: 2017-11-29 | Player: Manuel Lanzini | Foot: right | Team: West Ham United | GameID: 480769             | Outcome: 0 | Direction:  bottom left corner
@@ -8,3 +9,38 @@ Date: 2017-12-18 | Player: Wayne Rooney | Foot: right | Team: Everton | GameID: 
 Date: 2017-12-18 | Player: Wayne Rooney | Foot: right | Team: Everton | GameID: 480733             | Outcome: 0 | Direction:  bottom right corner
 Date: 2017-12-31 | Player: Jay Rodriguez | Foot: right | Team: West Bromwich Albion | GameID: 480696             | Outcome: 1 | Direction:  centre of the goal
 Date: 2017-12-31 | Player: Luka Milivojevic | Foot: right | Team: Crystal Palace | GameID: 480701             | Outcome: 0 | Direction:  centre of the goal
+Date: 2017-08-12 | Player: Roberto Firmino | Foot: right | Team: Liverpool | GameID: 480900             | Outcome: 1 | Direction:  bottom left corner
+Date: 2017-08-19 | Player: Charlie Austin | Foot: right | Team: Southampton | GameID: 480595             | Outcome: 1 | Direction:  centre of the goal
+Date: 2017-08-19 | Player: Dusan Tadic | Foot: left | Team: Southampton | GameID: 480595             | Outcome: 1 | Direction:  centre of the goal
+Date: 2017-08-19 | Player: Charlie Austin | Foot: right | Team: Southampton | GameID: 480595             | Outcome: 1 | Direction:  centre of the goal
+Date: 2017-08-19 | Player: Dusan Tadic | Foot: left | Team: Southampton | GameID: 480595             | Outcome: 1 | Direction:  centre of the goal
+Date: 2017-08-26 | Player: Romelu Lukaku | Foot: left | Team: Manchester United | GameID: 480880             | Outcome: 0 | Direction:  bottom left corner
+Date: 2017-09-09 | Player: Jamie Vardy | Foot: right | Team: Leicester City | GameID: 480867             | Outcome: 1 | Direction:  centre of the goal
+Date: 2017-09-17 | Player: Anthony Martial | Foot: right | Team: Manchester United | GameID: 480859             | Outcome: 1 | Direction:  bottom left corner
+Date: 2017-09-25 | Player: Alexandre Lacazette | Foot: right | Team: Arsenal | GameID: 480855             | Outcome: 1 | Direction:  bottom right corner
+Date: 2017-10-15 | Player: Manolo Gabbiadini | Foot: left | Team: Southampton | GameID: 480832             | Outcome: 1 | Direction:  top right corner
+Date: 2017-10-15 | Player: Wayne Rooney | Foot: right | Team: Everton | GameID: 480829             | Outcome: 1 | Direction:  bottom left corner
+Date: 2017-10-20 | Player: Glenn Murray | Foot: right | Team: Brighton and Hove Albion | GameID: 480818             | Outcome: 1 | Direction:  centre of the goal
+Date: 2017-10-21 | Player: Junior Stanislas | Foot: right | Team: Bournemouth | GameID: 480817             | Outcome: 1 | Direction:  centre of the goal
+Date: 2017-10-21 | Player: Sergio Agüero | Foot: right | Team: Manchester City | GameID: 480819             | Outcome: 1 | Direction:  bottom right corner
+Date: 2017-10-28 | Player: Mohamed Salah | Foot: left | Team: Liverpool | GameID: 480808             | Outcome: 0 | Direction:  centre of the goal
+Date: 2017-10-28 | Player: Luka Milivojevic | Foot: right | Team: Crystal Palace | GameID: 480815             | Outcome: 1 | Direction:  bottom left corner
+Date: 2017-11-18 | Player: Leighton Baines | Foot: left | Team: Everton | GameID: 480787             | Outcome: 1 | Direction:  bottom left corner
+Date: 2017-11-26 | Player: Sergio Agüero | Foot: right | Team: Manchester City | GameID: 480782             | Outcome: 1 | Direction:  bottom right corner
+Date: 2017-11-26 | Player: Alexis Sánchez | Foot: right | Team: Arsenal | GameID: 480776             | Outcome: 1 | Direction:  bottom left corner
+Date: 2017-11-28 | Player: Troy Deeney | Foot: right | Team: Watford | GameID: 480774             | Outcome: 1 | Direction:  bottom left corner
+Date: 2017-12-02 | Player: Glenn Murray | Foot: right | Team: Brighton and Hove Albion | GameID: 480759             | Outcome: 1 | Direction:  top right corner
+Date: 2017-12-02 | Player: Eden Hazard | Foot: right | Team: Chelsea | GameID: 480761             | Outcome: 1 | Direction:  centre of the goal
+Date: 2017-12-09 | Player: Christian Benteke | Foot: right | Team: Crystal Palace | GameID: 480747             | Outcome: 0 | Direction:  bottom left corner
+Date: 2017-12-09 | Player: Luka Milivojevic | Foot: right | Team: Crystal Palace | GameID: 480747             | Outcome: 1 | Direction:  top right corner
+Date: 2017-12-09 | Player: Christian Benteke | Foot: right | Team: Crystal Palace | GameID: 480747             | Outcome: 0 | Direction:  bottom left corner
+Date: 2017-12-09 | Player: Luka Milivojevic | Foot: right | Team: Crystal Palace | GameID: 480747             | Outcome: 1 | Direction:  top right corner
+Date: 2017-12-10 | Player: Wayne Rooney | Foot: right | Team: Everton | GameID: 480750             | Outcome: 1 | Direction:  high centre of the goal
+Date: 2017-12-16 | Player: Gabriel Jesus | Foot: right | Team: Manchester City | GameID: 480734             | Outcome: 0 | Direction: left post
+Date: 2017-12-16 | Player: Aaron Mooy | Foot: right | Team: Huddersfield Town | GameID: 480728             | Outcome: 1 | Direction:  bottom left corner
+Date: 2017-12-16 | Player: Glenn Murray | Foot: right | Team: Brighton and Hove Albion | GameID: 480726             | Outcome: 0 | Direction: just a bit too high
+Date: 2017-12-16 | Player: Mark Noble | Foot: right | Team: West Ham United | GameID: 480735             | Outcome: 1 | Direction:  bottom right corner
+Date: 2017-12-23 | Player: André Ayew | Foot: left | Team: West Ham United | GameID: 480722             | Outcome: 0 | Direction:  bottom right corner
+Date: 2017-12-23 | Player: Harry Kane | Foot: right | Team: Tottenham Hotspur | GameID: 480723             | Outcome: 1 | Direction:  bottom right corner
+Date: 2017-12-23 | Player: Luka Milivojevic | Foot: right | Team: Crystal Palace | GameID: 480718             | Outcome: 1 | Direction:  centre of the goal
+Date: 2017-12-30 | Player: Willian | Foot: right | Team: Chelsea | GameID: 480703             | Outcome: 1 | Direction:  bottom left corner

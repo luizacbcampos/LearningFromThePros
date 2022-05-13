@@ -212,6 +212,11 @@ def missing_info_17_19(df):
 	df = df.sort_values(['name', 'goalkeepers', 'pen_taker'])
 	return df.drop(columns='name')
 
+def goalkeeper_list(df):
+	keepers_names = df['goalkeepers'].unique().tolist()
+
+	return sorted(keepers_names)
+
 if __name__ == '__main__':
 	
 	penalty_df = load_penalties()
@@ -255,3 +260,5 @@ if __name__ == '__main__':
 
 	print("erro:")
 	print(df_17_19[df_17_19['player_team'] == df_17_19['gk_team']])
+
+	print(goalkeeper_list(joined_df))
