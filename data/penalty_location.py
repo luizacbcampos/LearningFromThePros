@@ -26,6 +26,8 @@ def player_name_dict():
 	d = {
 		"Aleksandar Mitrovic": "Aleksandar Mitrović",
 		"Alexis Alejandro Sánchez Sánchez": "Alexis Sánchez",
+		"André Ayew": "André Ayew Pelé",
+		"Christian Benteke Liolo": "Christian Benteke",
 		"Daniel William John Ings": "Danny Ings",
 		"Dusan Tadic": "Dušan Tadić",
 		"Gabriel Fernando de Jesus": "Gabriel Jesus",
@@ -39,12 +41,15 @@ def player_name_dict():
 		"Marko Arnautovic": "Marko Arnautović",
 		"Raheem Shaquille Sterling": "Raheem Sterling",
 		"Raúl Alonso Jiménez Rodríguez": "Raúl Jiménez",
+		"Roberto Firmino Barbosa de Oliveira": "Roberto Firmino",
 		"Rodrigo": "Rodri",
+		"Romelu Lukaku Menama": "Romelu Lukaku",
 		"Rúben Diogo Da Silva Neves": "Rúben Neves", 
 		"Sergio Leonel Agüero del Castillo": "Sergio Agüero",
 		"Son Heung-Min": "Son Heung-min",
 		"Wayne Mark Rooney": "Wayne Rooney",
 		"Willian Borges da Silva": "Willian",
+
 	}
 	return d
 
@@ -242,7 +247,7 @@ if __name__ == '__main__':
 	# df = df.dropna(subset=['Player'])
 
 	useful = ['Date', 'Player', 'Foot', 'Team', 'Outcome', 'pen_taker', 'outcome', 'goalkeepers', 'date']
-	dates = show_missing(df[useful])
+	dates = show_missing(df[useful], True)
 
 	for key, value in dates.items():
 		print('{}: {}'.format(key, value))
