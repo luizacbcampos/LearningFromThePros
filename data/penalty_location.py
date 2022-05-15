@@ -36,7 +36,9 @@ def player_name_dict():
 		"Ilkay Gündogan": "İlkay Gündoğan",
 		"James Philip Milner": "James Milner",
 		"Jorge Luiz Frello Filho": "Jorginho",
+		"Joselu": "José Luis Sanmartín Mato",
 		"Joseph Willock": "Joe Willock",
+		"Kenedy": "Robert Kenedy Nunes do Nascimento",
 		"Luka Milivojevic": "Luka Milivojević",
 		"Marko Arnautovic": "Marko Arnautović",
 		"Raheem Shaquille Sterling": "Raheem Sterling",
@@ -49,6 +51,7 @@ def player_name_dict():
 		"Son Heung-Min": "Son Heung-min",
 		"Wayne Mark Rooney": "Wayne Rooney",
 		"Willian Borges da Silva": "Willian",
+		# "Víctor Camarasa":,
 
 	}
 	return d

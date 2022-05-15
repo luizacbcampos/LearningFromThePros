@@ -8,3 +8,103 @@ Date,Player,Foot,Team,GameID,Outcome,Direction
 2018-02-05,Troy Deeney,right,Watford,480646,1,bottom left corner
 2018-03-01,Pierre-Emerick Aubameyang,right,Arsenal,480629,0,bottom right corner
 2018-12-10,Gylfi Sigurdsson,right,Everton,513688,0,centre of the goal
+2018-01-20,Sergio Agüero,right,Manchester City,480672,1,bottom left corner
+2018-01-20,Jamie Vardy,right,Leicester City,480674,1,bottom right corner
+2018-02-03,Alexis Sánchez,right,Manchester United,480648,0,bottom left corner
+2018-02-04,Luka Milivojevic,right,Crystal Palace,480650,1,top right corner
+2018-02-04,Harry Kane,right,Tottenham Hotspur,480654,1,bottom right corner
+2018-02-04,Harry Kane,right,Tottenham Hotspur,480654,0,centre of the goal
+2018-02-04,Harry Kane,right,Tottenham Hotspur,480654,1,bottom right corner
+2018-02-04,Harry Kane,right,Tottenham Hotspur,480654,0,centre of the goal
+2018-03-03,Jordan Ayew,right,Swansea City,480625,1,bottom left corner
+2018-03-03,Joshua King,right,Bournemouth,480617,1,bottom right corner
+2018-03-10,Wayne Rooney,right,Everton,480606,0,bottom left corner
+2018-03-11,Troy Deeney,right,Watford,480615,0,centre of the goal
+2018-04-01,Alexandre Lacazette,right,Arsenal,480592,1,bottom right corner
+2018-04-01,Pierre-Emerick Aubameyang,right,Arsenal,480592,1,bottom right corner
+2018-04-01,Alexandre Lacazette,right,Arsenal,480592,1,bottom right corner
+2018-04-01,Pierre-Emerick Aubameyang,right,Arsenal,480592,1,bottom right corner
+2018-04-17,Pascal Groß,right,Brighton and Hove Albion,480564,1,bottom left corner
+2018-04-22,Gabriel Jesus,right,Manchester City,480563,0,bottom left corner
+2018-05-09,Jamie Vardy,right,Leicester City,480596,1,top left corner
+2018-05-13,Xherdan Shaqiri,left,Stoke City,480533,0,bottom left corner
+2018-08-10,Paul Pogba,right,Manchester United,513836,1,top right corner
+2018-08-11,Callum Wilson,right,Bournemouth,513832,0,bottom right corner
+2018-08-11,Jorginho,right,Chelsea,513833,1,bottom right corner
+2018-08-18,Kenedy,left,Newcastle United,513826,0,centre of the goal
+2018-08-18,Marko Arnautovic,right,West Ham United,513821,1,bottom left corner
+2018-09-17,Glenn Murray,right,Brighton and Hove Albion,513791,1,centre of the goal
+2018-09-17,Danny Ings,right,Southampton,513791,1,bottom left corner
+2018-09-17,Glenn Murray,right,Brighton and Hove Albion,513791,1,centre of the goal
+2018-09-17,Danny Ings,right,Southampton,513791,1,bottom left corner
+2018-10-07,Riyad Mahrez,left,Manchester City,513766,0,too high
+2018-10-21,Luka Milivojevic,right,Crystal Palace,513752,0,centre of the goal
+2018-10-28,Luka Milivojevic,right,Crystal Palace,513740,1,bottom left corner
+2018-10-28,Luka Milivojevic,right,Crystal Palace,513740,1,bottom left corner
+2018-10-28,Luka Milivojevic,right,Crystal Palace,513740,1,bottom left corner
+2018-10-28,Luka Milivojevic,right,Crystal Palace,513740,1,bottom left corner
+2018-10-28,Gylfi Sigurdsson,right,Everton,513744,1,bottom right corner
+2018-10-28,Paul Pogba,right,Manchester United,513744,0,bottom left corner
+2018-10-28,Gylfi Sigurdsson,right,Everton,513744,1,bottom right corner
+2018-10-28,Paul Pogba,right,Manchester United,513744,0,bottom left corner
+2018-11-11,Anthony Martial,right,Manchester United,513725,1,bottom right corner
+2018-12-02,Harry Kane,right,Tottenham Hotspur,513706,1,bottom left corner
+2018-12-02,Pierre-Emerick Aubameyang,right,Arsenal,513706,1,bottom left corner
+2018-12-02,Harry Kane,right,Tottenham Hotspur,513706,1,bottom left corner
+2018-12-02,Pierre-Emerick Aubameyang,right,Arsenal,513706,1,bottom left corner
+2018-12-04,Luka Milivojevic,right,Crystal Palace,513695,1,bottom right corner
+2018-12-04,Glenn Murray,right,Brighton and Hove Albion,513695,1,top right corner
+2018-12-04,Luka Milivojevic,right,Crystal Palace,513695,1,bottom right corner
+2018-12-04,Glenn Murray,right,Brighton and Hove Albion,513695,1,top right corner
+2018-12-04,Joe Ralls,left,Cardiff City,513693,0,bottom right corner
+2018-12-08,Aboubakar Kamara,right,Fulham,513682,1,bottom right corner
+2018-12-26,Eden Hazard,right,Chelsea,513653,1,centre of the goal
+2018-12-26,Gylfi Sigurdsson,right,Everton,513654,1,bottom left corner
+2018-12-26,Mohamed Salah,left,Liverpool,513657,1,bottom left corner
+2018-12-29,James Maddison,right,Leicester City,513642,0,bottom left corner
+2018-12-29,Roberto Firmino,right,Liverpool,513640,1,bottom right corner
+2018-12-29,Mohamed Salah,left,Liverpool,513640,1,centre of the goal
+2018-12-29,Roberto Firmino,right,Liverpool,513640,1,bottom right corner
+2018-12-29,Mohamed Salah,left,Liverpool,513640,1,centre of the goal
+2018-12-29,Aboubakar Kamara,right,Fulham,513645,0,bottom right corner
+2018-01-31,Jamie Vardy,right,Leicester City,480662,1,bottom left corner
+2018-01-31,Glenn Murray,right,Brighton and Hove Albion,480660,1,bottom right corner
+2018-01-31,Joselu,right,Newcastle United,480661,0,bottom right corner
+2018-02-11,Rajiv van La Parra,right,Huddersfield Town,480637,1,bottom right corner
+2018-02-24,Glenn Murray,right,Brighton and Hove Albion,480633,1,high centre of the goal
+2018-08-18,Kenedy,left,Newcastle United,513826,0,centre of the goal
+2018-08-18,Marko Arnautovic,right,West Ham United,513821,1,bottom left corner
+2018-08-19,Paul Pogba,right,Manchester United,513825,1,high centre of the goal
+2018-08-19,Pascal Groß,right,Brighton and Hove Albion,513825,1,high centre of the goal
+2018-08-19,Paul Pogba,right,Manchester United,513825,1,high centre of the goal
+2018-08-19,Pascal Groß,right,Brighton and Hove Albion,513825,1,high centre of the goal
+2018-08-26,Eden Hazard,right,Chelsea,513813,1,bottom left corner
+2018-09-15,Eden Hazard,right,Chelsea,513793,1,bottom right corner
+2018-09-15,James Maddison,right,Leicester City,513796,1,bottom left corner
+2018-09-15,Joshua King,right,Bournemouth,513796,1,bottom left corner
+2018-09-15,James Maddison,right,Leicester City,513796,1,bottom left corner
+2018-09-15,Joshua King,right,Bournemouth,513796,1,bottom left corner
+2018-12-01,Jamie Vardy,right,Leicester City,513707,1,bottom left corner
+2018-09-02,Paul Pogba,right,Manchester United,513805,0,bottom left corner
+2018-01-31,Jamie Vardy,right,Leicester City,480662,1,bottom left corner
+2018-01-31,Glenn Murray,right,Brighton and Hove Albion,480660,1,bottom right corner
+2018-01-31,Joselu,right,Newcastle United,480661,0,bottom right corner
+2018-12-22,Luka Milivojevic,right,Crystal Palace,513662,1,bottom right corner
+2018-12-22,Troy Deeney,right,Watford,513669,1,top right corner
+2018-12-22,Jesse Lingard,right,Manchester United,513666,1,bottom right corner
+2018-12-22,Víctor Camarasa,right,Cardiff City,513666,1,top left corner
+2018-12-22,Jesse Lingard,right,Manchester United,513666,1,bottom right corner
+2018-12-22,Víctor Camarasa,right,Cardiff City,513666,1,top left corner
+2018-12-22,Danny Ings,right,Southampton,513667,1,bottom left corner
+2018-08-18,Kenedy,left,Newcastle United,513826,0,centre of the goal
+2018-08-18,Marko Arnautovic,right,West Ham United,513821,1,bottom left corner
+2018-11-24,Jamie Vardy,right,Leicester City,513715,1,top right corner
+2018-11-04,Danny Ings,right,Southampton,513737,1,bottom right corner
+2018-10-06,Joshua King,right,Bournemouth,513761,1,bottom right corner
+2018-12-22,Luka Milivojevic,right,Crystal Palace,513662,1,bottom right corner
+2018-12-22,Troy Deeney,right,Watford,513669,1,top right corner
+2018-12-22,Jesse Lingard,right,Manchester United,513666,1,bottom right corner
+2018-12-22,Víctor Camarasa,right,Cardiff City,513666,1,top left corner
+2018-12-22,Jesse Lingard,right,Manchester United,513666,1,bottom right corner
+2018-12-22,Víctor Camarasa,right,Cardiff City,513666,1,top left corner
+2018-12-22,Danny Ings,right,Southampton,513667,1,bottom left corner

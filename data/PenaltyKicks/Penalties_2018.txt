@@ -7,3 +7,103 @@ Date: 2018-01-30 | Player: Mark Noble | Foot: right | Team: West Ham United | Ga
 Date: 2018-02-05 | Player: Troy Deeney | Foot: right | Team: Watford | GameID: 480646             | Outcome: 1 | Direction:  bottom left corner
 Date: 2018-03-01 | Player: Pierre-Emerick Aubameyang | Foot: right | Team: Arsenal | GameID: 480629             | Outcome: 0 | Direction:  bottom right corner
 Date: 2018-12-10 | Player: Gylfi Sigurdsson | Foot: right | Team: Everton | GameID: 513688             | Outcome: 0 | Direction:  centre of the goal
+Date: 2018-01-20 | Player: Sergio Agüero | Foot: right | Team: Manchester City | GameID: 480672             | Outcome: 1 | Direction:  bottom left corner
+Date: 2018-01-20 | Player: Jamie Vardy | Foot: right | Team: Leicester City | GameID: 480674             | Outcome: 1 | Direction:  bottom right corner
+Date: 2018-02-03 | Player: Alexis Sánchez | Foot: right | Team: Manchester United | GameID: 480648             | Outcome: 0 | Direction:  bottom left corner
+Date: 2018-02-04 | Player: Luka Milivojevic | Foot: right | Team: Crystal Palace | GameID: 480650             | Outcome: 1 | Direction:  top right corner
+Date: 2018-02-04 | Player: Harry Kane | Foot: right | Team: Tottenham Hotspur | GameID: 480654             | Outcome: 1 | Direction:  bottom right corner
+Date: 2018-02-04 | Player: Harry Kane | Foot: right | Team: Tottenham Hotspur | GameID: 480654             | Outcome: 0 | Direction:  centre of the goal
+Date: 2018-02-04 | Player: Harry Kane | Foot: right | Team: Tottenham Hotspur | GameID: 480654             | Outcome: 1 | Direction:  bottom right corner
+Date: 2018-02-04 | Player: Harry Kane | Foot: right | Team: Tottenham Hotspur | GameID: 480654             | Outcome: 0 | Direction:  centre of the goal
+Date: 2018-03-03 | Player: Jordan Ayew | Foot: right | Team: Swansea City | GameID: 480625             | Outcome: 1 | Direction:  bottom left corner
+Date: 2018-03-03 | Player: Joshua King | Foot: right | Team: Bournemouth | GameID: 480617             | Outcome: 1 | Direction:  bottom right corner
+Date: 2018-03-10 | Player: Wayne Rooney | Foot: right | Team: Everton | GameID: 480606             | Outcome: 0 | Direction:  bottom left corner
+Date: 2018-03-11 | Player: Troy Deeney | Foot: right | Team: Watford | GameID: 480615             | Outcome: 0 | Direction:  centre of the goal
+Date: 2018-04-01 | Player: Alexandre Lacazette | Foot: right | Team: Arsenal | GameID: 480592             | Outcome: 1 | Direction:  bottom right corner
+Date: 2018-04-01 | Player: Pierre-Emerick Aubameyang | Foot: right | Team: Arsenal | GameID: 480592             | Outcome: 1 | Direction:  bottom right corner
+Date: 2018-04-01 | Player: Alexandre Lacazette | Foot: right | Team: Arsenal | GameID: 480592             | Outcome: 1 | Direction:  bottom right corner
+Date: 2018-04-01 | Player: Pierre-Emerick Aubameyang | Foot: right | Team: Arsenal | GameID: 480592             | Outcome: 1 | Direction:  bottom right corner
+Date: 2018-04-17 | Player: Pascal Groß | Foot: right | Team: Brighton and Hove Albion | GameID: 480564             | Outcome: 1 | Direction:  bottom left corner
+Date: 2018-04-22 | Player: Gabriel Jesus | Foot: right | Team: Manchester City | GameID: 480563             | Outcome: 0 | Direction:  bottom left corner
+Date: 2018-05-09 | Player: Jamie Vardy | Foot: right | Team: Leicester City | GameID: 480596             | Outcome: 1 | Direction:  top left corner
+Date: 2018-05-13 | Player: Xherdan Shaqiri | Foot: left | Team: Stoke City | GameID: 480533             | Outcome: 0 | Direction:  bottom left corner
+Date: 2018-08-10 | Player: Paul Pogba | Foot: right | Team: Manchester United | GameID: 513836             | Outcome: 1 | Direction:  top right corner
+Date: 2018-08-11 | Player: Callum Wilson | Foot: right | Team: Bournemouth | GameID: 513832             | Outcome: 0 | Direction:  bottom right corner
+Date: 2018-08-11 | Player: Jorginho | Foot: right | Team: Chelsea | GameID: 513833             | Outcome: 1 | Direction:  bottom right corner
+Date: 2018-08-18 | Player: Kenedy | Foot: left | Team: Newcastle United | GameID: 513826             | Outcome: 0 | Direction:  centre of the goal
+Date: 2018-08-18 | Player: Marko Arnautovic | Foot: right | Team: West Ham United | GameID: 513821             | Outcome: 1 | Direction:  bottom left corner
+Date: 2018-09-17 | Player: Glenn Murray | Foot: right | Team: Brighton and Hove Albion | GameID: 513791             | Outcome: 1 | Direction:  centre of the goal
+Date: 2018-09-17 | Player: Danny Ings | Foot: right | Team: Southampton | GameID: 513791             | Outcome: 1 | Direction:  bottom left corner
+Date: 2018-09-17 | Player: Glenn Murray | Foot: right | Team: Brighton and Hove Albion | GameID: 513791             | Outcome: 1 | Direction:  centre of the goal
+Date: 2018-09-17 | Player: Danny Ings | Foot: right | Team: Southampton | GameID: 513791             | Outcome: 1 | Direction:  bottom left corner
+Date: 2018-10-07 | Player: Riyad Mahrez | Foot: left | Team: Manchester City | GameID: 513766             | Outcome: 0 | Direction: too high
+Date: 2018-10-21 | Player: Luka Milivojevic | Foot: right | Team: Crystal Palace | GameID: 513752             | Outcome: 0 | Direction:  centre of the goal
+Date: 2018-10-28 | Player: Luka Milivojevic | Foot: right | Team: Crystal Palace | GameID: 513740             | Outcome: 1 | Direction:  bottom left corner
+Date: 2018-10-28 | Player: Luka Milivojevic | Foot: right | Team: Crystal Palace | GameID: 513740             | Outcome: 1 | Direction:  bottom left corner
+Date: 2018-10-28 | Player: Luka Milivojevic | Foot: right | Team: Crystal Palace | GameID: 513740             | Outcome: 1 | Direction:  bottom left corner
+Date: 2018-10-28 | Player: Luka Milivojevic | Foot: right | Team: Crystal Palace | GameID: 513740             | Outcome: 1 | Direction:  bottom left corner
+Date: 2018-10-28 | Player: Gylfi Sigurdsson | Foot: right | Team: Everton | GameID: 513744             | Outcome: 1 | Direction:  bottom right corner
+Date: 2018-10-28 | Player: Paul Pogba | Foot: right | Team: Manchester United | GameID: 513744             | Outcome: 0 | Direction:  bottom left corner
+Date: 2018-10-28 | Player: Gylfi Sigurdsson | Foot: right | Team: Everton | GameID: 513744             | Outcome: 1 | Direction:  bottom right corner
+Date: 2018-10-28 | Player: Paul Pogba | Foot: right | Team: Manchester United | GameID: 513744             | Outcome: 0 | Direction:  bottom left corner
+Date: 2018-11-11 | Player: Anthony Martial | Foot: right | Team: Manchester United | GameID: 513725             | Outcome: 1 | Direction:  bottom right corner
+Date: 2018-12-02 | Player: Harry Kane | Foot: right | Team: Tottenham Hotspur | GameID: 513706             | Outcome: 1 | Direction:  bottom left corner
+Date: 2018-12-02 | Player: Pierre-Emerick Aubameyang | Foot: right | Team: Arsenal | GameID: 513706             | Outcome: 1 | Direction:  bottom left corner
+Date: 2018-12-02 | Player: Harry Kane | Foot: right | Team: Tottenham Hotspur | GameID: 513706             | Outcome: 1 | Direction:  bottom left corner
+Date: 2018-12-02 | Player: Pierre-Emerick Aubameyang | Foot: right | Team: Arsenal | GameID: 513706             | Outcome: 1 | Direction:  bottom left corner
+Date: 2018-12-04 | Player: Luka Milivojevic | Foot: right | Team: Crystal Palace | GameID: 513695             | Outcome: 1 | Direction:  bottom right corner
+Date: 2018-12-04 | Player: Glenn Murray | Foot: right | Team: Brighton and Hove Albion | GameID: 513695             | Outcome: 1 | Direction:  top right corner
+Date: 2018-12-04 | Player: Luka Milivojevic | Foot: right | Team: Crystal Palace | GameID: 513695             | Outcome: 1 | Direction:  bottom right corner
+Date: 2018-12-04 | Player: Glenn Murray | Foot: right | Team: Brighton and Hove Albion | GameID: 513695             | Outcome: 1 | Direction:  top right corner
+Date: 2018-12-04 | Player: Joe Ralls | Foot: left | Team: Cardiff City | GameID: 513693             | Outcome: 0 | Direction:  bottom right corner
+Date: 2018-12-08 | Player: Aboubakar Kamara | Foot: right | Team: Fulham | GameID: 513682             | Outcome: 1 | Direction:  bottom right corner
+Date: 2018-12-26 | Player: Eden Hazard | Foot: right | Team: Chelsea | GameID: 513653             | Outcome: 1 | Direction:  centre of the goal
+Date: 2018-12-26 | Player: Gylfi Sigurdsson | Foot: right | Team: Everton | GameID: 513654             | Outcome: 1 | Direction:  bottom left corner
+Date: 2018-12-26 | Player: Mohamed Salah | Foot: left | Team: Liverpool | GameID: 513657             | Outcome: 1 | Direction:  bottom left corner
+Date: 2018-12-29 | Player: James Maddison | Foot: right | Team: Leicester City | GameID: 513642             | Outcome: 0 | Direction:  bottom left corner
+Date: 2018-12-29 | Player: Roberto Firmino | Foot: right | Team: Liverpool | GameID: 513640             | Outcome: 1 | Direction:  bottom right corner
+Date: 2018-12-29 | Player: Mohamed Salah | Foot: left | Team: Liverpool | GameID: 513640             | Outcome: 1 | Direction:  centre of the goal
+Date: 2018-12-29 | Player: Roberto Firmino | Foot: right | Team: Liverpool | GameID: 513640             | Outcome: 1 | Direction:  bottom right corner
+Date: 2018-12-29 | Player: Mohamed Salah | Foot: left | Team: Liverpool | GameID: 513640             | Outcome: 1 | Direction:  centre of the goal
+Date: 2018-12-29 | Player: Aboubakar Kamara | Foot: right | Team: Fulham | GameID: 513645             | Outcome: 0 | Direction:  bottom right corner
+Date: 2018-01-31 | Player: Jamie Vardy | Foot: right | Team: Leicester City | GameID: 480662             | Outcome: 1 | Direction:  bottom left corner
+Date: 2018-01-31 | Player: Glenn Murray | Foot: right | Team: Brighton and Hove Albion | GameID: 480660             | Outcome: 1 | Direction:  bottom right corner
+Date: 2018-01-31 | Player: Joselu | Foot: right | Team: Newcastle United | GameID: 480661             | Outcome: 0 | Direction:  bottom right corner
+Date: 2018-02-11 | Player: Rajiv van La Parra | Foot: right | Team: Huddersfield Town | GameID: 480637             | Outcome: 1 | Direction:  bottom right corner
+Date: 2018-02-24 | Player: Glenn Murray | Foot: right | Team: Brighton and Hove Albion | GameID: 480633             | Outcome: 1 | Direction:  high centre of the goal
+Date: 2018-08-18 | Player: Kenedy | Foot: left | Team: Newcastle United | GameID: 513826             | Outcome: 0 | Direction:  centre of the goal
+Date: 2018-08-18 | Player: Marko Arnautovic | Foot: right | Team: West Ham United | GameID: 513821             | Outcome: 1 | Direction:  bottom left corner
+Date: 2018-08-19 | Player: Paul Pogba | Foot: right | Team: Manchester United | GameID: 513825             | Outcome: 1 | Direction:  high centre of the goal
+Date: 2018-08-19 | Player: Pascal Groß | Foot: right | Team: Brighton and Hove Albion | GameID: 513825             | Outcome: 1 | Direction:  high centre of the goal
+Date: 2018-08-19 | Player: Paul Pogba | Foot: right | Team: Manchester United | GameID: 513825             | Outcome: 1 | Direction:  high centre of the goal
+Date: 2018-08-19 | Player: Pascal Groß | Foot: right | Team: Brighton and Hove Albion | GameID: 513825             | Outcome: 1 | Direction:  high centre of the goal
+Date: 2018-08-26 | Player: Eden Hazard | Foot: right | Team: Chelsea | GameID: 513813             | Outcome: 1 | Direction:  bottom left corner
+Date: 2018-09-15 | Player: Eden Hazard | Foot: right | Team: Chelsea | GameID: 513793             | Outcome: 1 | Direction:  bottom right corner
+Date: 2018-09-15 | Player: James Maddison | Foot: right | Team: Leicester City | GameID: 513796             | Outcome: 1 | Direction:  bottom left corner
+Date: 2018-09-15 | Player: Joshua King | Foot: right | Team: Bournemouth | GameID: 513796             | Outcome: 1 | Direction:  bottom left corner
+Date: 2018-09-15 | Player: James Maddison | Foot: right | Team: Leicester City | GameID: 513796             | Outcome: 1 | Direction:  bottom left corner
+Date: 2018-09-15 | Player: Joshua King | Foot: right | Team: Bournemouth | GameID: 513796             | Outcome: 1 | Direction:  bottom left corner
+Date: 2018-12-01 | Player: Jamie Vardy | Foot: right | Team: Leicester City | GameID: 513707             | Outcome: 1 | Direction:  bottom left corner
+Date: 2018-09-02 | Player: Paul Pogba | Foot: right | Team: Manchester United | GameID: 513805             | Outcome: 0 | Direction:  bottom left corner
+Date: 2018-01-31 | Player: Jamie Vardy | Foot: right | Team: Leicester City | GameID: 480662             | Outcome: 1 | Direction:  bottom left corner
+Date: 2018-01-31 | Player: Glenn Murray | Foot: right | Team: Brighton and Hove Albion | GameID: 480660             | Outcome: 1 | Direction:  bottom right corner
+Date: 2018-01-31 | Player: Joselu | Foot: right | Team: Newcastle United | GameID: 480661             | Outcome: 0 | Direction:  bottom right corner
+Date: 2018-12-22 | Player: Luka Milivojevic | Foot: right | Team: Crystal Palace | GameID: 513662             | Outcome: 1 | Direction:  bottom right corner
+Date: 2018-12-22 | Player: Troy Deeney | Foot: right | Team: Watford | GameID: 513669             | Outcome: 1 | Direction:  top right corner
+Date: 2018-12-22 | Player: Jesse Lingard | Foot: right | Team: Manchester United | GameID: 513666             | Outcome: 1 | Direction:  bottom right corner
+Date: 2018-12-22 | Player: Víctor Camarasa | Foot: right | Team: Cardiff City | GameID: 513666             | Outcome: 1 | Direction:  top left corner
+Date: 2018-12-22 | Player: Jesse Lingard | Foot: right | Team: Manchester United | GameID: 513666             | Outcome: 1 | Direction:  bottom right corner
+Date: 2018-12-22 | Player: Víctor Camarasa | Foot: right | Team: Cardiff City | GameID: 513666             | Outcome: 1 | Direction:  top left corner
+Date: 2018-12-22 | Player: Danny Ings | Foot: right | Team: Southampton | GameID: 513667             | Outcome: 1 | Direction:  bottom left corner
+Date: 2018-08-18 | Player: Kenedy | Foot: left | Team: Newcastle United | GameID: 513826             | Outcome: 0 | Direction:  centre of the goal
+Date: 2018-08-18 | Player: Marko Arnautovic | Foot: right | Team: West Ham United | GameID: 513821             | Outcome: 1 | Direction:  bottom left corner
+Date: 2018-11-24 | Player: Jamie Vardy | Foot: right | Team: Leicester City | GameID: 513715             | Outcome: 1 | Direction:  top right corner
+Date: 2018-11-04 | Player: Danny Ings | Foot: right | Team: Southampton | GameID: 513737             | Outcome: 1 | Direction:  bottom right corner
+Date: 2018-10-06 | Player: Joshua King | Foot: right | Team: Bournemouth | GameID: 513761             | Outcome: 1 | Direction:  bottom right corner
+Date: 2018-12-22 | Player: Luka Milivojevic | Foot: right | Team: Crystal Palace | GameID: 513662             | Outcome: 1 | Direction:  bottom right corner
+Date: 2018-12-22 | Player: Troy Deeney | Foot: right | Team: Watford | GameID: 513669             | Outcome: 1 | Direction:  top right corner
+Date: 2018-12-22 | Player: Jesse Lingard | Foot: right | Team: Manchester United | GameID: 513666             | Outcome: 1 | Direction:  bottom right corner
+Date: 2018-12-22 | Player: Víctor Camarasa | Foot: right | Team: Cardiff City | GameID: 513666             | Outcome: 1 | Direction:  top left corner
+Date: 2018-12-22 | Player: Jesse Lingard | Foot: right | Team: Manchester United | GameID: 513666             | Outcome: 1 | Direction:  bottom right corner
+Date: 2018-12-22 | Player: Víctor Camarasa | Foot: right | Team: Cardiff City | GameID: 513666             | Outcome: 1 | Direction:  top left corner
+Date: 2018-12-22 | Player: Danny Ings | Foot: right | Team: Southampton | GameID: 513667             | Outcome: 1 | Direction:  bottom left corner
