@@ -114,3 +114,13 @@ Date: 2018-12-22 | Player: Víctor Camarasa | Foot: right | Team: Cardiff City |
 Date: 2018-12-22 | Player: Jesse Lingard | Foot: right | Team: Manchester United | GameID: 513666             | Outcome: 1 | Direction:  bottom right corner
 Date: 2018-12-22 | Player: Víctor Camarasa | Foot: right | Team: Cardiff City | GameID: 513666             | Outcome: 1 | Direction:  top left corner
 Date: 2018-12-22 | Player: Danny Ings | Foot: right | Team: Southampton | GameID: 513667             | Outcome: 1 | Direction:  bottom left corner
+Date: 2018-03-31 | Player: Glenn Murray | Foot: right | Team: Brighton and Hove Albion | GameID: 480589             | Outcome: 0 | Direction:  bottom right corner
+Date: 2018-03-31 | Player: Joshua King | Foot: right | Team: Bournemouth | GameID: 480586             | Outcome: 1 | Direction:  bottom left corner
+Date: 2018-03-31 | Player: Luka Milivojevic | Foot: right | Team: Crystal Palace | GameID: 480590             | Outcome: 1 | Direction:  bottom left corner
+Date: 2018-12-22 | Player: Luka Milivojevic | Foot: right | Team: Crystal Palace | GameID: 513662             | Outcome: 1 | Direction:  bottom right corner
+Date: 2018-12-22 | Player: Troy Deeney | Foot: right | Team: Watford | GameID: 513669             | Outcome: 1 | Direction:  top right corner
+Date: 2018-12-22 | Player: Jesse Lingard | Foot: right | Team: Manchester United | GameID: 513666             | Outcome: 1 | Direction:  bottom right corner
+Date: 2018-12-22 | Player: Víctor Camarasa | Foot: right | Team: Cardiff City | GameID: 513666             | Outcome: 1 | Direction:  top left corner
+Date: 2018-12-22 | Player: Jesse Lingard | Foot: right | Team: Manchester United | GameID: 513666             | Outcome: 1 | Direction:  bottom right corner
+Date: 2018-12-22 | Player: Víctor Camarasa | Foot: right | Team: Cardiff City | GameID: 513666             | Outcome: 1 | Direction:  top left corner
+Date: 2018-12-22 | Player: Danny Ings | Foot: right | Team: Southampton | GameID: 513667             | Outcome: 1 | Direction:  bottom left corner
