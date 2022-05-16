@@ -250,7 +250,7 @@ if __name__ == '__main__':
 	# df = df.dropna(subset=['Player'])
 
 	useful = ['Date', 'Player', 'Foot', 'Team', 'Outcome', 'pen_taker', 'outcome', 'goalkeepers', 'date']
-	dates = show_missing(df[useful], True)
+	dates = show_missing(df[useful])
 
 	for key, value in dates.items():
 		print('{}: {}'.format(key, value))

@@ -133,3 +133,18 @@ Date: 2018-03-17 | Player: Luka Milivojevic | Foot: right | Team: Crystal Palace
 Date: 2018-04-14 | Player: Ilkay Gündogan | Foot: right | Team: Manchester City | GameID: 480572             | Outcome: 1 | Direction:  bottom right corner
 Date: 2018-04-28 | Player: Christian Benteke | Foot: right | Team: Crystal Palace | GameID: 480551             | Outcome: 1 | Direction:  high centre of the goal
 Date: 2018-05-05 | Player: Troy Deeney | Foot: right | Team: Watford | GameID: 480541             | Outcome: 0 | Direction:  bottom left corner
+Date: 2018-08-25 | Player: Joshua King | Foot: right | Team: Bournemouth | GameID: 513815             | Outcome: 1 | Direction:  bottom right corner
+Date: 2018-09-01 | Player: Glenn Murray | Foot: right | Team: Brighton and Hove Albion | GameID: 513802             | Outcome: 1 | Direction:  top left corner
+Date: 2018-09-01 | Player: Pascal Groß | Foot: right | Team: Brighton and Hove Albion | GameID: 513802             | Outcome: 0 | Direction:  bottom left corner
+Date: 2018-09-01 | Player: Glenn Murray | Foot: right | Team: Brighton and Hove Albion | GameID: 513802             | Outcome: 1 | Direction:  top left corner
+Date: 2018-09-01 | Player: Pascal Groß | Foot: right | Team: Brighton and Hove Albion | GameID: 513802             | Outcome: 0 | Direction:  bottom left corner
+Date: 2018-09-01 | Player: Charlie Austin | Foot: right | Team: Southampton | GameID: 513807             | Outcome: 0 | Direction:  centre of the goal
+Date: 2018-09-22 | Player: Harry Kane | Foot: right | Team: Tottenham Hotspur | GameID: 513787             | Outcome: 1 | Direction:  bottom left corner
+Date: 2018-09-29 | Player: Gylfi Sigurdsson | Foot: right | Team: Everton | GameID: 513773             | Outcome: 0 | Direction: the bar
+Date: 2018-09-29 | Player: Harry Kane | Foot: right | Team: Tottenham Hotspur | GameID: 513778             | Outcome: 1 | Direction:  bottom right corner
+Date: 2018-09-29 | Player: Jamie Vardy | Foot: right | Team: Leicester City | GameID: 513774             | Outcome: 1 | Direction:  bottom left corner
+Date: 2018-10-27 | Player: Callum Wilson | Foot: right | Team: Bournemouth | GameID: 513741             | Outcome: 1 | Direction:  bottom left corner
+Date: 2018-11-03 | Player: Raúl Jiménez | Foot: right | Team: Wolverhampton Wanderers | GameID: 513738             | Outcome: 1 | Direction:  bottom right corner
+Date: 2018-11-03 | Player: Rúben Neves | Foot: right | Team: Wolverhampton Wanderers | GameID: 513738             | Outcome: 1 | Direction:  bottom left corner
+Date: 2018-11-03 | Player: Raúl Jiménez | Foot: right | Team: Wolverhampton Wanderers | GameID: 513738             | Outcome: 1 | Direction:  bottom right corner
+Date: 2018-11-03 | Player: Rúben Neves | Foot: right | Team: Wolverhampton Wanderers | GameID: 513738             | Outcome: 1 | Direction:  bottom left corner
