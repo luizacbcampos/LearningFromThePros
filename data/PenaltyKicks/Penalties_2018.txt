@@ -124,3 +124,12 @@ Date: 2018-12-22 | Player: Víctor Camarasa | Foot: right | Team: Cardiff City |
 Date: 2018-12-22 | Player: Jesse Lingard | Foot: right | Team: Manchester United | GameID: 513666             | Outcome: 1 | Direction:  bottom right corner
 Date: 2018-12-22 | Player: Víctor Camarasa | Foot: right | Team: Cardiff City | GameID: 513666             | Outcome: 1 | Direction:  top left corner
 Date: 2018-12-22 | Player: Danny Ings | Foot: right | Team: Southampton | GameID: 513667             | Outcome: 1 | Direction:  bottom left corner
+Date: 2018-02-10 | Player: Charlie Adam | Foot: left | Team: Stoke City | GameID: 480638             | Outcome: 0 | Direction:  bottom left corner
+Date: 2018-02-10 | Player: Luka Milivojevic | Foot: right | Team: Crystal Palace | GameID: 480640             | Outcome: 1 | Direction:  bottom left corner
+Date: 2018-03-17 | Player: Luka Milivojevic | Foot: right | Team: Crystal Palace | GameID: 480599             | Outcome: 1 | Direction:  top left corner
+Date: 2018-02-10 | Player: Charlie Adam | Foot: left | Team: Stoke City | GameID: 480638             | Outcome: 0 | Direction:  bottom left corner
+Date: 2018-02-10 | Player: Luka Milivojevic | Foot: right | Team: Crystal Palace | GameID: 480640             | Outcome: 1 | Direction:  bottom left corner
+Date: 2018-03-17 | Player: Luka Milivojevic | Foot: right | Team: Crystal Palace | GameID: 480599             | Outcome: 1 | Direction:  top left corner
+Date: 2018-04-14 | Player: Ilkay Gündogan | Foot: right | Team: Manchester City | GameID: 480572             | Outcome: 1 | Direction:  bottom right corner
+Date: 2018-04-28 | Player: Christian Benteke | Foot: right | Team: Crystal Palace | GameID: 480551             | Outcome: 1 | Direction:  high centre of the goal
+Date: 2018-05-05 | Player: Troy Deeney | Foot: right | Team: Watford | GameID: 480541             | Outcome: 0 | Direction:  bottom left corner
