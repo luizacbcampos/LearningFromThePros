@@ -26,10 +26,12 @@ def player_name_dict():
 	d = {
 		"Aleksandar Mitrovic": "Aleksandar Mitrović",
 		"Alexis Alejandro Sánchez Sánchez": "Alexis Sánchez",
+		"Alisson Ramsés Becker": "Alisson",
 		"André Ayew": "André Ayew Pelé",
 		"Christian Benteke Liolo": "Christian Benteke",
 		"Daniel William John Ings": "Danny Ings",
 		"Dusan Tadic": "Dušan Tadić",
+		"Ederson Santana de Moraes":"Ederson", 
 		"Gabriel Fernando de Jesus": "Gabriel Jesus",
 		"Gylfi Sigurdsson": "Gylfi Sigurðsson",
 		"Gylfi Þór Sigurðsson": "Gylfi Sigurðsson",
@@ -39,6 +41,7 @@ def player_name_dict():
 		"Joselu": "José Luis Sanmartín Mato",
 		"Joseph Willock": "Joe Willock",
 		"Kenedy": "Robert Kenedy Nunes do Nascimento",
+		"Kepa Arrizabalaga Revuelta": "Kepa Arrizabalaga",
 		"Luka Milivojevic": "Luka Milivojević",
 		"Marko Arnautovic": "Marko Arnautović",
 		"Raheem Shaquille Sterling": "Raheem Sterling",
@@ -46,9 +49,11 @@ def player_name_dict():
 		"Roberto Firmino Barbosa de Oliveira": "Roberto Firmino",
 		"Rodrigo": "Rodri",
 		"Romelu Lukaku Menama": "Romelu Lukaku",
+		"Rui Pedro dos Santos Patrício": "Rui Patrício",
 		"Rúben Diogo Da Silva Neves": "Rúben Neves", 
 		"Sergio Leonel Agüero del Castillo": "Sergio Agüero",
 		"Son Heung-Min": "Son Heung-min",
+		"Vicente Guaita Panadero": "Vicente Guaita", 
 		"Wayne Mark Rooney": "Wayne Rooney",
 		"Willian Borges da Silva": "Willian",
 		# "Víctor Camarasa":,
@@ -67,7 +72,11 @@ def read_penalties(path):
 def read():
 	df_17_19 = pd.read_csv("events/prem_pens_17181819.csv", index_col=0)
 	df_17_19['player_name'] = df_17_19['player_name'].replace(player_name_dict())
+	df_17_19['gk_name'] = df_17_19['gk_name'].replace(player_name_dict())
+
 	df_19_21 = pd.read_csv("events/prem_pens_19202021.csv", index_col=0)
+	df_19_21['pen_taker'] = df_19_21['pen_taker'].replace(player_name_dict())
+	df_19_21['goalkeepers'] = df_19_21['goalkeepers'].replace(player_name_dict())
 	return df_17_19, df_19_21
 
 def load_penalties():
@@ -225,6 +234,16 @@ def goalkeeper_list(df):
 
 	return sorted(keepers_names)
 
+def get_keepers_info():
+	
+	from PenaltyKicks.transfermarkt import get_player_feet
+	df = pd.read_csv("events/goalkeepers.csv")
+	for index, row in df.iterrows():
+		side = get_player_feet(row['Link'])
+		df.at[index, 'Dominant_side'] = side
+	df.to_csv("events/goalkeepers.csv", index=False)	
+	return df
+
 if __name__ == '__main__':
 	
 	penalty_df = load_penalties()
@@ -268,5 +287,8 @@ if __name__ == '__main__':
 
 	print("erro:")
 	print(df_17_19[df_17_19['player_team'] == df_17_19['gk_team']])
+	
+	get_keepers_info()
+	
 
-	print(goalkeeper_list(joined_df))
+	
