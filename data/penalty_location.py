@@ -288,7 +288,7 @@ if __name__ == '__main__':
 	print("erro:")
 	print(df_17_19[df_17_19['player_team'] == df_17_19['gk_team']])
 	
-	get_keepers_info()
+	# get_keepers_info()
 	
 
 	

@@ -1,66 +1,48 @@
 Date,Player,Foot,Team,GameID,Outcome,Direction
+2017-11-29,Manuel Lanzini,right,West Ham United,480769,0,bottom left corner
+2017-11-29,Wayne Rooney,right,Everton,480769,0,bottom left corner
 2017-12-10,Wayne Rooney,right,Everton,480750,1,high centre of the goal
-2017-11-29,Manuel Lanzini,right,West Ham United,480769,0,bottom left corner
-2017-11-29,Wayne Rooney,right,Everton,480769,0,bottom left corner
-2017-11-29,Manuel Lanzini,right,West Ham United,480769,0,bottom left corner
-2017-11-29,Wayne Rooney,right,Everton,480769,0,bottom left corner
-2017-12-18,Wayne Rooney,right,Everton,480733,1,bottom left corner
 2017-12-18,Wayne Rooney,right,Everton,480733,0,bottom right corner
 2017-12-18,Wayne Rooney,right,Everton,480733,1,bottom left corner
-2017-12-18,Wayne Rooney,right,Everton,480733,0,bottom right corner
-2017-12-31,Jay Rodriguez,right,West Bromwich Albion,480696,1,centre of the goal
-2017-12-31,Luka Milivojevic,right,Crystal Palace,480701,0,centre of the goal
 2017-08-12,Roberto Firmino,right,Liverpool,480900,1,bottom left corner
-2017-08-19,Charlie Austin,right,Southampton,480595,1,centre of the goal
-2017-08-19,Dusan Tadic,left,Southampton,480595,1,centre of the goal
 2017-08-19,Charlie Austin,right,Southampton,480595,1,centre of the goal
 2017-08-19,Dusan Tadic,left,Southampton,480595,1,centre of the goal
 2017-08-26,Romelu Lukaku,left,Manchester United,480880,0,bottom left corner
 2017-09-09,Jamie Vardy,right,Leicester City,480867,1,centre of the goal
+2017-09-16,Jamie Vardy,right,Leicester City,480860,1,centre of the goal
+2017-09-16,Raheem Sterling,right,Manchester City,480861,1,top left corner
 2017-09-17,Anthony Martial,right,Manchester United,480859,1,bottom left corner
+2017-09-23,Jamie Vardy,right,Leicester City,480850,0,top centre of the goal
 2017-09-25,Alexandre Lacazette,right,Arsenal,480855,1,bottom right corner
+2017-09-30,Saido Berahino,right,Stoke City,480842,0,bottom right corner
+2017-10-14,Troy Deeney,right,Watford,480826,1,bottom right corner
 2017-10-15,Manolo Gabbiadini,left,Southampton,480832,1,top right corner
 2017-10-15,Wayne Rooney,right,Everton,480829,1,bottom left corner
 2017-10-20,Glenn Murray,right,Brighton and Hove Albion,480818,1,centre of the goal
 2017-10-21,Junior Stanislas,right,Bournemouth,480817,1,centre of the goal
 2017-10-21,Sergio Agüero,right,Manchester City,480819,1,bottom right corner
-2017-10-28,Mohamed Salah,left,Liverpool,480808,0,centre of the goal
 2017-10-28,Luka Milivojevic,right,Crystal Palace,480815,1,bottom left corner
+2017-10-28,Mohamed Salah,left,Liverpool,480808,0,centre of the goal
+2017-11-05,Leighton Baines,left,Everton,480804,1,bottom left corner
+2017-11-05,Sergio Agüero,right,Manchester City,480796,1,bottom right corner
+2017-11-05,Tom Cleverley,right,Watford,480804,0,left
 2017-11-18,Leighton Baines,left,Everton,480787,1,bottom left corner
-2017-11-26,Sergio Agüero,right,Manchester City,480782,1,bottom right corner
 2017-11-26,Alexis Sánchez,right,Arsenal,480776,1,bottom left corner
+2017-11-26,Sergio Agüero,right,Manchester City,480782,1,bottom right corner
 2017-11-28,Troy Deeney,right,Watford,480774,1,bottom left corner
-2017-12-02,Glenn Murray,right,Brighton and Hove Albion,480759,1,top right corner
 2017-12-02,Eden Hazard,right,Chelsea,480761,1,centre of the goal
+2017-12-02,Glenn Murray,right,Brighton and Hove Albion,480759,1,top right corner
 2017-12-09,Christian Benteke,right,Crystal Palace,480747,0,bottom left corner
 2017-12-09,Luka Milivojevic,right,Crystal Palace,480747,1,top right corner
-2017-12-09,Christian Benteke,right,Crystal Palace,480747,0,bottom left corner
 2017-12-09,Luka Milivojevic,right,Crystal Palace,480747,1,top right corner
-2017-12-10,Wayne Rooney,right,Everton,480750,1,high centre of the goal
-2017-12-16,Gabriel Jesus,right,Manchester City,480734,0,left post
 2017-12-16,Aaron Mooy,right,Huddersfield Town,480728,1,bottom left corner
+2017-12-16,Gabriel Jesus,right,Manchester City,480734,0,left post
 2017-12-16,Glenn Murray,right,Brighton and Hove Albion,480726,0,just a bit too high
 2017-12-16,Mark Noble,right,West Ham United,480735,1,bottom right corner
 2017-12-23,André Ayew,left,West Ham United,480722,0,bottom right corner
 2017-12-23,Harry Kane,right,Tottenham Hotspur,480723,1,bottom right corner
 2017-12-23,Luka Milivojevic,right,Crystal Palace,480718,1,centre of the goal
-2017-12-30,Willian,right,Chelsea,480703,1,bottom left corner
-2017-08-12,Roberto Firmino,right,Liverpool,480900,1,bottom left corner
-2017-08-26,Romelu Lukaku,left,Manchester United,480880,0,bottom left corner
-2017-11-05,Sergio Agüero,right,Manchester City,480796,1,bottom right corner
-2017-11-05,Tom Cleverley,right,Watford,480804,0,left
-2017-11-05,Leighton Baines,left,Everton,480804,1,bottom left corner
-2017-11-05,Tom Cleverley,right,Watford,480804,0,left
-2017-11-05,Leighton Baines,left,Everton,480804,1,bottom left corner
-2017-12-09,Christian Benteke,right,Crystal Palace,480747,0,bottom left corner
-2017-12-09,Luka Milivojevic,right,Crystal Palace,480747,1,top right corner
-2017-12-09,Christian Benteke,right,Crystal Palace,480747,0,bottom left corner
-2017-12-09,Luka Milivojevic,right,Crystal Palace,480747,1,top right corner
-2017-12-23,André Ayew,left,West Ham United,480722,0,bottom right corner
-2017-12-23,Harry Kane,right,Tottenham Hotspur,480723,1,bottom right corner
 2017-12-23,Luka Milivojevic,right,Crystal Palace,480718,1,centre of the goal
-2017-09-16,Jamie Vardy,right,Leicester City,480860,1,centre of the goal
-2017-09-16,Raheem Sterling,right,Manchester City,480861,1,top left corner
-2017-10-14,Troy Deeney,right,Watford,480826,1,bottom right corner
-2017-09-23,Jamie Vardy,right,Leicester City,480850,0,top centre of the goal
-2017-09-30,Saido Berahino,right,Stoke City,480842,0,bottom right corner
+2017-12-30,Willian,right,Chelsea,480703,1,bottom left corner
+2017-12-31,Jay Rodriguez,right,West Bromwich Albion,480696,1,centre of the goal
+2017-12-31,Luka Milivojevic,right,Crystal Palace,480701,0,centre of the goal
