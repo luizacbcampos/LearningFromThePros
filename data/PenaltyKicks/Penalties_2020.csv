@@ -4,7 +4,7 @@ Date,Player,Foot,Team,GameID,Outcome,Direction
 2020-01-11,Marcus Rashford,right,Manchester United,541631,1,bottom right corner
 2020-01-12,Anwar El Ghazi,right,Aston Villa,541629,1,top left corner
 2020-01-18,Raúl Jiménez,right,Wolverhampton Wanderers,541624,1,bottom right corner
-2020-01-18,Teemu Pukki,right,Norwich City,541616,1,high centre of the goal
+2020-01-18,Teemu Pukki,right,Norwich City,541616,1,top centre of the goal
 2020-01-18,Troy Deeney,right,Watford,541623,0,bottom left corner
 2020-01-19,Jamie Vardy,right,Leicester City,541620,0,bottom right corner
 2020-01-21,Gabriel Jesus,right,Manchester City,541611,0,bottom left corner
@@ -18,7 +18,7 @@ Date,Player,Foot,Team,GameID,Outcome,Direction
 2020-02-22,Jay Rodriguez,right,Burnley,541576,1,top right corner
 2020-02-22,Sergio Agüero,right,Manchester City,541579,0,centre of the goal
 2020-02-23,Bruno Fernandes,right,Manchester United,541583,1,bottom right corner
-2020-03-07,Dele Alli,right,Tottenham Hotspur,541562,1,bottom right cornerr
+2020-03-07,Dele Alli,right,Tottenham Hotspur,541562,1,bottom right corner
 2020-03-07,Matt Ritchie,left,Newcastle United,541560,0,bottom right corner
 2020-03-09,Jamie Vardy,right,Leicester City,541555,1,centre of the goal
 2020-06-17,Kevin De Bruyne,right,Manchester City,541565,1,bottom right corner
@@ -36,7 +36,7 @@ Date,Player,Foot,Team,GameID,Outcome,Direction
 2020-07-09,James Ward-Prowse,right,Southampton,541512,0,the bar
 2020-07-11,Troy Deeney,right,Watford,541502,1,centre of the goal
 2020-07-11,Troy Deeney,right,Watford,541502,1,top left corner
-2020-07-12,Junior Stanislas,right,Bournemouth,541500,1,high centre of the goal
+2020-07-12,Junior Stanislas,right,Bournemouth,541500,1,top centre of the goal
 2020-07-12,Raúl Jiménez,right,Wolverhampton Wanderers,541499,1,bottom left corner
 2020-07-15,Chris Wood,right,Burnley,541494,1,top right corner
 2020-07-19,Danny Ings,right,Southampton,541483,0,bottom right corner
@@ -48,7 +48,7 @@ Date,Player,Foot,Team,GameID,Outcome,Direction
 2020-07-26,Pierre-Emerick Aubameyang,right,Arsenal,541473,1,bottom left corner
 2020-07-26,Troy Deeney,right,Watford,541473,1,bottom right corner
 2020-09-12,Mohamed Salah,left,Liverpool,578655,1,bottom left corner
-2020-09-12,Mohamed Salah,left,Liverpool,578655,1,high centre of the goal
+2020-09-12,Mohamed Salah,left,Liverpool,578655,1,top centre of the goal
 2020-09-13,Jamie Vardy,right,Leicester City,578656,1,bottom left corner
 2020-09-14,Jorginho,right,Chelsea,578651,1,bottom left corner
 2020-09-19,Aleksandar Mitrovic,right,Fulham,578644,1,bottom left corner
@@ -60,13 +60,13 @@ Date,Player,Foot,Team,GameID,Outcome,Direction
 2020-09-21,John Lundstram,right,Sheffield United,578647,0,bottom left corner
 2020-09-21,Kevin De Bruyne,right,Manchester City,578646,1,bottom right corner
 2020-09-26,Bruno Fernandes,right,Manchester United,578637,1,top right corner
-2020-09-26,Neal Maupay,right,Brighton and Hove Albion,578637,1,high centre of the goal
+2020-09-26,Neal Maupay,right,Brighton and Hove Albion,578637,1,top centre of the goal
 2020-09-26,Richarlison,right,Everton,578634,1,top left corner
 2020-09-27,Callum Wilson,right,Newcastle United,578638,1,bottom left corner
 2020-09-27,Jamie Vardy,right,Leicester City,578636,1,bottom right corner
 2020-09-27,Jamie Vardy,right,Leicester City,578636,1,top left corner
 2020-09-27,Youri Tielemans,right,Leicester City,578636,1,bottom right corner
-2020-10-03,Callum Wilson,right,Newcastle United,578622,1,high centre of the goal
+2020-10-03,Callum Wilson,right,Newcastle United,578622,1,top centre of the goal
 2020-10-03,Jorginho,right,Chelsea,578623,1,bottom right corner
 2020-10-03,Jorginho,right,Chelsea,578623,1,centre of the goal
 2020-10-04,Bruno Fernandes,right,Manchester United,578628,1,bottom right corner
@@ -102,7 +102,7 @@ Date,Player,Foot,Team,GameID,Outcome,Direction
 2020-12-13,Mohamed Salah,left,Liverpool,578545,1,centre of the goal
 2020-12-19,Callum Wilson,right,Newcastle United,578523,1,centre of the goal
 2020-12-19,Nicolas Pépé,left,Arsenal,578521,1,bottom left corner
-2020-12-20,Anwar El Ghazi,right,Aston Villa,578522,1,high centre of the goal
+2020-12-20,Anwar El Ghazi,right,Aston Villa,578522,1,top centre of the goal
 2020-12-20,Bruno Fernandes,right,Manchester United,578524,1,bottom right corner
 2020-12-20,Jamie Vardy,right,Leicester City,578525,1,centre of the goal
 2020-12-21,Fábio Silva,right,Wolverhampton Wanderers,578530,1,bottom left corner

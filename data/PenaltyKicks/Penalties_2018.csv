@@ -16,7 +16,7 @@ Date,Player,Foot,Team,GameID,Outcome,Direction
 2018-02-10,Luka Milivojevic,right,Crystal Palace,480640,1,bottom left corner
 2018-02-10,Luka Milivojevic,right,Crystal Palace,480640,1,bottom left corner
 2018-02-11,Rajiv van La Parra,right,Huddersfield Town,480637,1,bottom right corner
-2018-02-24,Glenn Murray,right,Brighton and Hove Albion,480633,1,high centre of the goal
+2018-02-24,Glenn Murray,right,Brighton and Hove Albion,480633,1,top centre of the goal
 2018-03-01,Pierre-Emerick Aubameyang,right,Arsenal,480629,0,bottom right corner
 2018-03-03,Jordan Ayew,right,Swansea City,480625,1,bottom left corner
 2018-03-03,Joshua King,right,Bournemouth,480617,1,bottom right corner
@@ -32,7 +32,7 @@ Date,Player,Foot,Team,GameID,Outcome,Direction
 2018-04-14,Ilkay Gündogan,right,Manchester City,480572,1,bottom right corner
 2018-04-17,Pascal Groß,right,Brighton and Hove Albion,480564,1,bottom left corner
 2018-04-22,Gabriel Jesus,right,Manchester City,480563,0,bottom left corner
-2018-04-28,Christian Benteke,right,Crystal Palace,480551,1,high centre of the goal
+2018-04-28,Christian Benteke,right,Crystal Palace,480551,1,top centre of the goal
 2018-05-05,Troy Deeney,right,Watford,480541,0,bottom left corner
 2018-05-09,Jamie Vardy,right,Leicester City,480596,1,top left corner
 2018-05-13,Xherdan Shaqiri,left,Stoke City,480533,0,bottom left corner
@@ -41,8 +41,8 @@ Date,Player,Foot,Team,GameID,Outcome,Direction
 2018-08-11,Jorginho,right,Chelsea,513833,1,bottom right corner
 2018-08-18,Kenedy,left,Newcastle United,513826,0,centre of the goal
 2018-08-18,Marko Arnautovic,right,West Ham United,513821,1,bottom left corner
-2018-08-19,Pascal Groß,right,Brighton and Hove Albion,513825,1,high centre of the goal
-2018-08-19,Paul Pogba,right,Manchester United,513825,1,high centre of the goal
+2018-08-19,Pascal Groß,right,Brighton and Hove Albion,513825,1,top centre of the goal
+2018-08-19,Paul Pogba,right,Manchester United,513825,1,top centre of the goal
 2018-08-20,James Milner,right,Liverpool,513824,1,bottom right corner
 2018-08-25,Joshua King,right,Bournemouth,513815,1,bottom right corner
 2018-08-26,Eden Hazard,right,Chelsea,513813,1,bottom left corner
