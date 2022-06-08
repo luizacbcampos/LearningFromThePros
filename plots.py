@@ -27,6 +27,14 @@ def ImageID(df, array_id):
     #Get photo id's of poses
     return df.loc[array_id, 'file']
 
+def plot_rectangle(points, bbox):
+    '''
+        Plots the skeleton points and the minimum rectangle
+    '''
+    plt.scatter(points[:,0], points[:,1])
+    plt.fill(bbox[:,0], bbox[:,1], alpha=0.2)
+    plt.axis('equal')
+    plt.show()
 
 def plot3D(ax, points, edges, marker_size = 100):
     ax.grid(False)

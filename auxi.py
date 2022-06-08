@@ -54,3 +54,27 @@ def merge_with_1v1(set_2d_df, set_3d_df, sb_df):
 	set_3d_df = set_3d_df.merge(sb_df, left_on='photo_id', right_index=True, how='left')
 	set_2d_df = set_2d_df.merge(sb_df, left_on='photo_id', right_index=True, how='left')
 	return set_2d_df, set_3d_df
+
+def straight_bounding_rectangle(points):
+    """
+    Find the bounding rectangle for a set of points.
+    Returns a set of points representing the corners of the bounding box.
+
+    :param points: an nx2 matrix of coordinates
+    :rval: an nx2 matrix of coordinates
+    """
+    rot_points = points.T.reshape((-1, points.shape[1], points.shape[0]))
+    
+    # find the bounding points
+    min_x = np.nanmin(rot_points[:, 0], axis=1)
+    max_x = np.nanmax(rot_points[:, 0], axis=1)
+    min_y = np.nanmin(rot_points[:, 1], axis=1)
+    max_y = np.nanmax(rot_points[:, 1], axis=1)
+
+    rval = np.zeros((4, 2))
+    rval[0] = [max_x[0], min_y[0]]
+    rval[1] = [min_x[0], min_y[0]]
+    rval[2] = [min_x[0], max_y[0]]
+    rval[3] = [max_x[0], max_y[0]]
+
+    return rval

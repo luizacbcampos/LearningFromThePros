@@ -261,6 +261,7 @@ if __name__ == '__main__':
 	Player_Names(penalty_df, joined_df)
 
 	pen_df = concat_dfs(penalty_df)
+	print(pen_df[['Direction', 'outcome']].value_counts())
 
 	# Mais de um penalti cobrado pelo mesmo jogador numa mesma partica com mesmo outcome: dá problema
 	show_problematic(pen_df)
