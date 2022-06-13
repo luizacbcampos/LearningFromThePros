@@ -1,61 +1,62 @@
-Date,Player,Foot,Team,GameID,Outcome,Direction
-2021-01-01,Bruno Fernandes,right,Manchester United,578492,1,bottom left corner
-2021-01-02,Harry Kane,right,Tottenham Hotspur,578494,1,centre of the goal
-2021-01-02,Neal Maupay,right,Brighton and Hove Albion,578500,1,top centre of the goal
-2021-01-02,Rúben Neves,right,Wolverhampton Wanderers,578500,1,bottom right corner
-2021-01-12,Billy Sharp,right,Sheffield United,578487,1,bottom left corner
-2021-01-13,Raheem Sterling,right,Manchester City,578481,0,just a bit too high
-2021-01-16,Matheus Pereira,left,West Bromwich Albion,578480,1,bottom left corner
-2021-01-16,Matheus Pereira,left,West Bromwich Albion,578480,1,bottom right corner
-2021-01-20,Ilkay Gündogan,right,Manchester City,578659,1,centre of the goal
-2021-01-21,Ashley Barnes,right,Burnley,578482,1,bottom right corner
-2021-02-02,Bruno Fernandes,right,Manchester United,578444,1,centre of the goal
-2021-02-02,Rúben Neves,right,Wolverhampton Wanderers,578445,1,top right corner
-2021-02-04,Jorginho,right,Chelsea,578442,1,bottom left corner
-2021-02-07,Ilkay Gündogan,right,Manchester City,578437,0,too high
-2021-02-07,Jorginho,right,Chelsea,578433,1,bottom right corner
-2021-02-07,Mohamed Salah,left,Liverpool,578437,1,top left corner
-2021-02-13,Rodrigo,right,Manchester City,578429,1,top left corner
-2021-02-14,Pierre-Emerick Aubameyang,right,Arsenal,578424,1,bottom left corner
-2021-02-14,Rúben Neves,right,Wolverhampton Wanderers,578430,1,bottom right corner
-2021-02-15,Declan Rice,right,West Ham United,578428,1,bottom left corner
-2021-02-20,Gylfi Sigurdsson,right,Everton,578413,1,bottom left corner
-2021-02-20,Mason Mount,right,Chelsea,578411,1,bottom right corner
-2021-02-21,Bruno Fernandes,right,Manchester United,578417,1,bottom left corner
-2021-02-27,Danny Welbeck,right,Brighton and Hove Albion,578403,0,left post
-2021-02-27,Pascal Groß,right,Brighton and Hove Albion,578403,0,the bar
-2021-02-28,Alexandre Lacazette,right,Arsenal,578401,1,bottom left corner
-2021-03-06,James Ward-Prowse,right,Southampton,578399,1,bottom left corner
-2021-03-07,Bruno Fernandes,right,Manchester United,578397,1,bottom left corner
-2021-03-08,Jesse Lingard,right,West Ham United,578395,0,bottom left corner
-2021-03-08,Jorginho,right,Chelsea,578393,1,bottom left corner
-2021-03-10,James Ward-Prowse,right,Southampton,578338,1,centre of the goal
-2021-03-13,Luka Milivojevic,right,Crystal Palace,578389,1,bottom right corner
-2021-03-13,Sergio Agüero,right,Manchester City,578386,1,bottom left corner
-2021-03-14,Alexandre Lacazette,right,Arsenal,578388,1,bottom right corner
-2021-03-21,Harry Kane,right,Tottenham Hotspur,578489,1,bottom left corner
-2021-04-04,Chris Wood,right,Burnley,578362,1,centre of the goal
-2021-04-12,James Ward-Prowse,right,Southampton,578359,0,bottom left corner
-2021-04-12,Matheus Pereira,left,West Bromwich Albion,578359,1,centre of the goal
-2021-04-16,Gylfi Sigurdsson,right,Everton,578348,1,bottom right corner
-2021-04-17,Jesse Lingard,right,West Ham United,578350,1,bottom left corner
-2021-04-18,Josh Maja,right,Fulham,578344,1,top left corner
-2021-04-21,Son Heung-Min,right,Tottenham Hotspur,578379,1,bottom right corner
-2021-04-25,Anwar El Ghazi,right,Aston Villa,578340,1,bottom left corner
-2021-04-25,Matheus Pereira,left,West Bromwich Albion,578340,1,top right corner
-2021-04-30,James Ward-Prowse,right,Southampton,578325,1,bottom left corner
-2021-05-01,Pascal Groß,right,Brighton and Hove Albion,578324,1,bottom left corner
-2021-05-03,Chris Wood,right,Burnley,578329,1,bottom left corner
-2021-05-08,Sergio Agüero,right,Manchester City,578313,0,top centre of the goal
-2021-05-09,Bruno Fernandes,right,Manchester United,578316,1,bottom right corner
-2021-05-11,Luka Milivojevic,right,Crystal Palace,578343,0,bottom right corner
-2021-05-14,Joelinton,right,Newcastle United,578304,1,bottom left corner
-2021-05-14,Joseph Willock,right,Newcastle United,578304,0,bottom right corner
-2021-05-18,Jorginho,right,Chelsea,578295,1,bottom right corner
-2021-05-19,Declan Rice,right,West Ham United,578299,0,left post
-2021-05-23,Anwar El Ghazi,right,Aston Villa,578283,1,bottom right corner
-2021-05-23,Fabian Schär,right,Newcastle United,578287,1,bottom left corner
-2021-05-23,Gylfi Sigurdsson,right,Everton,578285,0,bottom left corner
-2021-05-23,Jamie Vardy,right,Leicester City,578289,1,bottom right corner
-2021-05-23,Juan Mata,left,Manchester United,578286,1,top left corner
-2021-05-23,Patrick Bamford,left,Leeds United,578290,1,centre of the goal
+indx,Date,Player,Foot,Team,GameID,Outcome,Direction
+156,2021-01-01,Bruno Fernandes,right,Manchester United,578492,1,bottom left corner
+157,2021-01-02,Harry Kane,right,Tottenham Hotspur,578494,1,centre of the goal
+158,2021-01-02,Neal Maupay,right,Brighton and Hove Albion,578500,1,top centre of the goal
+159,2021-01-02,Rúben Neves,right,Wolverhampton Wanderers,578500,1,bottom right corner
+160,2021-01-12,Billy Sharp,right,Sheffield United,578487,1,bottom left corner
+161,2021-01-13,Raheem Sterling,right,Manchester City,578481,0,just a bit too high
+164,2021-01-20,İlkay Gündoğan,right,Manchester City,578659,1,centre of the goal
+165,2021-01-21,Ashley Barnes,right,Burnley,578482,1,bottom right corner
+166,2021-02-02,Rúben Neves,right,Wolverhampton Wanderers,578445,1,top right corner
+167,2021-02-02,Bruno Fernandes,right,Manchester United,578444,1,centre of the goal
+168,2021-02-04,Jorginho,right,Chelsea,578442,1,bottom left corner
+169,2021-02-07,Mohamed Salah,left,Liverpool,578437,1,top left corner
+170,2021-02-07,İlkay Gündoğan,right,Manchester City,578437,0,too high
+171,2021-02-07,Jorginho,right,Chelsea,578433,1,bottom right corner
+172,2021-02-13,Rodri,right,Manchester City,578429,1,top left corner
+173,2021-02-14,Rúben Neves,right,Wolverhampton Wanderers,578430,1,bottom right corner
+174,2021-02-14,Pierre-Emerick Aubameyang,right,Arsenal,578424,1,bottom left corner
+175,2021-02-15,Declan Rice,right,West Ham United,578428,1,bottom left corner
+176,2021-02-20,Mason Mount,right,Chelsea,578411,1,bottom right corner
+177,2021-02-20,Gylfi Sigurðsson,right,Everton,578413,1,bottom left corner
+178,2021-02-21,Bruno Fernandes,right,Manchester United,578417,1,bottom left corner
+179,2021-02-27,Danny Welbeck,right,Brighton and Hove Albion,578403,0,left post
+180,2021-02-27,Pascal Groß,right,Brighton and Hove Albion,578403,0,the bar
+181,2021-02-28,Alexandre Lacazette,right,Arsenal,578401,1,bottom left corner
+182,2021-03-06,James Ward-Prowse,right,Southampton,578399,1,bottom left corner
+183,2021-03-07,Bruno Fernandes,right,Manchester United,578397,1,bottom left corner
+184,2021-03-08,Jorginho,right,Chelsea,578393,1,bottom left corner
+185,2021-03-08,Jesse Lingard,right,West Ham United,578395,0,bottom left corner
+186,2021-03-10,James Ward-Prowse,right,Southampton,578338,1,centre of the goal
+187,2021-03-13,Luka Milivojević,right,Crystal Palace,578389,1,bottom right corner
+188,2021-03-13,Sergio Agüero,right,Manchester City,578386,1,bottom left corner
+189,2021-03-14,Alexandre Lacazette,right,Arsenal,578388,1,bottom right corner
+190,2021-03-21,Harry Kane,right,Tottenham Hotspur,578489,1,bottom left corner
+191,2021-04-04,Chris Wood,right,Burnley,578362,1,centre of the goal
+192,2021-04-12,Matheus Pereira,left,West Bromwich Albion,578359,1,centre of the goal
+193,2021-04-12,James Ward-Prowse,right,Southampton,578359,0,bottom left corner
+194,2021-04-16,Gylfi Sigurðsson,right,Everton,578348,1,bottom right corner
+195,2021-04-17,Jesse Lingard,right,West Ham United,578350,1,bottom left corner
+196,2021-04-18,Josh Maja,right,Fulham,578344,1,top left corner
+197,2021-04-21,Son Heung-min,right,Tottenham Hotspur,578379,1,bottom right corner
+198,2021-04-25,Anwar El Ghazi,right,Aston Villa,578340,1,bottom left corner
+199,2021-04-25,Matheus Pereira,left,West Bromwich Albion,578340,1,top right corner
+200,2021-04-30,James Ward-Prowse,right,Southampton,578325,1,bottom left corner
+201,2021-05-01,Pascal Groß,right,Brighton and Hove Albion,578324,1,bottom left corner
+202,2021-05-03,Chris Wood,right,Burnley,578329,1,bottom left corner
+203,2021-05-08,Sergio Agüero,right,Manchester City,578313,0,top centre of the goal
+204,2021-05-09,Bruno Fernandes,right,Manchester United,578316,1,bottom right corner
+205,2021-05-11,Luka Milivojević,right,Crystal Palace,578343,0,bottom right corner
+206,2021-05-14,Joelinton,right,Newcastle United,578304,1,bottom left corner
+207,2021-05-14,Joe Willock,right,Newcastle United,578304,0,bottom right corner
+208,2021-05-18,Jorginho,right,Chelsea,578295,1,bottom right corner
+209,2021-05-19,Declan Rice,right,West Ham United,578299,0,left post
+210,2021-05-23,Juan Mata,left,Manchester United,578286,1,top left corner
+211,2021-05-23,Patrick Bamford,left,Leeds United,578290,1,centre of the goal
+212,2021-05-23,Jamie Vardy,right,Leicester City,578289,1,bottom right corner
+213,2021-05-23,Jamie Vardy,right,Leicester City,578289,1,bottom right corner
+214,2021-05-23,Anwar El Ghazi,right,Aston Villa,578283,1,bottom right corner
+215,2021-05-23,Gylfi Sigurðsson,right,Everton,578285,0,bottom left corner
+216,2021-05-23,Fabian Schär,right,Newcastle United,578287,1,bottom left corner
+162,2021-01-16,Matheus Pereira,left,West Bromwich Albion,578480,1,bottom left corner
+163,2021-01-16,Matheus Pereira,left,West Bromwich Albion,578480,1,bottom right corner

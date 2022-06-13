@@ -123,8 +123,6 @@ Date: 2020-12-19 | Player: Nicolas Pépé | Foot: left | Team: Arsenal | GameID:
 Date: 2020-12-21 | Player: Fábio Silva | Foot: right | Team: Wolverhampton Wanderers | GameID: 578530             | Outcome: 1 | Direction:  bottom left corner
 Date: 2020-09-13 | Player: Jamie Vardy | Foot: right | Team: Leicester City | GameID: 578656             | Outcome: 1 | Direction:  bottom left corner
 Date: 2020-09-13 | Player: Jamie Vardy | Foot: right | Team: Leicester City | GameID: 578656             | Outcome: 1 | Direction:  bottom left corner
-Date: 2020-09-13 | Player: Jamie Vardy | Foot: right | Team: Leicester City | GameID: 578656             | Outcome: 1 | Direction:  bottom left corner
-Date: 2020-09-13 | Player: Jamie Vardy | Foot: right | Team: Leicester City | GameID: 578656             | Outcome: 1 | Direction:  bottom left corner
 Date: 2020-09-14 | Player: Jorginho | Foot: right | Team: Chelsea | GameID: 578651             | Outcome: 1 | Direction:  bottom left corner
 Date: 2020-09-21 | Player: Kevin De Bruyne | Foot: right | Team: Manchester City | GameID: 578646             | Outcome: 1 | Direction:  bottom right corner
 Date: 2020-09-21 | Player: John Lundstram | Foot: right | Team: Sheffield United | GameID: 578647             | Outcome: 0 | Direction:  bottom left corner
