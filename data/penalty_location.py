@@ -30,6 +30,7 @@ def player_name_dict():
 		"André Ayew": "André Ayew Pelé",
 		"Christian Benteke Liolo": "Christian Benteke",
 		"Daniel William John Ings": "Danny Ings",
+		"David de Gea Quintana": "David de Gea",
 		"Dusan Tadic": "Dušan Tadić",
 		"Ederson Santana de Moraes":"Ederson", 
 		"Gabriel Fernando de Jesus": "Gabriel Jesus",
@@ -61,32 +62,60 @@ def player_name_dict():
 	}
 	return d
 
+def print_empty(df, rows=True, columns=False, width=False):
+	'''
+		Only print if df is not empty
+	'''
+	if df.empty:
+	    print('DataFrame is empty!')
+	else:
+		print_full(df, rows, columns, width)
+
 # Load
 def read_penalties(path):
-	pen_df = pd.read_csv(path)
+	pen_df = pd.read_csv(path) #, index_col=0
+	# pen_df['indx'] = pen_df['indx'].astype('int64')
 	pen_df['Date'] = pd.to_datetime(pen_df['Date'])
 	pen_df['outcome'] = pen_df['Outcome'].replace({0: 'Missed', 1: 'Scored'})
 	pen_df['Player'] = pen_df['Player'].replace(player_name_dict())
 	return pen_df.drop_duplicates()
 
-def read():
-	df_17_19 = pd.read_csv("events/prem_pens_17181819.csv", index_col=0)
+def read(directory='events/'):
+	df_17_19 = pd.read_csv(directory+"prem_pens_17181819.csv", index_col=0)
 	df_17_19['player_name'] = df_17_19['player_name'].replace(player_name_dict())
 	df_17_19['gk_name'] = df_17_19['gk_name'].replace(player_name_dict())
 
-	df_19_21 = pd.read_csv("events/prem_pens_19202021.csv", index_col=0)
+	df_19_21 = pd.read_csv(directory+"prem_pens_19202021.csv", index_col=0)
 	df_19_21['pen_taker'] = df_19_21['pen_taker'].replace(player_name_dict())
 	df_19_21['goalkeepers'] = df_19_21['goalkeepers'].replace(player_name_dict())
 	return df_17_19, df_19_21
 
-def load_penalties():
+def read_events(directory='events/'):
+	df_17_19, df_19_21 = read(directory)
+	df_19_21 = split_url(df_19_21)
+	df_17_19 = edit_2017(df_17_19)
+	return df_17_19, df_19_21
+
+def load_penalties(directory="PenaltyKicks/"):
 	penalty_df = {}
-	penalty_df['2017'] = read_penalties("PenaltyKicks/Penalties_2017.csv")
-	penalty_df['2018'] = read_penalties("PenaltyKicks/Penalties_2018.csv")
-	penalty_df['2019'] = read_penalties("PenaltyKicks/Penalties_2019.csv")
-	penalty_df['2020'] = read_penalties("PenaltyKicks/Penalties_2020.csv")
-	penalty_df['2021'] = read_penalties("PenaltyKicks/Penalties_2021.csv")
+	penalty_df['2017'] = read_penalties(directory+"Penalties_2017.csv")
+	penalty_df['2018'] = read_penalties(directory+"Penalties_2018.csv")
+	penalty_df['2019'] = read_penalties(directory+"Penalties_2019.csv")
+	penalty_df['2020'] = read_penalties(directory+"Penalties_2020.csv")
+	penalty_df['2021'] = read_penalties(directory+"Penalties_2021.csv")
 	return penalty_df
+
+def load_full_penalties(penalty_dir="PenaltyKicks/", events_dir='events/'):
+
+	penalty_df = load_penalties(directory=penalty_dir)
+
+	df_17_19, df_19_21 = read_events(directory=events_dir)
+	joined_df = cleanPenDataFrames(df_19_21.copy(), df_17_19.copy())
+
+	pen_df = concat_dfs(penalty_df)
+
+	df = merge_dfs(pen_df, joined_df)
+	return df
 
 
 # Edit df
@@ -119,7 +148,7 @@ def edit_2017(df_17_19):
 
 	return df_17_19
 
-def cleanPenDataFrames(df_19_21, df_17_19):
+def cleanPenDataFrames(df_19_21, df_17_19, keep_index=False):
     #df_17_19: 17 - 19 data
     #df_19_21: 19 - 21 data
 
@@ -137,13 +166,23 @@ def cleanPenDataFrames(df_19_21, df_17_19):
 
     def clean_2019_2021(df_19_21):
     	df_19_21.drop(columns=['url', 'match_id'], inplace=True)
-    	df_19_21 = df_19_21[['pen_taker','outcome','off_target', 'goalkeepers', 'date']]
+    	df_19_21 = df_19_21[['pen_taker','outcome','off_target', 'goalkeepers', 'date']].copy()
     	return df_19_21
     
     df_17_19 = clean_2017_2019(df_17_19)
     df_19_21 = clean_2019_2021(df_19_21)
     
+    if keep_index:
+    	df_17_19['indx'] = df_17_19.index.astype('int64')
+    	df_19_21['indx'] = df_19_21.index.astype('int64')
+    
     joined_df = df_17_19.append(df_19_21, ignore_index=True) #contains all pens
+
+    if keep_index:
+    	df_17_19['indx'] = df_17_19.index.astype('int64')
+    	df_19_21['indx'] = df_19_21.index.astype('int64')
+    	joined_df['new_index'] = joined_df.index.astype('int64')
+
     return joined_df
 
 
@@ -244,26 +283,44 @@ def get_keepers_info():
 	df.to_csv("events/goalkeepers.csv", index=False)	
 	return df
 
+
+def find_img_number():
+
+	print("()"*50)
+	df_17_19, df_19_21 = read_events(directory='events/')
+	joined_df = cleanPenDataFrames(df_19_21, df_17_19, keep_index=True)
+	pen_df = concat_dfs(load_penalties())
+
+	new_df = joined_df.merge(pen_df, how='left', left_on=['date', 'pen_taker', 'outcome'], right_on=['Date', 'Player', 'outcome'])
+	print("Aqui: ", new_df.columns, len(new_df))
+
+	here = new_df.loc[(new_df.Date > pd.to_datetime('31-12-2018')) & (new_df.Date < pd.to_datetime('01-01-2020'))]
+
+	print(here)
+
+	l = ['indx_x', 'Date', 'Player', 'Foot', 'Team','GameID', 'Outcome', 'Direction']
+	g = new_df.loc[~(new_df.duplicated(subset=['new_index'], keep=False))][l]
+	g = g.loc[(g.Date > pd.to_datetime('31-12-2018')) & (g.Date < pd.to_datetime('01-01-2020'))]
+	print(len(g), '\n', g)
+	g[l].to_csv("aqui.csv", index=False)
+
 if __name__ == '__main__':
 	
+
+	df_17_19, df_19_21 = read_events(directory='events/')
+	joined_df = cleanPenDataFrames(df_19_21.copy(), df_17_19.copy())
+	# print(df_19_21)
+
 	penalty_df = load_penalties()
 	# print_full(penalty_df['2020'].sort_values(by=['Player', 'Date']))
 
-	df_17_19, df_19_21 = read()
-	# print(df_17_19)
-	df_19_21 = split_url(df_19_21)
-	df_17_19 = edit_2017(df_17_19)
-	
-	joined_df = cleanPenDataFrames(df_19_21.copy(), df_17_19.copy())
-
-
-	# print(df_19_21)
 	Player_Names(penalty_df, joined_df)
 
 	pen_df = concat_dfs(penalty_df)
-	print(pen_df[['Direction', 'outcome']].value_counts())
 
-	# Mais de um penalti cobrado pelo mesmo jogador numa mesma partica com mesmo outcome: dá problema
+	# print(pen_df[['Direction', 'outcome']].value_counts())
+
+	# Mais de um penalti cobrado pelo mesmo jogador numa mesma partida com mesmo outcome: dá problema
 	show_problematic(pen_df)
 
 	df = merge_dfs(pen_df, joined_df)
@@ -284,12 +341,11 @@ if __name__ == '__main__':
 
 	
 	print("Missing info:")
-	print_full(missing_info_17_19(df_17_19.copy()))
+	print_empty(missing_info_17_19(df_17_19.copy()))
 
 	print("erro:")
-	print(df_17_19[df_17_19['player_team'] == df_17_19['gk_team']])
+	print_empty(df_17_19[df_17_19['player_team'] == df_17_19['gk_team']])
 	
 	# get_keepers_info()
-	
 
-	
+
