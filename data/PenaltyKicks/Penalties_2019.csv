@@ -1,91 +1,91 @@
-Date,Player,Foot,Team,GameID,Outcome,Direction
-2019-01-02,Luka Milivojevic,right,Crystal Palace,513632,1,top left corner
-2019-01-12,James Ward-Prowse,right,Southampton,513627,1,top left corner
-2019-01-12,Mohamed Salah,left,Liverpool,513624,1,bottom right corner
-2019-01-14,Gabriel Jesus,right,Manchester City,513629,1,bottom right corner
-2019-01-19,Paul Pogba,right,Manchester United,513610,1,bottom right corner
-2019-01-29,Matt Ritchie,left,Newcastle United,513603,1,bottom right corner
-2019-01-29,Paul Pogba,right,Manchester United,513604,1,top left corner
-2019-01-29,Pierre-Emerick Aubameyang,right,Arsenal,513606,1,centre of the goal
-2019-02-02,Ashley Barnes,right,Burnley,513597,1,bottom right corner
-2019-02-02,Bobby Reid,right,Cardiff City,513591,1,centre of the goal
-2019-02-02,Eden Hazard,right,Chelsea,513593,1,bottom left corner
-2019-02-02,Luka Milivojevic,right,Crystal Palace,513592,1,bottom right corner
-2019-02-02,Rúben Neves,right,Wolverhampton Wanderers,513599,1,bottom right corner
-2019-02-09,Ashley Barnes,right,Burnley,513582,1,bottom left corner
-2019-02-09,Mark Noble,right,West Ham United,513589,1,bottom left corner
-2019-02-09,Paul Pogba,right,Manchester United,513587,1,bottom right corner
-2019-02-10,Jamie Vardy,right,Leicester City,513586,0,bottom left corner
-2019-02-10,Sergio Agüero,right,Manchester City,513584,1,bottom right corner
-2019-02-23,Joshua King,right,Bournemouth,513579,0,right post
-2019-02-23,Joshua King,right,Bournemouth,513579,1,bottom right corner
-2019-02-23,Luka Milivojevic,right,Crystal Palace,513571,1,bottom right corner
-2019-02-23,Raúl Jiménez,right,Wolverhampton Wanderers,513579,1,bottom right corner
-2019-02-27,Sergio Agüero,right,Manchester City,513561,1,bottom right corner
-2019-03-02,Harry Kane,right,Tottenham Hotspur,513550,1,bottom right corner
-2019-03-02,Mark Noble,right,West Ham United,513558,1,top left corner
-2019-03-02,Paul Pogba,right,Manchester United,513559,0,centre of the goal
-2019-03-02,Pierre-Emerick Aubameyang,right,Arsenal,513550,0,bottom left corner
-2019-03-09,Luka Milivojevic,right,Crystal Palace,513541,1,top right corner
-2019-03-09,Matt Ritchie,left,Newcastle United,513543,0,centre of the goal
-2019-03-10,Pierre-Emerick Aubameyang,right,Arsenal,513545,1,centre of the goal
-2019-03-16,Joshua King,right,Bournemouth,513538,1,centre of the goal
-2019-03-16,Mark Noble,right,West Ham United,513534,1,centre of the goal
-2019-03-17,Gylfi Sigurdsson,right,Everton,513532,0,bottom left corner
-2019-03-17,James Milner,right,Liverpool,513536,1,centre of the goal
-2019-03-30,Luka Milivojevic,right,Crystal Palace,513523,1,bottom left corner
-2019-04-06,Aaron Mooy,right,Huddersfield Town,513516,1,bottom right corner
-2019-04-06,Jamie Vardy,right,Leicester City,513516,1,top right corner
-2019-04-06,Luka Milivojevic,right,Crystal Palace,513514,1,bottom left corner
-2019-04-13,Paul Pogba,right,Manchester United,513508,1,bottom left corner
-2019-04-13,Paul Pogba,right,Manchester United,513508,1,centre of the goal
-2019-04-20,Aleksandar Mitrovic,right,Fulham,513493,1,bottom left corner
-2019-04-21,James Milner,right,Liverpool,513495,1,bottom right corner
-2019-05-05,Glenn Murray,right,Brighton and Hove Albion,513470,1,bottom right corner
-2019-05-05,Pierre-Emerick Aubameyang,right,Arsenal,513470,1,bottom left corner
-2019-05-12,Mark Noble,right,West Ham United,513468,1,bottom left corner
-2019-05-12,Nathaniel Mendez-Laing,right,Cardiff City,513462,1,centre of the goal
-2019-08-10,Sergio Agüero,right,Manchester City,541843,1,bottom left corner
-2019-08-11,Marcus Rashford,right,Manchester United,541835,1,top left corner
-2019-08-17,Joshua King,right,Bournemouth,541825,1,bottom left corner
-2019-08-19,Paul Pogba,right,Manchester United,541830,0,bottom left corner
-2019-08-24,Marcus Rashford,right,Manchester United,541818,0,left post
-2019-08-24,Mark Noble,right,West Ham United,541824,1,bottom left corner
-2019-08-24,Mohamed Salah,left,Liverpool,541815,1,top left corner
-2019-08-25,Raúl Jiménez,right,Wolverhampton Wanderers,541816,1,centre of the goal
-2019-09-01,Harry Kane,right,Tottenham Hotspur,541812,1,bottom left corner
-2019-09-14,Marcus Rashford,right,Manchester United,541800,1,bottom right corner
-2019-09-15,Roberto Pereyra,right,Watford,541795,1,bottom left corner
-2019-09-20,James Ward-Prowse,right,Southampton,541786,1,top right corner
-2019-09-21,Sergio Agüero,right,Manchester City,541793,1,centre of the goal
-2019-09-22,Nicolas Pépé,left,Arsenal,541785,1,centre of the goal
-2019-09-28,Jorginho,right,Chelsea,541776,1,bottom left corner
-2019-09-28,Luka Milivojevic,right,Crystal Palace,541781,1,top right corner
-2019-10-05,James Milner,right,Liverpool,541770,1,bottom right corner
-2019-10-05,Patrick van Aanholt,left,Crystal Palace,541768,1,bottom left corner
-2019-10-05,Wesley Moraes,right,Aston Villa,541765,0,bottom left corner
-2019-10-19,Raúl Jiménez,right,Wolverhampton Wanderers,541762,1,bottom left corner
-2019-10-25,Jamie Vardy,right,Leicester City,541750,1,top right corner
-2019-10-26,Neal Maupay,right,Brighton and Hove Albion,541749,1,top centre of the goal
-2019-10-27,Anthony Martial,right,Manchester United,541751,0,bottom right corner
-2019-10-27,Luka Milivojevic,right,Crystal Palace,541748,1,bottom right corner
-2019-10-27,Marcus Rashford,right,Manchester United,541751,0,bottom left corner
-2019-10-27,Mohamed Salah,left,Liverpool,541753,1,bottom right corner
-2019-11-02,Gerard Deulofeu,right,Watford,541736,1,bottom left corner
-2019-11-23,Ashley Barnes,right,Burnley,541715,1,centre of the goal
-2019-11-23,James Ward-Prowse,right,Southampton,541722,0,bottom right corner
-2019-11-23,Jamie Vardy,right,Leicester City,541717,1,bottom left corner
-2019-12-01,Pierre-Emerick Aubameyang,right,Arsenal,541705,1,bottom left corner
-2019-12-04,Jamie Vardy,right,Leicester City,541703,1,bottom right corner
-2019-12-04,Marcus Rashford,right,Manchester United,541699,1,bottom right corner
-2019-12-07,Marcus Rashford,right,Manchester United,541691,1,bottom right corner
-2019-12-14,Jack Grealish,right,Aston Villa,541675,0,the bar
-2019-12-21,Ilkay Gündogan,right,Manchester City,541669,1,bottom right corner
-2019-12-22,Troy Deeney,right,Watford,541671,1,centre of the goal
-2019-12-22,Willian,right,Chelsea,541667,1,bottom right corner
-2019-12-26,James Milner,right,Liverpool,541658,1,centre of the goal
-2019-12-26,Oliver Norwood,right,Sheffield United,541663,1,bottom left corner
-2019-12-27,Raheem Sterling,right,Manchester City,541659,0,bottom left corner
-2019-12-28,Demarai Gray,right,Leicester City,541650,0,bottom right corner
-2019-12-28,Harry Kane,right,Tottenham Hotspur,541653,1,top right corner
-2019-12-28,Troy Deeney,right,Watford,541645,1,centre of the goal
+indx,Date,Player,Foot,Team,GameID,Outcome,Direction
+,2019-01-02,Luka Milivojevic,right,Crystal Palace,513632,1,top left corner
+,2019-01-12,James Ward-Prowse,right,Southampton,513627,1,top left corner
+,2019-01-12,Mohamed Salah,left,Liverpool,513624,1,bottom right corner
+,2019-01-14,Gabriel Jesus,right,Manchester City,513629,1,bottom right corner
+,2019-01-19,Paul Pogba,right,Manchester United,513610,1,bottom right corner
+,2019-01-29,Matt Ritchie,left,Newcastle United,513603,1,bottom right corner
+,2019-01-29,Paul Pogba,right,Manchester United,513604,1,top left corner
+,2019-01-29,Pierre-Emerick Aubameyang,right,Arsenal,513606,1,centre of the goal
+,2019-02-02,Ashley Barnes,right,Burnley,513597,1,bottom right corner
+,2019-02-02,Bobby Reid,right,Cardiff City,513591,1,centre of the goal
+,2019-02-02,Eden Hazard,right,Chelsea,513593,1,bottom left corner
+,2019-02-02,Luka Milivojevic,right,Crystal Palace,513592,1,bottom right corner
+,2019-02-02,Rúben Neves,right,Wolverhampton Wanderers,513599,1,bottom right corner
+,2019-02-09,Ashley Barnes,right,Burnley,513582,1,bottom left corner
+,2019-02-09,Mark Noble,right,West Ham United,513589,1,bottom left corner
+,2019-02-09,Paul Pogba,right,Manchester United,513587,1,bottom right corner
+,2019-02-10,Jamie Vardy,right,Leicester City,513586,0,bottom left corner
+,2019-02-10,Sergio Agüero,right,Manchester City,513584,1,bottom right corner
+,2019-02-23,Joshua King,right,Bournemouth,513579,0,right post
+,2019-02-23,Joshua King,right,Bournemouth,513579,1,bottom right corner
+,2019-02-23,Luka Milivojevic,right,Crystal Palace,513571,1,bottom right corner
+,2019-02-23,Raúl Jiménez,right,Wolverhampton Wanderers,513579,1,bottom right corner
+,2019-02-27,Sergio Agüero,right,Manchester City,513561,1,bottom right corner
+,2019-03-02,Harry Kane,right,Tottenham Hotspur,513550,1,bottom right corner
+,2019-03-02,Mark Noble,right,West Ham United,513558,1,top left corner
+,2019-03-02,Paul Pogba,right,Manchester United,513559,0,centre of the goal
+,2019-03-02,Pierre-Emerick Aubameyang,right,Arsenal,513550,0,bottom left corner
+,2019-03-09,Luka Milivojevic,right,Crystal Palace,513541,1,top right corner
+,2019-03-09,Matt Ritchie,left,Newcastle United,513543,0,centre of the goal
+,2019-03-10,Pierre-Emerick Aubameyang,right,Arsenal,513545,1,centre of the goal
+,2019-03-16,Joshua King,right,Bournemouth,513538,1,centre of the goal
+,2019-03-16,Mark Noble,right,West Ham United,513534,1,centre of the goal
+,2019-03-17,Gylfi Sigurdsson,right,Everton,513532,0,bottom left corner
+,2019-03-17,James Milner,right,Liverpool,513536,1,centre of the goal
+,2019-03-30,Luka Milivojevic,right,Crystal Palace,513523,1,bottom left corner
+,2019-04-06,Aaron Mooy,right,Huddersfield Town,513516,1,bottom right corner
+,2019-04-06,Jamie Vardy,right,Leicester City,513516,1,top right corner
+,2019-04-06,Luka Milivojevic,right,Crystal Palace,513514,1,bottom left corner
+143,2019-04-13,Paul Pogba,right,Manchester United,513508,1,bottom left corner
+144,2019-04-13,Paul Pogba,right,Manchester United,513508,1,centre of the goal
+,2019-04-20,Aleksandar Mitrovic,right,Fulham,513493,1,bottom left corner
+,2019-04-21,James Milner,right,Liverpool,513495,1,bottom right corner
+,2019-05-05,Glenn Murray,right,Brighton and Hove Albion,513470,1,bottom right corner
+,2019-05-05,Pierre-Emerick Aubameyang,right,Arsenal,513470,1,bottom left corner
+,2019-05-12,Mark Noble,right,West Ham United,513468,1,bottom left corner
+,2019-05-12,Nathaniel Mendez-Laing,right,Cardiff City,513462,1,centre of the goal
+,2019-08-10,Sergio Agüero,right,Manchester City,541843,1,bottom left corner
+,2019-08-11,Marcus Rashford,right,Manchester United,541835,1,top left corner
+,2019-08-17,Joshua King,right,Bournemouth,541825,1,bottom left corner
+,2019-08-19,Paul Pogba,right,Manchester United,541830,0,bottom left corner
+,2019-08-24,Marcus Rashford,right,Manchester United,541818,0,left post
+,2019-08-24,Mark Noble,right,West Ham United,541824,1,bottom left corner
+,2019-08-24,Mohamed Salah,left,Liverpool,541815,1,top left corner
+,2019-08-25,Raúl Jiménez,right,Wolverhampton Wanderers,541816,1,centre of the goal
+,2019-09-01,Harry Kane,right,Tottenham Hotspur,541812,1,bottom left corner
+,2019-09-14,Marcus Rashford,right,Manchester United,541800,1,bottom right corner
+,2019-09-15,Roberto Pereyra,right,Watford,541795,1,bottom left corner
+,2019-09-20,James Ward-Prowse,right,Southampton,541786,1,top right corner
+,2019-09-21,Sergio Agüero,right,Manchester City,541793,1,centre of the goal
+,2019-09-22,Nicolas Pépé,left,Arsenal,541785,1,centre of the goal
+,2019-09-28,Jorginho,right,Chelsea,541776,1,bottom left corner
+,2019-09-28,Luka Milivojevic,right,Crystal Palace,541781,1,top right corner
+,2019-10-05,James Milner,right,Liverpool,541770,1,bottom right corner
+,2019-10-05,Patrick van Aanholt,left,Crystal Palace,541768,1,bottom left corner
+,2019-10-05,Wesley Moraes,right,Aston Villa,541765,0,bottom left corner
+,2019-10-19,Raúl Jiménez,right,Wolverhampton Wanderers,541762,1,bottom left corner
+,2019-10-25,Jamie Vardy,right,Leicester City,541750,1,top right corner
+,2019-10-26,Neal Maupay,right,Brighton and Hove Albion,541749,1,top centre of the goal
+,2019-10-27,Anthony Martial,right,Manchester United,541751,0,bottom right corner
+,2019-10-27,Luka Milivojevic,right,Crystal Palace,541748,1,bottom right corner
+,2019-10-27,Marcus Rashford,right,Manchester United,541751,0,bottom left corner
+,2019-10-27,Mohamed Salah,left,Liverpool,541753,1,bottom right corner
+,2019-11-02,Gerard Deulofeu,right,Watford,541736,1,bottom left corner
+,2019-11-23,Ashley Barnes,right,Burnley,541715,1,centre of the goal
+,2019-11-23,James Ward-Prowse,right,Southampton,541722,0,bottom right corner
+,2019-11-23,Jamie Vardy,right,Leicester City,541717,1,bottom left corner
+,2019-12-01,Pierre-Emerick Aubameyang,right,Arsenal,541705,1,bottom left corner
+,2019-12-04,Jamie Vardy,right,Leicester City,541703,1,bottom right corner
+,2019-12-04,Marcus Rashford,right,Manchester United,541699,1,bottom right corner
+,2019-12-07,Marcus Rashford,right,Manchester United,541691,1,bottom right corner
+,2019-12-14,Jack Grealish,right,Aston Villa,541675,0,the bar
+,2019-12-21,Ilkay Gündogan,right,Manchester City,541669,1,bottom right corner
+,2019-12-22,Troy Deeney,right,Watford,541671,1,centre of the goal
+,2019-12-22,Willian,right,Chelsea,541667,1,bottom right corner
+,2019-12-26,James Milner,right,Liverpool,541658,1,centre of the goal
+,2019-12-26,Oliver Norwood,right,Sheffield United,541663,1,bottom left corner
+,2019-12-27,Raheem Sterling,right,Manchester City,541659,0,bottom left corner
+,2019-12-28,Demarai Gray,right,Leicester City,541650,0,bottom right corner
+,2019-12-28,Harry Kane,right,Tottenham Hotspur,541653,1,top right corner
+,2019-12-28,Troy Deeney,right,Watford,541645,1,centre of the goal
