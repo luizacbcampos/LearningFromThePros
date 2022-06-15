@@ -1,4 +1,5 @@
 import re
+import cv2
 import json
 
 import numpy as np
@@ -10,18 +11,28 @@ from matplotlib.lines import Line2D
 
 from mpl_toolkits import mplot3d
 from mpl_toolkits.mplot3d import Axes3D
-import cv2
 
 
 from mplsoccer import VerticalPitch
+import gkpose as gk
 
 
-mpii_edges = [[0, 1], [1, 2], [2, 6], [6, 3], [3, 4], [4, 5], 
-              [10, 11], [11, 12], [12, 8], [8, 13], [13, 14], [14, 15], 
-              [6, 8], [8, 9]]
+mpii_edges = [[0, 1], [1, 2], [2, 6], [6, 3], [3, 4], [4, 5], [10, 11], [11, 12], [12, 8], [8, 13], [13, 14], [14, 15], [6, 8], [8, 9]]
+
+# pose converter
+def pose_to_matrix(pose):
+    if len(pose) == 48:
+        pose_matrix = pose.reshape(16, 3)
+    else:
+        pose_matrix = pose.reshape(16, 2)
+    return pose_matrix
 
 
 # ---- aux ----
+def importImage(img):
+    #Import image
+    image = cv2.cvtColor(cv2.imread(img), cv2.COLOR_BGR2RGB)
+    return image
 
 def ImageID(df, array_id):
     #Get photo id's of poses
@@ -34,6 +45,47 @@ def plot_rectangle(points, bbox):
     plt.scatter(points[:,0], points[:,1])
     plt.fill(bbox[:,0], bbox[:,1], alpha=0.2)
     plt.axis('equal')
+    plt.show()
+
+def plot_camera_view_invariance(sets_3d, set_3d_df, sets_3d_cvi, pose_id=319, path='images/1v1_images/'):
+
+    photo_id = set_3d_df.loc[pose_id,'file']
+    fig = plt.figure(figsize=(20, 4))
+    ax = fig.add_subplot(1, 5, 1)
+    ax.imshow(importImage(path + photo_id))
+    ax.set_xticks([])
+    ax.set_yticks([])
+
+    ax = fig.add_subplot(1, 5, 2, projection='3d')
+    plot3D(ax, pose_to_matrix(sets_3d[pose_id]), mpii_edges)
+    ax.set_title('Raw 3D Pose', fontsize=18, pad=25)
+    ax.set_xticks([])
+    ax.set_yticks([])
+    ax.set_zticks([])
+    
+    ax = fig.add_subplot(1, 5, 4, projection='3d')
+    plot3D(ax, pose_to_matrix(sets_3d_cvi[pose_id][:-1]), mpii_edges)
+    ax.set_title('View-invariant 3D Pose', fontsize=18, pad=25)
+    ax.set_xticks([])
+    ax.set_yticks([])
+    ax.set_zticks([])
+    
+    ax = fig.add_subplot(1, 5, 3)
+    plot2D(ax, pose_to_matrix(sets_3d[pose_id]), mpii_edges)
+    ax.set_xlabel('')
+    ax.set_ylabel('')
+    ax.set_xticks([])
+    ax.set_yticks([])
+    ax.set_title('Raw 2D Projection', fontsize=18)
+    
+    ax = fig.add_subplot(1, 5, 5)
+    plot2D(ax, pose_to_matrix(sets_3d_cvi[pose_id][:-1]), mpii_edges)
+    ax.set_xlabel('')
+    ax.set_ylabel('')
+    ax.set_xticks([])
+    ax.set_yticks([])
+    ax.set_title('View-invariant 2D Projection', fontsize=18)
+    plt.tight_layout()
     plt.show()
 
 def plot3D(ax, points, edges, marker_size = 100):
@@ -156,6 +208,7 @@ def plotBestTechniqueUp(xs_map, xs_map_up, cluster_name):
     
     ax[1].legend(custom_lines, cluster_name, loc=1, bbox_to_anchor=(1, 0.38))
     plt.tight_layout()
+    plt.show()
 
 
 def plotDoubleXSMap(xs_map, xs_map_up, cluster_names, num_clusters=4):
@@ -186,7 +239,47 @@ def plotDoubleXSMap(xs_map, xs_map_up, cluster_names, num_clusters=4):
     cax.set_title('xSAA')
     plt.colorbar(im, cax=cax)
     plt.tight_layout()
+    plt.show()
 
+def plotTSNE(pose_tsne, kmeans_preds, cluster_name):
+    '''
+        Plots the TSNE result
+    '''
+
+    plt.figure(figsize=(11, 6))
+    for i in range(4):
+        current_pose_type = pose_tsne[kmeans_preds == i]
+        colors_kmeans = cm.nipy_spectral(kmeans_preds[kmeans_preds==i].astype(float) / 4)
+        plt.scatter(current_pose_type[:,0], current_pose_type[:,1], 
+                    c=colors_kmeans, label=cluster_name[i])
+    plt.xlabel('t-SNE_1')
+    plt.ylabel('t-SNE_2')
+    plt.legend()
+    plt.show()
+
+def plot_cluster(sets_3d_cvi_clean, set_3d_cvi_clean_df, closest, cluster_name, path='images/1v1_images/'):
+
+    '''
+        Plot the most representative saves for each cluster
+    '''
+    fig = plt.figure(figsize=(20,7))
+    for i in range(4):
+        photo_id = ImageID(set_3d_cvi_clean_df, closest[i])
+        ax = fig.add_subplot(2, 4, i+1)
+        ax.imshow(importImage(path + photo_id))
+        ax.set_xticks([])
+        ax.set_yticks([])
+        ax.set_title('Cluster ' + str(i) + ': ' + cluster_name[i], size=20, pad=15)
+
+        ax = fig.add_subplot(2, 4, 5+i, projection='3d')
+        plot3D(ax, gk.pose_to_matrix(sets_3d_cvi_clean[closest[i]][:-1]), mpii_edges)
+        ax.set_xticks([])
+        ax.set_yticks([])
+        ax.set_zticks([])
+        ax.set_xlabel('')
+        ax.set_ylabel('')
+
+    plt.show()
 
 if __name__ == '__main__':
 	print("main")

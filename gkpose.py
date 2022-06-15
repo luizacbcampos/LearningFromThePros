@@ -41,11 +41,6 @@ def pose_to_matrix(pose):
         pose_matrix = pose.reshape(16, 2)
     return pose_matrix
 
-def importImage(img):
-    #Import image
-    image = cv2.cvtColor(cv2.imread(img), cv2.COLOR_BGR2RGB)
-    return image
-
 def rotatePose(pose_3d, theta):
     #Rotate body pose by theta degrees around the y axis
     #Input: pose_3d - 16x3 array representing the coordinates of the body pose

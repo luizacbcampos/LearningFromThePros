@@ -250,6 +250,9 @@ def merge_dfs(pen_df, joined_df):
 	df = joined_df.merge(pen_df, how='left', left_on=['date', 'pen_taker', 'outcome'], right_on=['Date', 'Player', 'outcome'])
 	return df
 
+def merge_on_index(pen_df, joined_df):
+	return
+
 def missing_info_17_19(df):
 	
 	df['name'] = ''
@@ -347,5 +350,3 @@ if __name__ == '__main__':
 	print_empty(df_17_19[df_17_19['player_team'] == df_17_19['gk_team']])
 	
 	# get_keepers_info()
-
-
