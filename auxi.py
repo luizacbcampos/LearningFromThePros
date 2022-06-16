@@ -42,6 +42,20 @@ def print_full(df, rows=True, columns=False, width=False):
 	else:
 		print(df)
 
+def print_cluster_sizes(kmeans_preds, cluster_name):
+
+	print("Cluester sizes: ")
+	sizes = np.unique(kmeans_preds, return_counts=True)[1]
+	
+	for c, s in zip(cluster_name, sizes):
+		print("{}: {}".format(c,s), end='\t')
+	print()
+
+def print_cluster_center(closest, cluster_name):
+	print("Closest to cluester center: ")
+	for c, s in zip(cluster_name, closest):
+		print("{}: {}".format(c,s), end='\t')
+	print()
 # Dict Aux
 
 def player_name_dict():
@@ -84,6 +98,31 @@ def player_name_dict():
 	}
 	return d
 
+# import data frames
+def import_keypoints(path_2d='data/pose/pose_1v1_2d.csv', path_3d='data/pose/pose_1v1_3d.csv'):
+	'''
+		Imports 2D and 3D keypoints
+	'''
+	set_3d_df = pd.read_csv(path_3d, index_col=0)
+	set_3d_df = getPhotoID(set_3d_df)
+
+	set_2d_df = pd.read_csv(path_2d, index_col=0)
+	set_2d_df = getPhotoID(set_2d_df)
+	
+	return set_2d_df, set_3d_df
+
+def import_StatsBomb_1v1(path='data/events/1v1_events.csv'):
+	'''
+		Import StatsBomb 1v1 Data
+	'''
+	converter = {
+	    'location':ast.literal_eval,
+	    'shot_end_location':ast.literal_eval,
+	    'shot_freeze_frame':ast.literal_eval
+	}
+	sb_df = pd.read_csv(path, converters=converter, index_col=0)
+	sb_df = correct_names(sb_df, 'gk_name')
+	return sb_df
 
 # imports
 
@@ -92,30 +131,6 @@ def importImage(img):
     image = cv2.cvtColor(cv2.imread(img), cv2.COLOR_BGR2RGB)
     return image
 
-def import_keypoints(path_2d='data/pose/pose_1v1_2d.csv', path_3d='data/pose/pose_1v1_3d.csv'):
-	'''
-		Imports 2D and 3D keypoints
-	'''
-	set_3d_df = pd.read_csv(path_3d, index_col=0)
-	set_3d_df = gk.getPhotoID(set_3d_df)
-
-	set_2d_df = pd.read_csv(path_2d, index_col=0)
-	set_2d_df = gk.getPhotoID(set_2d_df)
-	
-	return set_2d_df, set_3d_df
-
-def import_StatsBomb_1v1_data(path='data/events/1v1_events.csv'):
-	'''
-		Import StatsBomb 1v1 Data
-	'''
-	converter = {
-	'location':ast.literal_eval,
-	'shot_end_location':ast.literal_eval,
-	'shot_freeze_frame':ast.literal_eval
-	}
-	
-	sb_df = pd.read_csv(path, converters = converter, index_col=0)
-	return sb_df
 
 # DF alter
 
@@ -127,6 +142,67 @@ def merge_with_1v1(set_2d_df, set_3d_df, sb_df):
 	set_2d_df = set_2d_df.merge(sb_df, left_on='photo_id', right_index=True, how='left')
 	return set_2d_df, set_3d_df
 
+def createViewInvariant_df(set_3d_df, sets_3d_cvi):
+	'''
+		Create the view-invariant dataframe
+	'''
+	set_3d_cvi_df = pd.DataFrame(sets_3d_cvi)
+	set_3d_cvi_df.columns = set_3d_cvi_df.columns.astype(str)
+	cols = ['file', 'photo_id', 'under_pressure', 'shot_outcome_name', 'distance_to_goal', 'shot_angle', 'gk_name', 'gk_engage']
+	set_3d_cvi_df[cols] = set_3d_df[cols]
+	return set_3d_cvi_df
+
+def clean_train_test(train_df, test_df):
+	'''
+		Clean train/test sets
+	'''
+
+	train_df = train_df.drop('photo_id', axis=1)
+	test_df = test_df.drop('photo_id', axis=1)
+	train_df = train_df.drop('gk_name', axis=1)
+	test_df = test_df.drop('gk_name', axis=1)
+
+	return train_df, test_df
+
+def get_training_test_sets(train_df, test_df):
+	'''
+		Get training and testing set X and y
+	'''
+	# Get training set X and y
+	y_train = train_df.pop('shot_outcome_name')
+	X_train = train_df.values
+	
+	# Get test set X and y
+	y_test = test_df.pop('shot_outcome_name')
+	X_test = test_df.values
+	
+	print("Training Set Size:", len(X_train))
+	print("Test Set Size:", len(X_test))
+	return train_df, test_df, X_train, y_train, X_test, y_test
+
+# Array IDs
+
+def getPhotoID(df):
+    '''
+    	Extract photo_id
+    '''
+    photo_id = []
+    for i in range(len(df)):
+        photo_id.append(int(re.findall(r"(\d+).", df['file'][i])[0]))
+    df['photo_id'] = photo_id
+    return df
+
+def getArrayID(pose_df, photo_id):
+	'''
+		Gets the photo_id array from a dataframe
+	'''
+	return np.where(np.array(pose_df.index) == photo_id)[0][0]
+
+def getImageID(pose_df, array_id):
+    #Input: pose_df - dataframe with raw pose information - index matches to photo name
+    #Input: array_id - location of pose in array
+    #Returns: photo name/id
+    return np.array(pose_df.index)[array_id]
 
 # Else
 
@@ -153,3 +229,23 @@ def straight_bounding_rectangle(points):
     rval[3] = [max_x[0], max_y[0]]
 
     return rval
+
+
+def get_playernames_set(df):
+	
+	print("Player names: ")
+	player_set = set(df['gk_name'].unique().tolist())
+	print(sorted(player_set))
+	print("___"*20)
+
+def correct_names(df, column):
+	df[column] = df[column].replace(player_name_dict())
+	return df
+
+
+if __name__ == '__main__':
+	a = 1
+
+	df = pd.read_csv("data/events/1v1_events.csv", index_col=0)
+	df = correct_names(df, 'gk_name')
+	# print(df)
