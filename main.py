@@ -1,9 +1,6 @@
 # main
 
 # Imports
-import re
-import cv2
-import math
 import argparse
 import numpy as np
 import pandas as pd
@@ -25,9 +22,9 @@ from mpl_toolkits.mplot3d import Axes3D
 from mplsoccer import VerticalPitch
 import statsmodels.api as sm
 
+import auxi
 import plots
 import gkpose as gk
-import auxi
 
 #Defines body pose skeleton for plots
 mpii_edges = [[0, 1], [1, 2], [2, 6], [6, 3], [3, 4], [4, 5], [10, 11], [11, 12], [12, 8], [8, 13], [13, 14], [14, 15], [6, 8], [8, 9]]
@@ -67,8 +64,6 @@ def show_args(args):
 	print('\tTournament Size:', args.tournament_size)
 	print('\tElitism:', args.elitism)
 
-args = parse_args()
-
 
 # Import and Prepare Data - One on Ones
 
@@ -91,7 +86,6 @@ def import_and_prepare():
 	
 	return set_2d_df, set_3d_df, sets_2d, sets_3d
 
-set_2d_df, set_3d_df, sets_2d, sets_3d = import_and_prepare()
 
 # View-Invariance
 def viewInvariance(sets_3d, set_3d_df, args):
@@ -117,7 +111,6 @@ def viewInvariance(sets_3d, set_3d_df, args):
 
 	return sets_3d_cvi_clean, set_3d_cvi_clean_df
 
-sets_3d_cvi_clean, set_3d_cvi_clean_df = viewInvariance(sets_3d, set_3d_df, args)
 
 # Learning Save Technique - Unsupervised Learning
 
@@ -155,11 +148,6 @@ def LearningSaveTechnique(sets_3d_cvi_clean, set_3d_cvi_clean_df, args):
 		plots.plot_cluster(sets_3d_cvi_clean, set_3d_cvi_clean_df, closest, cluster_name, path='images/1v1_images/')
 
 	return kmeans_preds
-
-
-# Learning Save Technique - Unsupervised Learning
-
-kmeans_preds = LearningSaveTechnique(sets_3d_cvi_clean, set_3d_cvi_clean_df, args)
 
 
 # 1v1 Expected Saves Model
@@ -212,9 +200,6 @@ def ExpectedSavesModel_1v1(set_3d_cvi_clean_df, args):
 
 	return train_gk_name, test_gk_name, train_df, test_df, svm
 
-# 1v1 Expected Saves Model
-train_gk_name, test_gk_name, train_df, test_df, svm = ExpectedSavesModel_1v1(set_3d_cvi_clean_df, args)
-
 
 # Pro Goalkeeper Scouting
 
@@ -249,116 +234,112 @@ def proGoalkeeperScouting(train_gk_name, test_gk_name , train_df, test_df, svm, 
 	print(gk_ranking[gk_ranking['shots_faced'] >= 15].reset_index(drop=True))	
 	return
 
-# Pro Goalkeeper Scouting
-
-proGoalkeeperScouting(train_gk_name, test_gk_name , train_df, test_df, svm, args)
-
-
-
-exit()
 
 # Penalty Analysis
 
-#3D pose data - 2019/20 and 2020/21
-pose_3d_df = pd.read_csv('data/pose/pen_pose_3d_19_20_20_21.csv', index_col=0)
-pose_3d_2_df = pd.read_csv('data/pose/pen_pose_3d_17_18_18_19.csv', index_col=0)
-joined_pose_3d_df, pose_arr = gk.cleanPenDataFrames(pose_3d_df, pose_3d_2_df)
+def PenaltyAnalysis(args):
 
-#2D pose data
-pose_2d_df = pd.read_csv('data/pose/pen_pose_2d_19_20_20_21.csv', index_col=0)
-pose_2d_2_df = pd.read_csv('data/pose/pen_pose_2d_17_18_18_19.csv', index_col=0)
-joined_pose_2d_df, pose_2d_arr = gk.cleanPenDataFrames(pose_2d_df, pose_2d_2_df)
+	#3D pose data
+	joined_pose_3d_df, pose_arr = auxi.importPenalty3D()
+	# 2D pose data
+	joined_pose_2d_df, pose_2d_arr = auxi.importPenalty2D()
 
-#Percentage of pens that were saved in our dataset
-print("Percentage of saved penalties:", np.mean(joined_pose_3d_df['outcome'] == 'Saved') * 100)
+	# Percentage of pens that were saved in our dataset
+	print("Percentage of saved penalties:", np.mean(joined_pose_3d_df['outcome'] == 'Saved') * 100)
 
-#Human Body Pose Estimation Example
-#Show image, image with 2D pose overlay, and 3D pose estimate
-photo_id = 315
-plots.plot_pose_estimation(joined_pose_3d_df, pose_arr, pose_2d_arr, photo_id)
+	if args.show:
+		# Show image, image with 2D pose overlay, and 3D pose estimate
+		photo_id = 315
+		plots.plot_pose_estimation(joined_pose_3d_df, pose_arr, pose_2d_arr, photo_id)
+		
+		pic_ids, path = [388, 20, 3, 243, 302, 377], 'images/pen_images/combined_data/'
+		plots.plot_penalty_examples(pose_arr, joined_pose_3d_df, pic_ids, path)
+		
+	# Get camera-view invariant dataset of 3d poses
+	pen_pose_vi = gk.cameraInvariantDataset(pose_arr)
+	
+	# Rotates the poses from images taken from behind by 180 degrees
+	pen_pose_vi = gk.flipBehindPoses(pen_pose_vi)
 
-pic_ids=[388, 20, 3, 243, 302, 377]
-path='images/pen_images/combined_data/'
+	# Good Poses DataFrame
+	good_poses_3d_df = gk.cleanPenPredictions(joined_pose_3d_df)
 
-plots.plot_penalty_examples(pose_arr, joined_pose_3d_df, pic_ids, path)
-
-#Get camera-view invariant dataset of 3d poses
-pen_pose_vi = gk.cameraInvariantDataset(pose_arr)
-#Rotates the poses from images taken from behind by 180 degrees
-pen_pose_vi = gk.flipBehindPoses(pen_pose_vi)
-
-#Good Poses DataFrame
-good_poses_3d_df = gk.cleanPenPredictions(joined_pose_3d_df)
-
-#Good Poses Matrix
-good_poses_3d_arr = good_poses_3d_df.loc[:,'0':].values
-#Convert all the good poses to the features space
-poses_features = gk.PenFeatureSpace(good_poses_3d_arr)
-
-#Fit K-Means model
-kmeans_pens = KMeans(n_clusters=2, random_state = 13).fit(poses_features)
-kmeans_pens_preds = kmeans_pens.predict(poses_features)
-np.unique(kmeans_pens_preds, return_counts=True)[1]
-
-print("Torso Angle, cluster 0", np.mean(poses_features[kmeans_pens_preds == 0][:,0]))
-print("Body Angle, cluster 0", np.mean(poses_features[kmeans_pens_preds == 0][:,4]))
-
-print("Torso Angle, cluster 1", np.mean(poses_features[kmeans_pens_preds == 1][:,0]))
-print("Body Angle, cluster 1", np.mean(poses_features[kmeans_pens_preds == 1][:,4]))
-
-#TSNE representation of body pose
-pens_tsne = TSNE(n_components=2, random_state=29).fit_transform(poses_features)
-plots.plotTSNE(pens_tsne, kmeans_pens_preds, ['Cluster 0', 'Cluster 1'], number=2)
+	# Good Poses Matrix
+	good_poses_3d_arr = good_poses_3d_df.loc[:,'0':].values
+	
+	# Convert all the good poses to the features space
+	poses_features = gk.PenFeatureSpace(good_poses_3d_arr)
+	
+	# Fit K-Means model
+	kmeans_pens = KMeans(n_clusters=2, random_state = 13).fit(poses_features)
+	kmeans_pens_preds = kmeans_pens.predict(poses_features)
+	auxi.print_cluster_sizes(kmeans_pens_preds, ['Cluster 0', 'Cluster 1'])
+	
+	auxi.print_penalty_angles(poses_features, kmeans_pens_preds)
 
 
-#GMM - 3D pose, 2D pose viz cluster examples
-ax_array = [1, 5, 9, 13, 17]
-path='images/pen_images/combined_data/'
+	# TSNE representation of body pose
+	pens_tsne = TSNE(n_components=2, random_state=29).fit_transform(poses_features)
+	
+	if args.show:
+		plots.plotTSNE(pens_tsne, kmeans_pens_preds, ['Cluster 0', 'Cluster 1'], number=2)
 
-plots.penalty_clusterExamples(good_poses_3d_arr, good_poses_3d_df, kmeans_pens_preds, ax_array, path)
+		# GMM - 3D pose, 2D pose viz cluster examples
+		ax_array, path = [1, 5, 9, 13, 17], 'images/pen_images/combined_data/'
+		plots.penalty_clusterExamples(good_poses_3d_arr, good_poses_3d_df, kmeans_pens_preds, ax_array, path)
 
-#Save % for clusters
-print("Save % for cluster 0 saves:", np.mean(good_poses_3d_df[kmeans_pens_preds == 0]['outcome'] == 'Saved'))
-print("Save % for cluster 1 saves:", np.mean(good_poses_3d_df[kmeans_pens_preds == 1]['outcome'] == 'Saved'))
+	# Save % for clusters
+	auxi.print_save_percentage_cluster(good_poses_3d_df, kmeans_pens_preds)
 
-#Create dataframe of good poses features
-good_poses_feat_df = pd.DataFrame({'outcome': good_poses_3d_df['outcome']})
-good_poses_feat_df = pd.concat([good_poses_feat_df, pd.DataFrame(poses_features, index=good_poses_feat_df.index)], axis=1)
-#Drops 8 observations where the strike was off target
-good_poses_feat_df = good_poses_feat_df.loc[good_poses_feat_df['outcome']  != 'Off T',:]
-good_poses_feat_df.columns = ['outcome','torso_angle','body_height','forward_step',
-                              'hand_height','body_angle']
-#Make target variable boolean - 1=Save, 0=Goal
-good_poses_feat_df['outcome'] = np.array((good_poses_feat_df['outcome'] == 'Saved').astype(int))
-continuous_var = ['torso_angle','body_height','forward_step','hand_height','body_angle']
-#Train/Test Split (70/30)
-split_index = good_poses_feat_df.index[int(len(good_poses_feat_df)*0.7)]
-test_df = good_poses_feat_df.loc[split_index:, :].copy() 
-train_df = good_poses_feat_df.loc[:split_index-1, :].copy() 
-#Standardise continuous variables
-scaler = StandardScaler()
-scaler.fit(train_df[continuous_var])
-train_df[continuous_var] = scaler.transform(train_df[continuous_var])
-test_df[continuous_var] = scaler.transform(test_df[continuous_var])
-#Add intercept term
-train_df['coef'] = 1
-test_df['coef'] = 1
+	# Create dataframe of good poses features
+	good_poses_feat_df = auxi.create_GodPoseFeatDf(poses_features, good_poses_3d_df)
+	continuous_var = ['torso_angle','body_height','forward_step','hand_height','body_angle']
+	
+	# Train/Test Split (70/30)
+	split_index = good_poses_feat_df.index[int(len(good_poses_feat_df)*0.7)]
+	test_df = good_poses_feat_df.loc[split_index:, :].copy() 
+	train_df = good_poses_feat_df.loc[:split_index-1, :].copy() 
 
-#Train logistic regression
-log_reg = sm.Logit(train_df['outcome'], train_df[train_df.columns[1:]]).fit()
-#Logistic regression summary
-print(log_reg.summary())
+	#Standardise continuous variables
+	scaler = StandardScaler()
+	scaler.fit(train_df[continuous_var])
+	train_df[continuous_var] = scaler.transform(train_df[continuous_var])
+	test_df[continuous_var] = scaler.transform(test_df[continuous_var])
+	
+	# Add intercept term
+	train_df['coef'], test_df['coef'] = 1, 1
 
-#Predictions
-y_pred = log_reg.predict(test_df[test_df.columns[1:]])
-#Prediction stats
-print('Max xS:', np.max(y_pred))
-print('Min xS:', np.min(y_pred))
-print('Mean xS:', np.mean(y_pred))
+	# Train logistic regression
+	log_reg = sm.Logit(train_df['outcome'], train_df[train_df.columns[1:]]).fit()
+	# Logistic regression summary
+	print(log_reg.summary())
 
-y_pred[y_pred < 0.5] = 0
-#Accuracy
-print("Accuracy:", np.mean(np.array(y_pred) == test_df['outcome']))
+	# Predictions
+	y_pred = log_reg.predict(test_df[test_df.columns[1:]])
+	# Prediction stats
+	auxi.printPredictionStats(y_pred, test_df)
+
+	return
+
+
 
 if __name__ == '__main__':
 	args = parse_args()
+
+	# Import and Prepare Data - One on Ones
+	set_2d_df, set_3d_df, sets_2d, sets_3d = import_and_prepare()
+
+	# View-Invariance
+	sets_3d_cvi_clean, set_3d_cvi_clean_df = viewInvariance(sets_3d, set_3d_df, args)
+
+	# Learning Save Technique - Unsupervised Learning
+	kmeans_preds = LearningSaveTechnique(sets_3d_cvi_clean, set_3d_cvi_clean_df, args)
+	
+	# 1v1 Expected Saves Model
+	train_gk_name, test_gk_name, train_df, test_df, svm = ExpectedSavesModel_1v1(set_3d_cvi_clean_df, args)
+
+	# Pro Goalkeeper Scouting
+	proGoalkeeperScouting(train_gk_name, test_gk_name , train_df, test_df, svm, args)
+
+	# Penalty Analysis
+	PenaltyAnalysis(args)

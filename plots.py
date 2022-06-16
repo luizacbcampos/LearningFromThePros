@@ -20,6 +20,7 @@ import auxi
 mpii_edges = [[0, 1], [1, 2], [2, 6], [6, 3], [3, 4], [4, 5], [10, 11], [11, 12], [12, 8], [8, 13], [13, 14], [14, 15], [6, 8], [8, 9]]
 
 # pose converter
+
 def pose_to_matrix(pose):
     if len(pose) == 48:
         pose_matrix = pose.reshape(16, 3)
@@ -30,12 +31,16 @@ def pose_to_matrix(pose):
 
 # ---- aux ----
 def importImage(img):
-    #Import image
+    '''
+        Import image
+    '''
     image = cv2.cvtColor(cv2.imread(img), cv2.COLOR_BGR2RGB)
     return image
 
 def ImageID(df, array_id):
-    #Get photo id's of poses
+    '''
+        Get photo id's of poses
+    '''
     return df.loc[array_id, 'file']
 
 def plot_rectangle(points, bbox):

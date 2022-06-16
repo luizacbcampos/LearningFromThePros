@@ -43,19 +43,52 @@ def print_full(df, rows=True, columns=False, width=False):
 		print(df)
 
 def print_cluster_sizes(kmeans_preds, cluster_name):
-
-	print("Cluester sizes: ")
+	'''
+		Print cluster sizes
+	'''
+	print("Cluster sizes: ")
 	sizes = np.unique(kmeans_preds, return_counts=True)[1]
-	
 	for c, s in zip(cluster_name, sizes):
 		print("{}: {}".format(c,s), end='\t')
 	print()
 
 def print_cluster_center(closest, cluster_name):
+	'''
+		Print image that is cluster center
+	'''
 	print("Closest to cluester center: ")
 	for c, s in zip(cluster_name, closest):
 		print("{}: {}".format(c,s), end='\t')
 	print()
+
+def print_penalty_angles(poses_features, kmeans_pens_preds):
+	print("Torso Angle, cluster 0", np.mean(poses_features[kmeans_pens_preds == 0][:,0]))
+	print("Body Angle, cluster 0", np.mean(poses_features[kmeans_pens_preds == 0][:,4]))
+
+	print("Torso Angle, cluster 1", np.mean(poses_features[kmeans_pens_preds == 1][:,0]))
+	print("Body Angle, cluster 1", np.mean(poses_features[kmeans_pens_preds == 1][:,4]))
+
+def print_save_percentage_cluster(good_poses_3d_df, kmeans_pens_preds):
+	'''
+		Save % for clusters
+	'''
+	print("Save % for cluster 0 saves:", np.mean(good_poses_3d_df[kmeans_pens_preds == 0]['outcome'] == 'Saved'))
+	print("Save % for cluster 1 saves:", np.mean(good_poses_3d_df[kmeans_pens_preds == 1]['outcome'] == 'Saved'))
+
+def printPredictionStats(y_pred, test_df):
+	'''
+		Prints penalty prediction statistics
+	'''
+
+	print('Max xS:', np.max(y_pred))
+	print('Min xS:', np.min(y_pred))
+	print('Mean xS:', np.mean(y_pred))
+
+	y_pred[y_pred < 0.5] = 0
+	# Accuracy
+	print("Accuracy:", np.mean(np.array(y_pred) == test_df['outcome']))
+	return
+
 # Dict Aux
 
 def player_name_dict():
@@ -124,6 +157,26 @@ def import_StatsBomb_1v1(path='data/events/1v1_events.csv'):
 	sb_df = correct_names(sb_df, 'gk_name')
 	return sb_df
 
+def importPenalty3D():
+	'''
+		Imports penalties 3D poses
+	'''
+
+	pose_3d_df = pd.read_csv('data/pose/pen_pose_3d_19_20_20_21.csv', index_col=0)
+	pose_3d_2_df = pd.read_csv('data/pose/pen_pose_3d_17_18_18_19.csv', index_col=0)
+	joined_pose_3d_df, pose_arr = gk.cleanPenDataFrames(pose_3d_df, pose_3d_2_df)
+	return joined_pose_3d_df, pose_arr
+
+def importPenalty2D():
+	'''
+		Imports penalties 2D poses
+	'''
+	pose_2d_df = pd.read_csv('data/pose/pen_pose_2d_19_20_20_21.csv', index_col=0)
+	pose_2d_2_df = pd.read_csv('data/pose/pen_pose_2d_17_18_18_19.csv', index_col=0)
+	joined_pose_2d_df, pose_2d_arr = gk.cleanPenDataFrames(pose_2d_df, pose_2d_2_df)
+	return joined_pose_2d_df, pose_2d_arr
+
+
 # imports
 
 def importImage(img):
@@ -151,6 +204,22 @@ def createViewInvariant_df(set_3d_df, sets_3d_cvi):
 	cols = ['file', 'photo_id', 'under_pressure', 'shot_outcome_name', 'distance_to_goal', 'shot_angle', 'gk_name', 'gk_engage']
 	set_3d_cvi_df[cols] = set_3d_df[cols]
 	return set_3d_cvi_df
+
+def create_GodPoseFeatDf(poses_features, good_poses_3d_df):
+	'''
+		Create dataframe of good poses features
+	'''
+	good_poses_feat_df = pd.DataFrame({'outcome': good_poses_3d_df['outcome']})
+	good_poses_feat_df = pd.concat([good_poses_feat_df, pd.DataFrame(poses_features, index=good_poses_feat_df.index)], axis=1)
+
+	# Drops off target strikes 
+	good_poses_feat_df = good_poses_feat_df.loc[good_poses_feat_df['outcome']  != 'Off T',:]
+	good_poses_feat_df.columns = ['outcome','torso_angle','body_height','forward_step', 'hand_height','body_angle']
+
+	# Make target variable boolean - 1=Save, 0=Goal
+	good_poses_feat_df['outcome'] = np.array((good_poses_feat_df['outcome'] == 'Saved').astype(int))
+
+	return good_poses_feat_df
 
 def clean_train_test(train_df, test_df):
 	'''
