@@ -43,62 +43,76 @@ def ImageID(df, array_id):
     '''
     return df.loc[array_id, 'file']
 
-def plot_rectangle(points, bbox):
+def remove_ax_ticks(ax, s=2):
+    '''
+        Removes the ticks from s axis 
+    '''
+    ax.set_xticks([])
+    ax.set_yticks([])
+    if s==3:
+        ax.set_zticks([])
+
+
+def remove_labels(ax, s=2):
+    '''
+        Removes ax label
+    '''
+    ax.set_xlabel('')
+    ax.set_ylabel('')
+    if s==3:
+        ax.set_zlabel('')
+# Plots
+
+def plot_rectangle(points, bbox, show=False):
     '''
         Plots the skeleton points and the minimum rectangle
     '''
     plt.scatter(points[:,0], points[:,1])
     plt.fill(bbox[:,0], bbox[:,1], alpha=0.2)
     plt.axis('equal')
-    plt.show()
 
-def plot_camera_view_invariance(sets_3d, set_3d_df, sets_3d_cvi, pose_id=319, path='images/1v1_images/'):
+    if show:
+        plt.show()
+
+def plot_camera_view_invariance(sets_3d, set_3d_df, sets_3d_cvi, pose_id=319, path='images/1v1_images/', show=False):
 
     photo_id = set_3d_df.loc[pose_id,'file']
     fig = plt.figure(figsize=(20, 4))
     ax = fig.add_subplot(1, 5, 1)
     ax.imshow(importImage(path + photo_id))
-    ax.set_xticks([])
-    ax.set_yticks([])
+    remove_ax_ticks(ax, s=2)
 
     ax = fig.add_subplot(1, 5, 2, projection='3d')
-    plot3D(ax, pose_to_matrix(sets_3d[pose_id]), mpii_edges)
+    plot3D(ax, pose_to_matrix(sets_3d[pose_id]))
     ax.set_title('Raw 3D Pose', fontsize=18, pad=25)
-    ax.set_xticks([])
-    ax.set_yticks([])
-    ax.set_zticks([])
+    remove_ax_ticks(ax, s=3)
     
     ax = fig.add_subplot(1, 5, 4, projection='3d')
-    plot3D(ax, pose_to_matrix(sets_3d_cvi[pose_id][:-1]), mpii_edges)
+    plot3D(ax, pose_to_matrix(sets_3d_cvi[pose_id][:-1]))
     ax.set_title('View-invariant 3D Pose', fontsize=18, pad=25)
-    ax.set_xticks([])
-    ax.set_yticks([])
-    ax.set_zticks([])
+    remove_ax_ticks(ax, s=3)
     
     ax = fig.add_subplot(1, 5, 3)
-    plot2D(ax, pose_to_matrix(sets_3d[pose_id]), mpii_edges)
-    ax.set_xlabel('')
-    ax.set_ylabel('')
-    ax.set_xticks([])
-    ax.set_yticks([])
+    plot2D(ax, pose_to_matrix(sets_3d[pose_id]))
+    remove_labels(ax, s=2)
+    remove_ax_ticks(ax, s=2)
     ax.set_title('Raw 2D Projection', fontsize=18)
     
     ax = fig.add_subplot(1, 5, 5)
-    plot2D(ax, pose_to_matrix(sets_3d_cvi[pose_id][:-1]), mpii_edges)
-    ax.set_xlabel('')
-    ax.set_ylabel('')
-    ax.set_xticks([])
-    ax.set_yticks([])
+    plot2D(ax, pose_to_matrix(sets_3d_cvi[pose_id][:-1]))
+    remove_labels(ax, s=2)
+    remove_ax_ticks(ax, s=2)
     ax.set_title('View-invariant 2D Projection', fontsize=18)
     plt.tight_layout()
-    plt.show()
+    if show:
+        plt.show()
 
 def plot3D(ax, points, edges, marker_size=100):
     ax.grid(False)
     oo = 1e10
     xmax,ymax,zmax = -oo,-oo,-oo
     xmin,ymin,zmin = oo, oo, oo
-    #edges = mpii_edges
+
     c, marker = 'b', 'o'
     points = points.reshape(-1, 3)
     x, y, z = np.zeros((3, points.shape[0]))
@@ -126,7 +140,7 @@ def plot3D(ax, points, edges, marker_size=100):
     for xb, yb, zb in zip(Xb, Yb, Zb):
         ax.plot([xb], [yb], [zb], 'w')
 
-def plot2D(ax, pose_3d, mpii_edges):
+def plot2D(ax, pose_3d):
 	'''
 		2D plot of the 3D body pose in the x-y plane (ignoring z-axis)
 	'''
@@ -136,7 +150,7 @@ def plot2D(ax, pose_3d, mpii_edges):
 	ax.set_xlabel('x')
 	ax.set_ylabel('y')
 
-def clusterExamples(k, n_examples, path, model_clusters, pose_df, pose_arr, mpii_edges, save):
+def clusterExamples(k, n_examples, path, model_clusters, pose_df, pose_arr, save, show=False):
     ax_array = np.linspace(1, k * 2 * n_examples - (k * 2 - 1), n_examples).astype(int)
     fig = plt.figure(figsize=(15, 15))
 
@@ -147,16 +161,13 @@ def clusterExamples(k, n_examples, path, model_clusters, pose_df, pose_arr, mpii
             photo_id = ImageID(pose_df, arr_id)
             ax = fig.add_subplot(n_examples, k*2, a + addition)
             ax.imshow(importImage(path + photo_id))
-            ax.set_xticks([])
-            ax.set_yticks([])
+            remove_ax_ticks(ax, s=2)
             addition += 1
             
             ax = fig.add_subplot(n_examples, k*2, a+addition)
-            plot2D(ax, pose_to_matrix(pose_arr[arr_id][:-1]), mpii_edges)
-            ax.set_xticks([])
-            ax.set_yticks([])
-            ax.set_xlabel('')
-            ax.set_ylabel('')
+            plot2D(ax, pose_to_matrix(pose_arr[arr_id][:-1]))
+            remove_ax_ticks(ax, s=2)
+            remove_labels(ax, s=2)
             
             if a == 1:
                 ax.set_title('Cluster ' + str(cluster), position=(-0.1, 1), size=16)
@@ -164,9 +175,11 @@ def clusterExamples(k, n_examples, path, model_clusters, pose_df, pose_arr, mpii
 
     plt.tight_layout()
     plt.savefig('viz/' + save + '.png')
-    plt.show()
 
-def plotXSMap(xs_map, num_clusters, cluster_names):
+    if show:
+        plt.show()
+
+def plotXSMap(xs_map, num_clusters, cluster_names, show=False):
     
     pitch = VerticalPitch(half=True, goal_type='box', pad_bottom=-30, 
                           pad_left=-10, pad_right=-10, line_color='black')
@@ -181,37 +194,10 @@ def plotXSMap(xs_map, num_clusters, cluster_names):
     cax = plt.axes([1, 0.3, 0.05, 0.4])
     plt.colorbar(im, cax=cax)
 
-def plotBestTechniqueUp(xs_map, xs_map_up, cluster_name):
-    '''
-    	Best technique to use
-    '''
+    if show:
+        plt.show()
 
-    pitch = VerticalPitch(half=True, goal_type='box', pad_bottom=-37, 
-                          pad_left=-15, pad_right=-15, line_color='black',
-                          orientation='horizontal')
-    fig, ax = pitch.draw(figsize=(10,5), nrows=1, ncols=2)
-    
-    cmap = plt.cm.tab20
-    
-    im = ax[0].imshow(np.argmax(xs_map, axis=0), cmap=cmap,
-                      interpolation='none', extent=[0,80,120,90])
-    
-    im = ax[1].imshow(np.argmax(xs_map_up, axis=0), cmap=cmap,
-                      interpolation='none', extent=[0,80,120,90])
-    
-    ax[0].set_title('Striker Not Under Pressure')
-    ax[1].set_title('Striker Under Pressure')
-    
-    custom_lines = [Line2D([0], [0], color=cmap(0.), lw=4),
-                    Line2D([0], [0], color=cmap(0.33), lw=4),
-                    Line2D([0], [0], color=cmap(0.66), lw=4),
-                    Line2D([0], [0], color=cmap(1.), lw=4)]
-    
-    ax[1].legend(custom_lines, cluster_name, loc=1, bbox_to_anchor=(1, 0.38))
-    plt.tight_layout()
-    plt.show()
-
-def plotDoubleXSMap(xs_map, xs_map_up, cluster_names, num_clusters=4):
+def plotDoubleXSMap(xs_map, xs_map_up, cluster_names, num_clusters=4, show=False):
 
     pitch = VerticalPitch(half=True, goal_type='box', pad_bottom=-30, 
                           pad_left=-10, pad_right=-10, line_color='black')
@@ -239,9 +225,38 @@ def plotDoubleXSMap(xs_map, xs_map_up, cluster_names, num_clusters=4):
     cax.set_title('xSAA')
     plt.colorbar(im, cax=cax)
     plt.tight_layout()
-    plt.show()
 
-def plotTSNE(pose_tsne, kmeans_preds, cluster_name, number=4):
+    if show:
+        plt.show()
+
+def plotBestTechniqueUp(xs_map, xs_map_up, cluster_name, show=False):
+    '''
+        Best technique to use
+    '''
+
+    pitch = VerticalPitch(half=True, goal_type='box', pad_bottom=-37, pad_left=-15, pad_right=-15, line_color='black', orientation='horizontal')
+    fig, ax = pitch.draw(figsize=(10,5), nrows=1, ncols=2)
+    
+    cmap = plt.cm.tab20
+    
+    im = ax[0].imshow(np.argmax(xs_map, axis=0), cmap=cmap, interpolation='none', extent=[0,80,120,90])
+    
+    im = ax[1].imshow(np.argmax(xs_map_up, axis=0), cmap=cmap, interpolation='none', extent=[0,80,120,90])
+    
+    ax[0].set_title('Striker Not Under Pressure')
+    ax[1].set_title('Striker Under Pressure')
+    
+    custom_lines = [Line2D([0], [0], color=cmap(0.), lw=4),
+                    Line2D([0], [0], color=cmap(0.33), lw=4),
+                    Line2D([0], [0], color=cmap(0.66), lw=4),
+                    Line2D([0], [0], color=cmap(1.), lw=4)]
+    
+    ax[1].legend(custom_lines, cluster_name, loc=1, bbox_to_anchor=(1, 0.38))
+    plt.tight_layout()
+    if show:
+        plt.show()
+
+def plotTSNE(pose_tsne, kmeans_preds, cluster_name, number=4, show=False):
     '''
         Plots the TSNE result
     '''
@@ -255,9 +270,11 @@ def plotTSNE(pose_tsne, kmeans_preds, cluster_name, number=4):
     plt.xlabel('t-SNE_1')
     plt.ylabel('t-SNE_2')
     plt.legend()
-    plt.show()
 
-def plot_cluster(sets_3d_cvi_clean, set_3d_cvi_clean_df, closest, cluster_name, path='images/1v1_images/'):
+    if show:
+        plt.show()
+
+def plot_cluster(sets_3d_cvi_clean, set_3d_cvi_clean_df, closest, cluster_name, path='images/1v1_images/', show=False):
 
     '''
         Plot the most representative saves for each cluster
@@ -267,19 +284,16 @@ def plot_cluster(sets_3d_cvi_clean, set_3d_cvi_clean_df, closest, cluster_name, 
         photo_id = ImageID(set_3d_cvi_clean_df, closest[i])
         ax = fig.add_subplot(2, 4, i+1)
         ax.imshow(importImage(path + photo_id))
-        ax.set_xticks([])
-        ax.set_yticks([])
+        remove_ax_ticks(ax, s=2)
         ax.set_title('Cluster ' + str(i) + ': ' + cluster_name[i], size=20, pad=15)
 
         ax = fig.add_subplot(2, 4, 5+i, projection='3d')
-        plot3D(ax, pose_to_matrix(sets_3d_cvi_clean[closest[i]][:-1]), mpii_edges)
-        ax.set_xticks([])
-        ax.set_yticks([])
-        ax.set_zticks([])
-        ax.set_xlabel('')
-        ax.set_ylabel('')
+        plot3D(ax, pose_to_matrix(sets_3d_cvi_clean[closest[i]][:-1]))
+        remove_ax_ticks(ax, s=3)
+        remove_labels(ax, s=2)
 
-    plt.show()
+    if show:
+        plt.show()
 
 def pose_overlay(ax, image, pose_2d):
     '''
@@ -288,11 +302,10 @@ def pose_overlay(ax, image, pose_2d):
     ax.imshow(image)
     for e in range(len(mpii_edges)):
         ax.plot(pose_2d[mpii_edges[e]][:, 0], pose_2d[mpii_edges[e]][:, 1], c='cyan', lw=3, marker='o')
-    ax.set_yticks([])
-    ax.set_xticks([])
+    remove_ax_ticks(ax, s=2)
     ax.axis('off')
 
-def plot_pose_estimation(joined_pose_3d_df, pose_arr, pose_2d_arr, photo_id=315):
+def plot_pose_estimation(joined_pose_3d_df, pose_arr, pose_2d_arr, photo_id=315, show=False):
     '''
         Show image, image with 2D pose overlay, and 3D pose estimate
     '''
@@ -306,8 +319,7 @@ def plot_pose_estimation(joined_pose_3d_df, pose_arr, pose_2d_arr, photo_id=315)
     
     ax = fig.add_subplot(1, 3, 1)
     ax.imshow(image)
-    ax.set_yticks([])
-    ax.set_xticks([])
+    remove_ax_ticks(ax, s=2)
     ax.axis('off')
     ax.set_title('(a) Input Image', y=-0.14)
 
@@ -316,23 +328,22 @@ def plot_pose_estimation(joined_pose_3d_df, pose_arr, pose_2d_arr, photo_id=315)
     ax.set_title('(b) 2D Pose Estimation', y=-0.14)
 
     ax = fig.add_subplot(1, 3, 3, projection='3d')
-    plot3D(ax, points, mpii_edges)
+    plot3D(ax, points)
     ax.set_title('(c) 3D Pose Estimation', y=-0.15)
     plt.tight_layout()
-    plt.show()
 
-def plot_penalty_examples(pose_arr, joined_pose_3d_df, pic_ids=[388, 20, 3, 243, 302, 377], path='images/pen_images/combined_data/'):
+    if show:
+        plt.show()
+
+def plot_penalty_examples(pose_arr, joined_pose_3d_df, pic_ids, path='images/pen_images/combined_data/', show=False):
 
     def make_ax_image(ax, picture_id):
         ax.imshow(importImage(path + str(picture_id) + '.png'))
-        ax.set_yticks([])
-        ax.set_xticks([])
+        remove_ax_ticks(ax, s=2)
         ax.axis('off')
     def make_ax_3d(ax, picture_id):
-        plot3D(ax, pose_to_matrix(pose_arr[auxi.getArrayID(joined_pose_3d_df, picture_id)]), mpii_edges)
-        ax.set_yticks([])
-        ax.set_xticks([])
-        ax.set_zticks([])
+        plot3D(ax, pose_to_matrix(pose_arr[auxi.getArrayID(joined_pose_3d_df, picture_id)]))
+        remove_ax_ticks(ax, s=3)
     
     fig = plt.figure(figsize=(15, 6))
 
@@ -368,9 +379,10 @@ def plot_penalty_examples(pose_arr, joined_pose_3d_df, pic_ids=[388, 20, 3, 243,
     make_ax_3d(ax, picture_id=pic_ids[5])
 
     plt.tight_layout()
-    plt.show()
+    if show:
+        plt.show()
 
-def penalty_clusterExamples(good_poses_3d_arr, good_poses_3d_df, kmeans_pens_preds, ax_array = [1, 5, 9, 13, 17], path='images/pen_images/combined_data/'):
+def penalty_clusterExamples(good_poses_3d_arr, good_poses_3d_df, kmeans_pens_preds, ax_array, path='images/pen_images/combined_data/', show=False):
     '''
         GMM - 3D pose, 2D pose viz cluster examples
     '''
@@ -381,34 +393,33 @@ def penalty_clusterExamples(good_poses_3d_arr, good_poses_3d_df, kmeans_pens_pre
         photo_id = auxi.getImageID(good_poses_3d_df, arr_id)
         ax = fig.add_subplot(5, 4, a)
         ax.imshow(importImage(path + str(photo_id) + '.png'))
-        ax.set_xticks([])
-        ax.set_yticks([])
+        remove_ax_ticks(ax, s=2)
+
         ax = fig.add_subplot(5, 4, a+1)
-        plot2D(ax, pose_to_matrix(good_poses_3d_arr[arr_id]), mpii_edges)
-        ax.set_xticks([])
-        ax.set_yticks([])
-        ax.set_xlabel('')
-        ax.set_ylabel('')
+        plot2D(ax, pose_to_matrix(good_poses_3d_arr[arr_id]))
+        remove_ax_ticks(ax, s=2)
+        remove_labels(ax, s=2)
         if a == 1:
             ax.set_title('Cluster ' + str(0), position=(-0.1, 1), size=16)
             
         arr_id = np.random.choice(np.where(kmeans_pens_preds == 1)[0])
         photo_id = auxi.getImageID(good_poses_3d_df, arr_id)
+        
         ax = fig.add_subplot(5, 4, a+2)
         ax.imshow(importImage(path + str(photo_id) + '.png'))
-        ax.set_xticks([])
-        ax.set_yticks([])
+        remove_ax_ticks(ax, s=2)
+        
         ax = fig.add_subplot(5, 4, a+3)
-        plot2D(ax, pose_to_matrix(good_poses_3d_arr[arr_id]), mpii_edges)
-        ax.set_xticks([])
-        ax.set_yticks([])
-        ax.set_xlabel('')
-        ax.set_ylabel('')
+        plot2D(ax, pose_to_matrix(good_poses_3d_arr[arr_id]))
+        remove_ax_ticks(ax, s=2)
+        remove_labels(ax, s=2)
         if a == 1:
             ax.set_title('Cluster ' + str(1), position=(-0.1, 1), size=16)
         
     plt.tight_layout()
-    plt.show()
+
+    if show:
+        plt.show()
     return
 
 if __name__ == '__main__':

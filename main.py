@@ -145,7 +145,7 @@ def LearningSaveTechnique(sets_3d_cvi_clean, set_3d_cvi_clean_df, args):
 
 	#Plot the most representative saves for each cluster
 	if args.show:
-		plots.plot_cluster(sets_3d_cvi_clean, set_3d_cvi_clean_df, closest, cluster_name, path='images/1v1_images/')
+		plots.plot_cluster(sets_3d_cvi_clean, set_3d_cvi_clean_df, closest, cluster_name, path='images/1v1_images/', show=args.show)
 
 	return kmeans_preds
 
@@ -250,10 +250,10 @@ def PenaltyAnalysis(args):
 	if args.show:
 		# Show image, image with 2D pose overlay, and 3D pose estimate
 		photo_id = 315
-		plots.plot_pose_estimation(joined_pose_3d_df, pose_arr, pose_2d_arr, photo_id)
+		plots.plot_pose_estimation(joined_pose_3d_df, pose_arr, pose_2d_arr, photo_id, show=args.show)
 		
 		pic_ids, path = [388, 20, 3, 243, 302, 377], 'images/pen_images/combined_data/'
-		plots.plot_penalty_examples(pose_arr, joined_pose_3d_df, pic_ids, path)
+		plots.plot_penalty_examples(pose_arr, joined_pose_3d_df, pic_ids, path, show=args.show)
 		
 	# Get camera-view invariant dataset of 3d poses
 	pen_pose_vi = gk.cameraInvariantDataset(pose_arr)
@@ -286,7 +286,7 @@ def PenaltyAnalysis(args):
 
 		# GMM - 3D pose, 2D pose viz cluster examples
 		ax_array, path = [1, 5, 9, 13, 17], 'images/pen_images/combined_data/'
-		plots.penalty_clusterExamples(good_poses_3d_arr, good_poses_3d_df, kmeans_pens_preds, ax_array, path)
+		plots.penalty_clusterExamples(good_poses_3d_arr, good_poses_3d_df, kmeans_pens_preds, ax_array, path, show=args.show)
 
 	# Save % for clusters
 	auxi.print_save_percentage_cluster(good_poses_3d_df, kmeans_pens_preds)
