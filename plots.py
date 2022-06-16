@@ -14,7 +14,7 @@ from mpl_toolkits.mplot3d import Axes3D
 
 
 from mplsoccer import VerticalPitch
-import gkpose as gk
+import auxi
 
 
 mpii_edges = [[0, 1], [1, 2], [2, 6], [6, 3], [3, 4], [4, 5], [10, 11], [11, 12], [12, 8], [8, 13], [13, 14], [14, 15], [6, 8], [8, 9]]
@@ -88,7 +88,7 @@ def plot_camera_view_invariance(sets_3d, set_3d_df, sets_3d_cvi, pose_id=319, pa
     plt.tight_layout()
     plt.show()
 
-def plot3D(ax, points, edges, marker_size = 100):
+def plot3D(ax, points, edges, marker_size=100):
     ax.grid(False)
     oo = 1e10
     xmax,ymax,zmax = -oo,-oo,-oo
@@ -121,7 +121,6 @@ def plot3D(ax, points, edges, marker_size = 100):
     for xb, yb, zb in zip(Xb, Yb, Zb):
         ax.plot([xb], [yb], [zb], 'w')
 
-
 def plot2D(ax, pose_3d, mpii_edges):
 	'''
 		2D plot of the 3D body pose in the x-y plane (ignoring z-axis)
@@ -131,7 +130,6 @@ def plot2D(ax, pose_3d, mpii_edges):
 
 	ax.set_xlabel('x')
 	ax.set_ylabel('y')
-
 
 def clusterExamples(k, n_examples, path, model_clusters, pose_df, pose_arr, mpii_edges, save):
     ax_array = np.linspace(1, k * 2 * n_examples - (k * 2 - 1), n_examples).astype(int)
@@ -163,7 +161,6 @@ def clusterExamples(k, n_examples, path, model_clusters, pose_df, pose_arr, mpii
     plt.savefig('viz/' + save + '.png')
     plt.show()
 
-
 def plotXSMap(xs_map, num_clusters, cluster_names):
     
     pitch = VerticalPitch(half=True, goal_type='box', pad_bottom=-30, 
@@ -178,7 +175,6 @@ def plotXSMap(xs_map, num_clusters, cluster_names):
     
     cax = plt.axes([1, 0.3, 0.05, 0.4])
     plt.colorbar(im, cax=cax)
-
 
 def plotBestTechniqueUp(xs_map, xs_map_up, cluster_name):
     '''
@@ -210,7 +206,6 @@ def plotBestTechniqueUp(xs_map, xs_map_up, cluster_name):
     plt.tight_layout()
     plt.show()
 
-
 def plotDoubleXSMap(xs_map, xs_map_up, cluster_names, num_clusters=4):
 
     pitch = VerticalPitch(half=True, goal_type='box', pad_bottom=-30, 
@@ -241,17 +236,17 @@ def plotDoubleXSMap(xs_map, xs_map_up, cluster_names, num_clusters=4):
     plt.tight_layout()
     plt.show()
 
-def plotTSNE(pose_tsne, kmeans_preds, cluster_name):
+def plotTSNE(pose_tsne, kmeans_preds, cluster_name, number=4):
     '''
         Plots the TSNE result
     '''
 
     plt.figure(figsize=(11, 6))
-    for i in range(4):
+    for i in range(number):
         current_pose_type = pose_tsne[kmeans_preds == i]
-        colors_kmeans = cm.nipy_spectral(kmeans_preds[kmeans_preds==i].astype(float) / 4)
-        plt.scatter(current_pose_type[:,0], current_pose_type[:,1], 
-                    c=colors_kmeans, label=cluster_name[i])
+        colors_kmeans = cm.nipy_spectral(kmeans_preds[kmeans_preds==i].astype(float) / number)
+        plt.scatter(current_pose_type[:,0], current_pose_type[:,1], c=colors_kmeans, label=cluster_name[i])
+
     plt.xlabel('t-SNE_1')
     plt.ylabel('t-SNE_2')
     plt.legend()
@@ -272,7 +267,7 @@ def plot_cluster(sets_3d_cvi_clean, set_3d_cvi_clean_df, closest, cluster_name, 
         ax.set_title('Cluster ' + str(i) + ': ' + cluster_name[i], size=20, pad=15)
 
         ax = fig.add_subplot(2, 4, 5+i, projection='3d')
-        plot3D(ax, gk.pose_to_matrix(sets_3d_cvi_clean[closest[i]][:-1]), mpii_edges)
+        plot3D(ax, pose_to_matrix(sets_3d_cvi_clean[closest[i]][:-1]), mpii_edges)
         ax.set_xticks([])
         ax.set_yticks([])
         ax.set_zticks([])
@@ -280,6 +275,136 @@ def plot_cluster(sets_3d_cvi_clean, set_3d_cvi_clean_df, closest, cluster_name, 
         ax.set_ylabel('')
 
     plt.show()
+
+def pose_overlay(ax, image, pose_2d):
+    '''
+        Plots skeleton over image
+    '''
+    ax.imshow(image)
+    for e in range(len(mpii_edges)):
+        ax.plot(pose_2d[mpii_edges[e]][:, 0], pose_2d[mpii_edges[e]][:, 1], c='cyan', lw=3, marker='o')
+    ax.set_yticks([])
+    ax.set_xticks([])
+    ax.axis('off')
+
+def plot_pose_estimation(joined_pose_3d_df, pose_arr, pose_2d_arr, photo_id=315):
+    '''
+        Show image, image with 2D pose overlay, and 3D pose estimate
+    '''
+
+    array_id = auxi.getArrayID(joined_pose_3d_df, photo_id)
+    image = importImage('images/pen_images/combined_data/' + str(photo_id)+'.png')
+    pose_2d = pose_to_matrix(pose_2d_arr[array_id])
+    points = pose_to_matrix(pose_arr[array_id])
+
+    fig = plt.figure(figsize=(12, 4))
+    
+    ax = fig.add_subplot(1, 3, 1)
+    ax.imshow(image)
+    ax.set_yticks([])
+    ax.set_xticks([])
+    ax.axis('off')
+    ax.set_title('(a) Input Image', y=-0.14)
+
+    ax = fig.add_subplot(1, 3, 2)
+    pose_overlay(ax, image, pose_2d)
+    ax.set_title('(b) 2D Pose Estimation', y=-0.14)
+
+    ax = fig.add_subplot(1, 3, 3, projection='3d')
+    plot3D(ax, points, mpii_edges)
+    ax.set_title('(c) 3D Pose Estimation', y=-0.15)
+    plt.tight_layout()
+    plt.show()
+
+def plot_penalty_examples(pose_arr, joined_pose_3d_df, pic_ids=[388, 20, 3, 243, 302, 377], path='images/pen_images/combined_data/'):
+
+    def make_ax_image(ax, picture_id):
+        ax.imshow(importImage(path + str(picture_id) + '.png'))
+        ax.set_yticks([])
+        ax.set_xticks([])
+        ax.axis('off')
+    def make_ax_3d(ax, picture_id):
+        plot3D(ax, pose_to_matrix(pose_arr[auxi.getArrayID(joined_pose_3d_df, picture_id)]), mpii_edges)
+        ax.set_yticks([])
+        ax.set_xticks([])
+        ax.set_zticks([])
+    
+    fig = plt.figure(figsize=(15, 6))
+
+    ax = fig.add_subplot(2, 6, 1)
+    make_ax_image(ax, picture_id=pic_ids[0])
+    ax = fig.add_subplot(2, 6, 2, projection='3d')
+    make_ax_3d(ax, picture_id=pic_ids[0])
+
+    ax = fig.add_subplot(2, 6, 3)
+    make_ax_image(ax, picture_id=pic_ids[1])
+    ax = fig.add_subplot(2, 6, 4, projection='3d')
+    make_ax_3d(ax, picture_id=pic_ids[1])
+
+    ax = fig.add_subplot(2, 6, 5)
+    make_ax_image(ax, picture_id=pic_ids[2])
+    ax = fig.add_subplot(2, 6, 6, projection='3d')
+    make_ax_3d(ax, picture_id=pic_ids[2])
+
+
+    ax = fig.add_subplot(2, 6, 7)
+    make_ax_image(ax, picture_id=pic_ids[3])
+    ax = fig.add_subplot(2, 6, 8, projection='3d')
+    make_ax_3d(ax, picture_id=pic_ids[3])
+
+    ax = fig.add_subplot(2, 6, 9)
+    make_ax_image(ax, picture_id=pic_ids[4])
+    ax = fig.add_subplot(2, 6, 10, projection='3d')
+    make_ax_3d(ax, picture_id=pic_ids[4])
+
+    ax = fig.add_subplot(2, 6, 11)
+    make_ax_image(ax, picture_id=pic_ids[5])
+    ax = fig.add_subplot(2, 6, 12, projection='3d')
+    make_ax_3d(ax, picture_id=pic_ids[5])
+
+    plt.tight_layout()
+    plt.show()
+
+def penalty_clusterExamples(good_poses_3d_arr, good_poses_3d_df, kmeans_pens_preds, ax_array = [1, 5, 9, 13, 17], path='images/pen_images/combined_data/'):
+    '''
+        GMM - 3D pose, 2D pose viz cluster examples
+    '''
+    
+    fig = plt.figure(figsize=(15, 15))
+    for a in ax_array:
+        arr_id = np.random.choice(np.where(kmeans_pens_preds == 0)[0])
+        photo_id = auxi.getImageID(good_poses_3d_df, arr_id)
+        ax = fig.add_subplot(5, 4, a)
+        ax.imshow(importImage(path + str(photo_id) + '.png'))
+        ax.set_xticks([])
+        ax.set_yticks([])
+        ax = fig.add_subplot(5, 4, a+1)
+        plot2D(ax, pose_to_matrix(good_poses_3d_arr[arr_id]), mpii_edges)
+        ax.set_xticks([])
+        ax.set_yticks([])
+        ax.set_xlabel('')
+        ax.set_ylabel('')
+        if a == 1:
+            ax.set_title('Cluster ' + str(0), position=(-0.1, 1), size=16)
+            
+        arr_id = np.random.choice(np.where(kmeans_pens_preds == 1)[0])
+        photo_id = auxi.getImageID(good_poses_3d_df, arr_id)
+        ax = fig.add_subplot(5, 4, a+2)
+        ax.imshow(importImage(path + str(photo_id) + '.png'))
+        ax.set_xticks([])
+        ax.set_yticks([])
+        ax = fig.add_subplot(5, 4, a+3)
+        plot2D(ax, pose_to_matrix(good_poses_3d_arr[arr_id]), mpii_edges)
+        ax.set_xticks([])
+        ax.set_yticks([])
+        ax.set_xlabel('')
+        ax.set_ylabel('')
+        if a == 1:
+            ax.set_title('Cluster ' + str(1), position=(-0.1, 1), size=16)
+        
+    plt.tight_layout()
+    plt.show()
+    return
 
 if __name__ == '__main__':
 	print("main")
