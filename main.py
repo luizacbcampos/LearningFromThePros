@@ -143,13 +143,13 @@ def LearningSaveTechnique(sets_3d_cvi_clean, set_3d_cvi_clean_df, args):
 	
 	auxi.print_cluster_center(closest, cluster_dict)
 
-	exit()
+	# exit()
 	#Plot the most representative saves for each cluster
 	if args.show:
 		plots.plot_cluster(sets_3d_cvi_clean, set_3d_cvi_clean_df, closest, cluster_name, path='images/1v1_images/', show=args.show)
 
 	if not args.debug:
-		TSNE_df = auxi.createTSNEdf(pose_tsne, kmeans_preds)
+		TSNE_df = auxi.createTSNEdf(pose_tsne, kmeans_preds) #COLOCAR OS NOMES NO LUGAR DO CLUSTER NUMBER
 
 		wandb.sklearn.plot_silhouette(kmeans, sets_2d_proj, kmeans_preds)
 		wandb.log({"KMeans 1v1 Table": auxi.make_kmeans_df(kmeans_preds, set_3d_cvi_clean_df)})
@@ -164,9 +164,10 @@ def wandb_LearningSaveTechnique(TSNE_df, c_size_d):
 		wandb.log({"TSNE 1v1" : wandb.plot.scatter(table, 't-SNE_1', 't-SNE_2')})
 
 	def cluster_sizes():
+
 		data = [[label, val] for label, val in c_size_d.items()]
-		table = wandb.Table(data=data, columns = ["cluster","count"])
-		wandb.log({"KMeans 1v1 Size" : wandb.plot.bar(table, "cluster","count", title="Cluster Size in KMeans 1v1")})
+		table = wandb.Table(data=data, columns = ["cluster", "count"])
+		wandb.log({"KMeans 1v1 Size" : wandb.plot.bar(table, "cluster", "count", title="Cluster Size in KMeans 1v1")})
 
 	TSNE_plot()
 	cluster_sizes()

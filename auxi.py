@@ -75,7 +75,7 @@ def print_cluster_sizes(kmeans_preds, replace_dict):
 	for k in sorted(new_d.keys()):
 		print("{}: {}".format(k, new_d[k]), end='\t')
 	print()
-	return d
+	return new_d
 
 def print_cluster_center(closest, replace_dict):
 	'''
@@ -231,7 +231,7 @@ def cluster_correspondence(kmeans_preds, set_3d_cvi_clean_df, cluster_name):
 			g.at[i, 'sum_n'] = g.loc[g['cluster_n'] == row['cluster_n'], 'img_id'].sum()
 
 		g['n_gt'], g['gt_n'] = g['img_id']/g['sum_gt'], g['img_id']/g['sum_n']
-		print(g)
+		# print(g)
 		a = g.sort_values(by=['n_gt', 'gt_n'], ascending=False).reset_index(drop=True)
 		n_gt = a.groupby('cluster_gt')['cluster_n'].apply(list).to_dict()
 		s_n_gt = {k:v[0] for k,v in n_gt.items()}
