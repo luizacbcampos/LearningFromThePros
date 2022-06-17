@@ -123,14 +123,14 @@ def LearningSaveTechnique(sets_3d_cvi_clean, set_3d_cvi_clean_df, args):
 
 		#Find saves that are closest to cluster centres
 		closest, _ = pairwise_distances_argmin_min(kmeans.cluster_centers_, sets_2d_proj)
-		return kmeans_preds, cluster_name, closest
+		return kmeans, kmeans_preds, cluster_name, closest
 
 	# Create 3D - 2D projection dataset
 	sets_2d_proj = auxi.create3D_2D_projection_df(sets_3d_cvi_clean, args.number_dimensions)
 
-	kmeans_preds, cluster_name, closest = KMeansCalc()
+	kmeans, kmeans_preds, cluster_name, closest = KMeansCalc()
 	
-	auxi.print_cluster_sizes(kmeans_preds, cluster_name)
+	c_size_d = auxi.print_cluster_sizes(kmeans_preds, cluster_name)
 
 	# df = auxi.create_kmeans_df(kmeans_preds, set_3d_cvi_clean_df, cluster_name, save=True)
 
@@ -145,7 +145,29 @@ def LearningSaveTechnique(sets_3d_cvi_clean, set_3d_cvi_clean_df, args):
 	if args.show:
 		plots.plot_cluster(sets_3d_cvi_clean, set_3d_cvi_clean_df, closest, cluster_name, path='images/1v1_images/', show=args.show)
 
+	if not args.debug:
+		TSNE_df = auxi.createTSNEdf(pose_tsne, kmeans_preds)
+
+		wandb.sklearn.plot_silhouette(kmeans, sets_2d_proj, kmeans_preds)
+		wandb.log({"KMeans 1v1 Table": auxi.make_kmeans_df(kmeans_preds, set_3d_cvi_clean_df)})
+		wandb_LearningSaveTechnique(TSNE_df, c_size_d)
 	return kmeans_preds
+
+def wandb_LearningSaveTechnique(TSNE_df, c_size_d):
+
+	def TSNE_plot():
+		data = TSNE_df.values.tolist()
+		table = wandb.Table(data=data, columns = ['t-SNE_1', "t-SNE_2", "cluster"])
+		wandb.log({"TSNE 1v1" : wandb.plot.scatter(table, 't-SNE_1', 't-SNE_2')})
+
+	def cluster_sizes():
+		data = [[label, val] for label, val in c_size_d.items()]
+		table = wandb.Table(data=data, columns = ["cluster","count"])
+		wandb.log({"KMeans 1v1 Size" : wandb.plot.bar(table, "cluster","count", title="Cluster Size in KMeans 1v1")})
+
+	TSNE_plot()
+	cluster_sizes()
+	return
 
 
 # 1v1 Expected Saves Model
@@ -204,7 +226,6 @@ def ExpectedSavesModel_1v1(set_3d_cvi_clean_df, args):
 		plots.plotBestTechniqueUp(xs_map, xs_map_up, cluster_name, show=args.show)
 
 	return train_gk_name, test_gk_name, train_df, test_df, svm
-	exit()
 
 
 # Pro Goalkeeper Scouting
@@ -213,6 +234,8 @@ def proGoalkeeperScouting(train_gk_name, test_gk_name , train_df, test_df, svm, 
 	'''
 		Pro Goalkeeper Scouting
 	'''
+	# exit()
+
 	#Reset the index of test set
 	test_df.reset_index(drop=True, inplace=True)
 	
@@ -268,8 +291,7 @@ def PenaltyAnalysis(args):
 		plots.plot_penalty_examples(pose_arr, joined_pose_3d_df, pic_ids, path, show=args.show)
 		
 	# Get camera-view invariant dataset of 3d poses
-	pen_pose_vi = gk.cameraInvariantDataset(pose_arr)
-	
+	pen_pose_vi = gk.cameraInvariantDataset(pose_arr, vi=args.view_invariant2)
 	# Rotates the poses from images taken from behind by 180 degrees
 	pen_pose_vi = gk.flipBehindPoses(pen_pose_vi)
 

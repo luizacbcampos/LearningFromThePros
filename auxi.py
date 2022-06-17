@@ -38,6 +38,11 @@ def getClusterNames(number_cluster):
 		'Aggressive Set Left', 'Passive Set Left', 'Spread Left', 'Smother Left']
 	return cluster_name
 
+def getClusterSizes(kmeans_preds):
+
+	sizes = np.unique(kmeans_preds, return_counts=True)[1]
+	d = {k:v for k,v in enumerate(sizes)}
+	return d
 # Print aux
 
 def print_full(df, rows=True, columns=False, width=False):
@@ -63,10 +68,11 @@ def print_cluster_sizes(kmeans_preds, cluster_name):
 		Print cluster sizes
 	'''
 	print("Cluster sizes: ")
-	sizes = np.unique(kmeans_preds, return_counts=True)[1]
-	for c, s in zip(cluster_name, sizes):
-		print("{}: {}".format(c,s), end='\t')
+	d = getClusterSizes(kmeans_preds)
+	for k,v in d.items():
+		print("{}: {}".format(cluster_name[k],v), end='\t')
 	print()
+	return d
 
 def print_cluster_center(closest, cluster_name):
 	'''
@@ -248,6 +254,22 @@ def create3D_2D_projection_df(sets_3d_cvi_clean, number_dimensions=2):
 		sets_2d_proj = sets_3d_cvi_clean.copy()
 	return sets_2d_proj
 
+def createTSNEdf(pose_tsne, kmeans_preds, replace_dict=None):
+	'''
+		Creates a TSNE df
+	'''
+	df = pd.DataFrame(list(zip(pose_tsne[:, 0], pose_tsne[:, 1], kmeans_preds)),columns =['x', 'y', 'cluster'])
+	if replace_dict:
+		df = df.replace({"cluster": replace_dict})
+	return df
+
+def make_kmeans_df(kmeans_preds, set_3d_cvi_clean_df, cluster_names=None):
+
+	l = [ImageID(set_3d_cvi_clean_df, i) for i in range(len(kmeans_preds))]
+	kmeans_dict = {"img_id": l, "cluster": kmeans_preds}
+	df = pd.DataFrame.from_dict(kmeans_dict)
+
+	return df
 def create_kmeans_df(kmeans_preds, set_3d_cvi_clean_df, cluster_names=None, save=False):
 	'''
 		Df: image_id -> cluster
@@ -258,7 +280,8 @@ def create_kmeans_df(kmeans_preds, set_3d_cvi_clean_df, cluster_names=None, save
 
 	if cluster_names:
 		clusters = list(range(len(cluster_names)))
-		df = df.replace(clusters, cluster_names)
+		replace_dict = {k: v for k,v in zip(clusters, cluster_names)}
+		df = df.replace({"cluster": replace_dict})
 
 	if save:
 		df.to_csv("data/events/cluster_1v1_4.csv", index=False)
