@@ -45,8 +45,6 @@ def parse_args():
 
 def show_args(args):
 	print("Arguments for run:")
-	print('\tSave:', args.save)
-	print('\tShow:', args.show)
 	print('\tView Invariance on 1v1:', args.view_invariant1)
 	print('\tNumber of Dimensions:', args.number_dimensions)
 	print('\tSplit Sides:', args.split_sides)
@@ -55,6 +53,8 @@ def show_args(args):
 	print('\tPenalty Location:', args.penalty_location)
 	print('\tDominant Hand:', args.hand)
 	print('\tGoalkeeper Height:', args.height)
+	print('\tSave:', args.save)
+	print('\tShow:', args.show)
 
 
 # Import and Prepare Data - One on Ones
@@ -129,8 +129,10 @@ def LearningSaveTechnique(sets_3d_cvi_clean, set_3d_cvi_clean_df, args):
 	sets_2d_proj = auxi.create3D_2D_projection_df(sets_3d_cvi_clean, args.number_dimensions)
 
 	kmeans, kmeans_preds, cluster_name, closest = KMeansCalc()
+	cluster_dict = auxi.cluster_correspondence(kmeans_preds, set_3d_cvi_clean_df, cluster_name)
+	print(cluster_dict)
 	
-	c_size_d = auxi.print_cluster_sizes(kmeans_preds, cluster_name)
+	c_size_d = auxi.print_cluster_sizes(kmeans_preds, cluster_dict)
 
 	# df = auxi.create_kmeans_df(kmeans_preds, set_3d_cvi_clean_df, cluster_name, save=True)
 
@@ -139,8 +141,9 @@ def LearningSaveTechnique(sets_3d_cvi_clean, set_3d_cvi_clean_df, args):
 	if args.show:
 		plots.plotTSNE(pose_tsne, kmeans_preds, cluster_name)
 	
-	auxi.print_cluster_center(closest, cluster_name)
+	auxi.print_cluster_center(closest, cluster_dict)
 
+	exit()
 	#Plot the most representative saves for each cluster
 	if args.show:
 		plots.plot_cluster(sets_3d_cvi_clean, set_3d_cvi_clean_df, closest, cluster_name, path='images/1v1_images/', show=args.show)

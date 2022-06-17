@@ -43,6 +43,7 @@ def getClusterSizes(kmeans_preds):
 	sizes = np.unique(kmeans_preds, return_counts=True)[1]
 	d = {k:v for k,v in enumerate(sizes)}
 	return d
+
 # Print aux
 
 def print_full(df, rows=True, columns=False, width=False):
@@ -63,24 +64,27 @@ def print_full(df, rows=True, columns=False, width=False):
 	else:
 		print(df)
 
-def print_cluster_sizes(kmeans_preds, cluster_name):
+def print_cluster_sizes(kmeans_preds, replace_dict):
 	'''
 		Print cluster sizes
 	'''
 	print("Cluster sizes: ")
 	d = getClusterSizes(kmeans_preds)
-	for k,v in d.items():
-		print("{}: {}".format(cluster_name[k],v), end='\t')
+
+	new_d = {replace_dict[k]:v for k,v in d.items()}
+	for k in sorted(new_d.keys()):
+		print("{}: {}".format(k, new_d[k]), end='\t')
 	print()
 	return d
 
-def print_cluster_center(closest, cluster_name):
+def print_cluster_center(closest, replace_dict):
 	'''
 		Print image that is cluster center
 	'''
 	print("Closest to cluester center: ")
-	for c, s in zip(cluster_name, closest):
-		print("{}: {}".format(c,s), end='\t')
+	new_d = {replace_dict[i]:closest[i] for i in range(len(closest))}
+	for k in sorted(new_d.keys()):
+		print("{}: {}".format(k, new_d[k]), end='\t')
 	print()
 
 def print_penalty_angles(poses_features, kmeans_pens_preds):
@@ -208,6 +212,47 @@ def importImage(img):
 
 
 # DF alter
+def cluster_correspondence(kmeans_preds, set_3d_cvi_clean_df, cluster_name):
+	'''
+	'''
+	print("Cluster Correspondence")
+	print(len(cluster_name))
+
+	df = make_kmeans_df(kmeans_preds, set_3d_cvi_clean_df)
+
+	if len(cluster_name) == 4:
+		gt = pd.read_csv("data/events/cluster_1v1_4.csv")
+		m = gt.merge(df, on='img_id', suffixes=['_gt', '_n'])
+		g = m.groupby(by=['cluster_gt', 'cluster_n']).count().reset_index(col_level=1)
+		g[['sum_gt', 'sum_n']] = 0, 0
+		for i, row in g.iterrows():
+			c_gt = row['cluster_gt']
+			g.at[i, 'sum_gt'] = g.loc[g['cluster_gt'] == c_gt, 'img_id'].sum()
+			g.at[i, 'sum_n'] = g.loc[g['cluster_n'] == row['cluster_n'], 'img_id'].sum()
+
+		g['n_gt'], g['gt_n'] = g['img_id']/g['sum_gt'], g['img_id']/g['sum_n']
+		print(g)
+		a = g.sort_values(by=['n_gt', 'gt_n'], ascending=False).reset_index(drop=True)
+		n_gt = a.groupby('cluster_gt')['cluster_n'].apply(list).to_dict()
+		s_n_gt = {k:v[0] for k,v in n_gt.items()}
+		# print(n_gt)
+
+		a = g.sort_values(by=['gt_n', 'n_gt'], ascending=False).reset_index(drop=True)
+		gt_n = a.groupby('cluster_gt')['cluster_n'].apply(list).to_dict()
+		s_gt_n = {k:v[0] for k,v in gt_n.items()}		
+		# print(gt_n)
+
+		if s_n_gt==s_gt_n:
+			return dict((v,k) for k,v in s_gt_n.items())
+		else:
+			print("Equal??", s_n_gt==s_gt_n)
+			print("Equal??", n_gt==gt_n)
+			return dict((v,k) for k,v in s_gt_n.items())
+	else:
+		a = 1
+
+	return
+
 
 def merge_with_1v1(set_2d_df, set_3d_df, sb_df):
 	'''
@@ -270,6 +315,7 @@ def make_kmeans_df(kmeans_preds, set_3d_cvi_clean_df, cluster_names=None):
 	df = pd.DataFrame.from_dict(kmeans_dict)
 
 	return df
+
 def create_kmeans_df(kmeans_preds, set_3d_cvi_clean_df, cluster_names=None, save=False):
 	'''
 		Df: image_id -> cluster
@@ -286,6 +332,7 @@ def create_kmeans_df(kmeans_preds, set_3d_cvi_clean_df, cluster_names=None, save
 	if save:
 		df.to_csv("data/events/cluster_1v1_4.csv", index=False)
 	return df
+
 def clean_train_test(train_df, test_df):
 	'''
 		Clean train/test sets
