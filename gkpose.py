@@ -42,9 +42,11 @@ def pose_to_matrix(pose):
     return pose_matrix
 
 def rotatePose(pose_3d, theta):
-    #Rotate body pose by theta degrees around the y axis
-    #Input: pose_3d - 16x3 array representing the coordinates of the body pose
-    #Returns: 16x3 array of rotated body pose coordinates
+    '''
+        Rotate body pose by theta degrees around the y axis
+        Input: pose_3d - 16x3 array representing the coordinates of the body pose
+        Returns: 16x3 array of rotated body pose coordinates
+    '''
     radian = math.radians(theta)
 
     rotation_matrix = np.array([[np.cos(radian), 0, np.sin(radian)],
@@ -57,9 +59,11 @@ def rotatePose(pose_3d, theta):
     return rotated_pose
 
 def hipWidth(pose_3d):
-    #Input: pose_3d - 16x3 np array representing a single 3D body pose
-    #Returns euclidean distance in x-y space of the two hip joints
-    #Indices of both hip locations are 2 and 3.
+    '''
+        Input: pose_3d - 16x3 np array representing a single 3D body pose
+        Returns euclidean distance in x-y space of the two hip joints
+        Indices of both hip locations are 2 and 3.
+    '''
     return np.linalg.norm(pose_3d[3][:2]-pose_3d[2][:2])
 
 def cameraInvariantPose(pose_3d):
@@ -77,7 +81,9 @@ def cameraInvariantPose(pose_3d):
     return best_pose
 
 def flipBehindPoses(cvi_arr):
-    #Rotates the poses that are photographed from behind 180 degrees
+    '''
+        Rotates the poses that are photographed from behind 180 degrees
+    '''
     sets_3d_cvi = np.zeros(cvi_arr.shape)
     for i in range(len(sets_3d_cvi)):
         #Rotate the photos from behind by 180 degrees
@@ -92,13 +98,21 @@ def flipBehindPoses(cvi_arr):
         sets_3d_cvi[i] = new_pose
     return sets_3d_cvi
 
-def cameraInvariantDataset(raw_poses):
-    #Converts the raw body point dataset to a cleaned camera-invariant one
+def cameraInvariantDataset(raw_poses, vi=True):
+    '''
+        Converts the raw body point dataset to a cleaned camera-invariant one
+    '''
     cleaned_pose_arr = raw_poses.copy()
-    for i in range(len(raw_poses)):
-        pose_3d = pose_to_matrix(raw_poses[i])
-        best_pose = cameraInvariantPose(pose_3d)
-        cleaned_pose_arr[i] = best_pose.flatten()
+    if vi:
+        for i in range(len(raw_poses)):
+            pose_3d = pose_to_matrix(raw_poses[i])
+            best_pose = cameraInvariantPose(pose_3d)
+            cleaned_pose_arr[i] = best_pose.flatten()
+    else:
+        for i in range(len(raw_poses)):
+            pose_3d = pose_to_matrix(raw_poses[i])
+            cleaned_pose_arr[i] = pose_3d.flatten()
+
     return cleaned_pose_arr
 
 def getFreezeFrame(shots, shot_id):

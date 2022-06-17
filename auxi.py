@@ -22,6 +22,22 @@ import statsmodels.api as sm
 
 import gkpose as gk
 
+
+def ImageID(df, array_id):
+    '''
+        Get photo id's of poses
+    '''
+    return df.loc[array_id, 'file']
+
+def getClusterNames(number_cluster):
+
+	if number_cluster == 4:
+		cluster_name = ['Aggressive Set', 'Passive Set', 'Spread', 'Smother']
+	else:
+		cluster_name = ['Aggressive Set Right', 'Passive Set Right', 'Spread Right', 'Smother Right', 
+		'Aggressive Set Left', 'Passive Set Left', 'Spread Left', 'Smother Left']
+	return cluster_name
+
 # Print aux
 
 def print_full(df, rows=True, columns=False, width=False):
@@ -221,6 +237,32 @@ def create_GodPoseFeatDf(poses_features, good_poses_3d_df):
 
 	return good_poses_feat_df
 
+def create3D_2D_projection_df(sets_3d_cvi_clean, number_dimensions=2):
+	'''
+		Create 3D - 2D projection dataset
+	'''
+	if number_dimensions == 2:
+		to_delete = np.array([ x-1 for x in range(0,49) if x%3==0][1:])
+		sets_2d_proj = np.delete(sets_3d_cvi_clean, to_delete, 1)
+	else:
+		sets_2d_proj = sets_3d_cvi_clean.copy()
+	return sets_2d_proj
+
+def create_kmeans_df(kmeans_preds, set_3d_cvi_clean_df, cluster_names=None, save=False):
+	'''
+		Df: image_id -> cluster
+	'''
+	l = [ImageID(set_3d_cvi_clean_df, i) for i in range(len(kmeans_preds))]
+	kmeans_dict = {"img_id": l, "cluster": kmeans_preds}
+	df = pd.DataFrame.from_dict(kmeans_dict)
+
+	if cluster_names:
+		clusters = list(range(len(cluster_names)))
+		df = df.replace(clusters, cluster_names)
+
+	if save:
+		df.to_csv("data/events/cluster_1v1_4.csv", index=False)
+	return df
 def clean_train_test(train_df, test_df):
 	'''
 		Clean train/test sets

@@ -107,7 +107,7 @@ def plot_camera_view_invariance(sets_3d, set_3d_df, sets_3d_cvi, pose_id=319, pa
     if show:
         plt.show()
 
-def plot3D(ax, points, edges, marker_size=100):
+def plot3D(ax, points, marker_size=100):
     ax.grid(False)
     oo = 1e10
     xmax,ymax,zmax = -oo,-oo,-oo
@@ -130,7 +130,7 @@ def plot3D(ax, points, edges, marker_size=100):
 
     ax.scatter(x, y, z, s = marker_size, c = c, marker = marker)
     
-    for e in edges:
+    for e in mpii_edges:
         ax.plot(x[e], y[e], z[e], c = c)
     
     max_range = np.array([xmax-xmin, ymax-ymin, zmax-zmin]).max()

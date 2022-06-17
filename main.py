@@ -1,13 +1,10 @@
 # main
 
 # Imports
+import wandb
 import argparse
 import numpy as np
 import pandas as pd
-
-import matplotlib.cm as cm
-import matplotlib.pyplot as plt
-from matplotlib.lines import Line2D
 
 from sklearn.svm import SVC
 from sklearn.manifold import TSNE
@@ -16,10 +13,6 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import pairwise_distances_argmin_min
 
-from mpl_toolkits import mplot3d
-from mpl_toolkits.mplot3d import Axes3D
-
-from mplsoccer import VerticalPitch
 import statsmodels.api as sm
 
 import auxi
@@ -34,19 +27,17 @@ def parse_args():
 
     parser = argparse.ArgumentParser(description='.', formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
-    parser.add_argument('-sh', '--show', type=int, default=0, help='Show plots')
-    
     parser.add_argument('-d', '--debug', action='store_true', help='Desligar o monitoramento do WandB.' )
-    parser.add_argument('-ds', '--dataset', default='synth1', choices=['concrete', 'synth1', 'synth2'], 
-    	help='Dataset que sera usado no treino.')
-    parser.add_argument('-n_i', '--n_ind', type=int, default=7, help='Tamanho máximo do indivíduo.')
-    parser.add_argument('-n_p', '--n_pop', type=int, default=50, help='Tamanho da população.')
-    parser.add_argument('-n_g', '--n_gen', type=int, default=50, help='Quantidade de gerações.')
-    parser.add_argument('-pc', '--prob_cross', type=float, default=0.9, help='Probabilidade de cruzamento.')
-    parser.add_argument('-pm', '--prob_mutation', type=float, default=0.05, help='Probabilidade de mutação.')
-
-    parser.add_argument('-t', '--tournament_size', type=int, default=2, help='Tamanho do torneio.')
-    parser.add_argument('-e', '--elitism', type=int, default=1, choices=[0,1], help='Usar elitismo.')
+    parser.add_argument('-s', '--save', type=int, default=0, help='Save plots')
+    parser.add_argument('-sh', '--show', type=int, default=0, help='Show plots')
+    parser.add_argument('-v1', '--view_invariant1', type=int, default=1, help='Use view-invariance on 1v1')
+    parser.add_argument('-nd', '--number_dimensions', type=int, default=2, help='Number of dimensions to use')
+    parser.add_argument('-si', '--split_sides', type=int, default=0, help='Split saves into left and right')
+    parser.add_argument('-g', '--grid_search', type=int, default=0, help='Add more parameters to GridSearchCV')
+    parser.add_argument('-v2', '--view_invariant2', type=int, default=1, help='Use view-invariance on penalties')
+    parser.add_argument('-p', '--penalty_location', type=int, default=0, help='Use penalty location')
+    parser.add_argument('-ha', '--hand', type=int, default=0, help='Add dominant hand parameter')
+    parser.add_argument('-he', '--height', type=int, default=0, help='Add goalkeeper height information')
 
 
     args = parser.parse_args()
@@ -54,15 +45,16 @@ def parse_args():
 
 def show_args(args):
 	print("Arguments for run:")
-	print('\tSeed:', args.seed)
-	print('\tDataset:', args.dataset)
-	print('\tMax size individual:', args.n_ind)
-	print('\tPopulation size:', args.n_pop)
-	print('\tNumber of generations:', args.n_gen)
-	print('\tCrossover probability:', args.prob_cross)
-	print('\tMutation probability:', args.prob_mutation)
-	print('\tTournament Size:', args.tournament_size)
-	print('\tElitism:', args.elitism)
+	print('\tSave:', args.save)
+	print('\tShow:', args.show)
+	print('\tView Invariance on 1v1:', args.view_invariant1)
+	print('\tNumber of Dimensions:', args.number_dimensions)
+	print('\tSplit Sides:', args.split_sides)
+	print('\tGrid Search:', args.grid_search)
+	print('\tView Invariance on penalties:', args.view_invariant2)
+	print('\tPenalty Location:', args.penalty_location)
+	print('\tDominant Hand:', args.hand)
+	print('\tGoalkeeper Height:', args.height)
 
 
 # Import and Prepare Data - One on Ones
@@ -92,7 +84,7 @@ def viewInvariance(sets_3d, set_3d_df, args):
 
 
 	#Get camera-view invariant dataset of 3d poses
-	cvi_arr = gk.cameraInvariantDataset(sets_3d)
+	cvi_arr = gk.cameraInvariantDataset(sets_3d, vi=args.view_invariant1)
 	sets_3d_cvi = gk.flipBehindPoses(cvi_arr)
 	
 	# Create the view-invariant dataframe and array
@@ -103,8 +95,8 @@ def viewInvariance(sets_3d, set_3d_df, args):
 	sets_3d_cvi = set_3d_cvi_df.loc[:,keep_cols].values
 	
 	# Camera-view invariance example
-	if args.show:
-		plots.plot_camera_view_invariance(sets_3d, set_3d_df, sets_3d_cvi, pose_id=319, path='images/1v1_images/')
+	if args.show or args.save:
+		plots.plot_camera_view_invariance(sets_3d, set_3d_df, sets_3d_cvi, pose_id=319, path='images/1v1_images/', show=args.show)
 
 	# Clean Predictions
 	sets_3d_cvi_clean, set_3d_cvi_clean_df = gk.cleanPredictions(set_3d_cvi_df)
@@ -118,29 +110,35 @@ def LearningSaveTechnique(sets_3d_cvi_clean, set_3d_cvi_clean_df, args):
 	'''
 		Learning Save Technique - Unsupervised Learning
 	'''
-	
-	# Create 3D - 2D projection dataset
-	to_delete = np.array([ x-1 for x in range(0,49) if x%3==0][1:])
-	sets_2d_proj = np.delete(sets_3d_cvi_clean, to_delete, 1)
-	
-	# Train K-Means 
-	kmeans = KMeans(n_clusters=4, random_state=689).fit(sets_2d_proj)
+	def KMeansCalc():
+		number_cluster = 8 if args.split_sides else 4
+		# Train K-Means 
+		kmeans = KMeans(n_clusters=number_cluster, random_state=689).fit(sets_2d_proj)
 
-	# Get cluster membership label for each save - represents chosen save technique
-	kmeans_preds = kmeans.predict(sets_2d_proj)
-	
-	# Clusters are named using domain knowledge
-	cluster_name = ['Aggressive Set', 'Passive Set', 'Spread', 'Smother']
+		# Get cluster membership label for each save - represents chosen save technique
+		kmeans_preds = kmeans.predict(sets_2d_proj)
+
+		# Clusters are named using domain knowledge
+		cluster_name = auxi.getClusterNames(number_cluster)
+
+		#Find saves that are closest to cluster centres
+		closest, _ = pairwise_distances_argmin_min(kmeans.cluster_centers_, sets_2d_proj)
+		return kmeans_preds, cluster_name, closest
+
+	# Create 3D - 2D projection dataset
+	sets_2d_proj = auxi.create3D_2D_projection_df(sets_3d_cvi_clean, args.number_dimensions)
+
+	kmeans_preds, cluster_name, closest = KMeansCalc()
 	
 	auxi.print_cluster_sizes(kmeans_preds, cluster_name)
 
-	#Get 2D TSNE representation of body pose (1244)
+	# df = auxi.create_kmeans_df(kmeans_preds, set_3d_cvi_clean_df, cluster_name, save=True)
+
+	# Get 2D TSNE representation of body pose (1244)
 	pose_tsne = TSNE(n_components=2, random_state=1445).fit_transform(sets_2d_proj)
 	if args.show:
 		plots.plotTSNE(pose_tsne, kmeans_preds, cluster_name)
-
-	#Find saves that are closest to cluster centres
-	closest, _ = pairwise_distances_argmin_min(kmeans.cluster_centers_, sets_2d_proj)
+	
 	auxi.print_cluster_center(closest, cluster_name)
 
 	#Plot the most representative saves for each cluster
@@ -156,6 +154,13 @@ def ExpectedSavesModel_1v1(set_3d_cvi_clean_df, args):
 	'''
 		1v1 Expected Saves Model
 	'''
+	def grid_search_parameters():
+		if args.grid_search:
+			parameters = {'kernel':('linear', 'rbf', 'poly', 'sigmoid'), 'C':[0.1, 1, 10, 100]}
+		else:
+			parameters = {'kernel':('linear', 'rbf'), 'C':[0.1, 1, 10, 100]}
+		return parameters
+
 	# Get data for xS model
 	df = set_3d_cvi_clean_df.loc[:,'file':]
 	df['cluster'] = kmeans_preds #Add save technique as feature
@@ -180,7 +185,7 @@ def ExpectedSavesModel_1v1(set_3d_cvi_clean_df, args):
 	print("Saved %: ", np.mean(y_train == 1))
 
 
-	parameters = {'kernel':('linear', 'rbf'), 'C':[0.1, 1, 10, 100]}
+	parameters = grid_search_parameters()
 	svm = GridSearchCV(SVC(probability=True), param_grid=parameters, cv=5, scoring='accuracy').fit(X_train, y_train)
 	print("Best Parameter Set:", svm.best_params_)
 	print("Test Set Accuracy:", np.mean(svm.predict(X_test) == np.array(y_test))*100)
@@ -193,12 +198,13 @@ def ExpectedSavesModel_1v1(set_3d_cvi_clean_df, args):
 
 	if args.show:
 		cluster_name = ['Aggressive Set', 'Passive Set', 'Spread', 'Smother']
-		plots.plotDoubleXSMap(xs_map, xs_map_up, cluster_name)
+		plots.plotDoubleXSMap(xs_map, xs_map_up, cluster_name, show=args.show)
 
 		#Optimal technique map
-		plots.plotBestTechniqueUp(xs_map, xs_map_up, cluster_name)
+		plots.plotBestTechniqueUp(xs_map, xs_map_up, cluster_name, show=args.show)
 
 	return train_gk_name, test_gk_name, train_df, test_df, svm
+	exit()
 
 
 # Pro Goalkeeper Scouting
@@ -239,6 +245,13 @@ def proGoalkeeperScouting(train_gk_name, test_gk_name , train_df, test_df, svm, 
 
 def PenaltyAnalysis(args):
 
+	'''
+	parser.add_argument('-v2', '--view_invariant2', type=int, default=1, help='Use view-invariance on penalties')
+    parser.add_argument('-p', '--penalty_location', type=int, default=0, help='Use penalty location')
+    parser.add_argument('-ha', '--hand', type=int, default=0, help='Add dominant hand parameter')
+    parser.add_argument('-he', '--height', type=int, default=0, help='Add goalkeeper height information')
+	'''
+
 	#3D pose data
 	joined_pose_3d_df, pose_arr = auxi.importPenalty3D()
 	# 2D pose data
@@ -247,10 +260,9 @@ def PenaltyAnalysis(args):
 	# Percentage of pens that were saved in our dataset
 	print("Percentage of saved penalties:", np.mean(joined_pose_3d_df['outcome'] == 'Saved') * 100)
 
-	if args.show:
+	if args.show or args.save:
 		# Show image, image with 2D pose overlay, and 3D pose estimate
-		photo_id = 315
-		plots.plot_pose_estimation(joined_pose_3d_df, pose_arr, pose_2d_arr, photo_id, show=args.show)
+		plots.plot_pose_estimation(joined_pose_3d_df, pose_arr, pose_2d_arr, photo_id=315, show=args.show)
 		
 		pic_ids, path = [388, 20, 3, 243, 302, 377], 'images/pen_images/combined_data/'
 		plots.plot_penalty_examples(pose_arr, joined_pose_3d_df, pic_ids, path, show=args.show)
@@ -325,6 +337,11 @@ def PenaltyAnalysis(args):
 
 if __name__ == '__main__':
 	args = parse_args()
+	show_args(args)
+
+	if not args.debug:
+		wandb.init(project="LearningFromThePros", entity="luizachagas")
+		wandb.config.update(args)
 
 	# Import and Prepare Data - One on Ones
 	set_2d_df, set_3d_df, sets_2d, sets_3d = import_and_prepare()
