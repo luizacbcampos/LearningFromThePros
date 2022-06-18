@@ -83,16 +83,8 @@ def import_and_prepare():
 def viewInvariance(sets_3d, set_3d_df, args):
 
 
-	#Get camera-view invariant dataset of 3d poses
-	cvi_arr = gk.cameraInvariantDataset(sets_3d, vi=args.view_invariant1)
-	sets_3d_cvi = gk.flipBehindPoses(cvi_arr)
-	
-	# Create the view-invariant dataframe and array
-	set_3d_cvi_df = auxi.createViewInvariant_df(set_3d_df, sets_3d_cvi)
-	
-	# Create view-invariant array with GKEM included
-	keep_cols = np.array(list(range(48)) + ['gk_engage'])
-	sets_3d_cvi = set_3d_cvi_df.loc[:,keep_cols].values
+	# Get camera-view invariant data
+	sets_3d, set_3d_df, sets_3d_cvi, set_3d_cvi_df = auxi.ViewInvarianceData(sets_3d, set_3d_df, vi=args.view_invariant1)
 	
 	# Camera-view invariance example
 	if args.show or args.save:
@@ -111,7 +103,7 @@ def LearningSaveTechnique(sets_3d_cvi_clean, set_3d_cvi_clean_df, args):
 		Learning Save Technique - Unsupervised Learning
 	'''
 	def KMeansCalc():
-		number_cluster = 8 if args.split_sides else 4
+		number_cluster = 6 if args.split_sides else 4
 		# Train K-Means 
 		kmeans = KMeans(n_clusters=number_cluster, random_state=689).fit(sets_2d_proj)
 
@@ -129,28 +121,30 @@ def LearningSaveTechnique(sets_3d_cvi_clean, set_3d_cvi_clean_df, args):
 	sets_2d_proj = auxi.create3D_2D_projection_df(sets_3d_cvi_clean, args.number_dimensions)
 
 	kmeans, kmeans_preds, cluster_name, closest = KMeansCalc()
+	
 	cluster_dict = auxi.cluster_correspondence(kmeans_preds, set_3d_cvi_clean_df, cluster_name)
 	print(cluster_dict)
-	
 	c_size_d = auxi.print_cluster_sizes(kmeans_preds, cluster_dict)
+	
 
 	# df = auxi.create_kmeans_df(kmeans_preds, set_3d_cvi_clean_df, cluster_name, save=True)
 
 	# Get 2D TSNE representation of body pose (1244)
 	pose_tsne = TSNE(n_components=2, random_state=1445).fit_transform(sets_2d_proj)
 	if args.show:
-		plots.plotTSNE(pose_tsne, kmeans_preds, cluster_name)
+		plots.plotTSNE(pose_tsne, kmeans_preds, cluster_name, number=len(cluster_name), show=args.show)
 	
-	auxi.print_cluster_center(closest, cluster_dict)
+	auxi.print_cluster_center(set_3d_cvi_clean_df, closest, cluster_dict)
 
-	# exit()
 	#Plot the most representative saves for each cluster
 	if args.show:
 		plots.plot_cluster(sets_3d_cvi_clean, set_3d_cvi_clean_df, closest, cluster_name, path='images/1v1_images/', show=args.show)
 
+	# exit()
 	if not args.debug:
-		TSNE_df = auxi.createTSNEdf(pose_tsne, kmeans_preds) #COLOCAR OS NOMES NO LUGAR DO CLUSTER NUMBER
+		TSNE_df = auxi.createTSNEdf(pose_tsne, kmeans_preds, cluster_dict)
 
+		wandb.log({'elbow': wandb.sklearn.plot_elbow_curve(KMeans(random_state=689).fit(sets_2d_proj), sets_2d_proj)})
 		wandb.sklearn.plot_silhouette(kmeans, sets_2d_proj, kmeans_preds)
 		wandb.log({"KMeans 1v1 Table": auxi.make_kmeans_df(kmeans_preds, set_3d_cvi_clean_df)})
 		wandb_LearningSaveTechnique(TSNE_df, c_size_d)
@@ -371,7 +365,8 @@ if __name__ == '__main__':
 
 	# Import and Prepare Data - One on Ones
 	set_2d_df, set_3d_df, sets_2d, sets_3d = import_and_prepare()
-
+	auxi.create_side_df(sets_2d, set_2d_df, save=True)
+	# exit()
 	# View-Invariance
 	sets_3d_cvi_clean, set_3d_cvi_clean_df = viewInvariance(sets_3d, set_3d_df, args)
 

@@ -47,15 +47,25 @@ def rotatePose(pose_3d, theta):
         Input: pose_3d - 16x3 array representing the coordinates of the body pose
         Returns: 16x3 array of rotated body pose coordinates
     '''
-    radian = math.radians(theta)
+    def rotate_pose():
+        rotated_pose = np.zeros((len(pose_3d), 3))
+        for i in range(len(pose_3d)):
+            rotated_pose[i] = rotation_matrix @ pose_3d[i]
+        return rotated_pose
 
+    radian = math.radians(theta)
     rotation_matrix = np.array([[np.cos(radian), 0, np.sin(radian)],
                                 [0, 1, 0],
                                 [-np.sin(radian), 0, np.cos(radian)]])
 
-    rotated_pose = np.zeros((len(pose_3d), 3))
-    for i in range(len(pose_3d)):
-        rotated_pose[i] = rotation_matrix @ pose_3d[i]
+    if pose_3d.shape == (16,2):
+        pose_3d = np.hstack((pose_3d, np.ones((pose_3d.shape[0],1))))
+        rotated_pose = rotate_pose()
+        rotated_pose = np.delete(rotated_pose, 2, 1)
+    else:
+        rotated_pose = rotate_pose()
+    
+    # print(rotated_pose)
     return rotated_pose
 
 def hipWidth(pose_3d):
@@ -185,7 +195,8 @@ def bodyAngle(pose_3d):
     body_angle_vec = torso-midpoint
     return np.abs(math.atan2(body_angle_vec[0], body_angle_vec[1])*180/math.pi)
 
-def cleanPredictions(set_3d_cvi_df):
+def cleanPredictions(set_3d_cvi_df, s=48):
+
     #List of the array_ids in which to remove because they are bad prediction of true pose
     to_remove_sets = np.array([1,6,7,11,14,25,27,28,31,32,37,40,42,43,44,51,52,53,55,58,
                                63,65,72,81,83,85,87,94,96,108,109,110,113,114,116,117,119,
@@ -199,9 +210,10 @@ def cleanPredictions(set_3d_cvi_df):
                                419,423,433,436,439,443,446,451,452,453,456,462,465,470,472,
                                474,475,480,489,490,494,502,507,509,515,517,522,528,532,533,
                                537,553,555,558,566,567,570,572,575,579,580,585])
+    
     #Remove selected poses
     set_3d_cvi_clean_df = set_3d_cvi_df.drop(to_remove_sets).reset_index(drop=True)
-    keep_cols = np.array(list(range(48)) + ['gk_engage'])
+    keep_cols = np.array(list(range(s)) + ['gk_engage'])
     sets_3d_cvi_clean = set_3d_cvi_clean_df.loc[:,keep_cols].values
     return sets_3d_cvi_clean, set_3d_cvi_clean_df
 

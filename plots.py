@@ -18,7 +18,6 @@ import auxi
 
 
 mpii_edges = [[0, 1], [1, 2], [2, 6], [6, 3], [3, 4], [4, 5], [10, 11], [11, 12], [12, 8], [8, 13], [13, 14], [14, 15], [6, 8], [8, 9]]
-
 # pose converter
 
 def pose_to_matrix(pose):
@@ -141,14 +140,15 @@ def plot3D(ax, points, marker_size=100):
         ax.plot([xb], [yb], [zb], 'w')
 
 def plot2D(ax, pose_3d):
-	'''
-		2D plot of the 3D body pose in the x-y plane (ignoring z-axis)
-	'''
-	for e in range(len(mpii_edges)):
-		ax.plot(pose_3d[mpii_edges[e]][:, 0], -1*pose_3d[mpii_edges[e]][:, 1])
+    '''
+    2D plot of the 3D body pose in the x-y plane (ignoring z-axis)
+    '''
+    for e in range(len(mpii_edges)):
+        ax.plot(pose_3d[mpii_edges[e]][:, 0], -1*pose_3d[mpii_edges[e]][:, 1], label=e)
 
-	ax.set_xlabel('x')
-	ax.set_ylabel('y')
+    ax.set_xlabel('x')
+    ax.set_ylabel('y')
+    # ax.legend(loc=1, bbox_to_anchor=(1, 0.38))
 
 def clusterExamples(k, n_examples, path, model_clusters, pose_df, pose_arr, save, show=False):
     ax_array = np.linspace(1, k * 2 * n_examples - (k * 2 - 1), n_examples).astype(int)
@@ -280,14 +280,14 @@ def plot_cluster(sets_3d_cvi_clean, set_3d_cvi_clean_df, closest, cluster_name, 
         Plot the most representative saves for each cluster
     '''
     fig = plt.figure(figsize=(20,7))
-    for i in range(4):
+    for i in range(len(cluster_name)):
         photo_id = ImageID(set_3d_cvi_clean_df, closest[i])
-        ax = fig.add_subplot(2, 4, i+1)
+        ax = fig.add_subplot(2, len(cluster_name), i+1)
         ax.imshow(importImage(path + photo_id))
         remove_ax_ticks(ax, s=2)
         ax.set_title('Cluster ' + str(i) + ': ' + cluster_name[i], size=20, pad=15)
 
-        ax = fig.add_subplot(2, 4, 5+i, projection='3d')
+        ax = fig.add_subplot(2, len(cluster_name), len(cluster_name)+1+i, projection='3d')
         plot3D(ax, pose_to_matrix(sets_3d_cvi_clean[closest[i]][:-1]))
         remove_ax_ticks(ax, s=3)
         remove_labels(ax, s=2)

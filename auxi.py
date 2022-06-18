@@ -77,12 +77,13 @@ def print_cluster_sizes(kmeans_preds, replace_dict):
 	print()
 	return new_d
 
-def print_cluster_center(closest, replace_dict):
+def print_cluster_center(set_3d_cvi_clean_df, closest, replace_dict):
 	'''
 		Print image that is cluster center
 	'''
-	print("Closest to cluester center: ")
-	new_d = {replace_dict[i]:closest[i] for i in range(len(closest))}
+	print("Closest to cluster center: ")
+	new_d = {replace_dict[i]:ImageID(set_3d_cvi_clean_df, closest[i]) for i in range(len(closest))}
+
 	for k in sorted(new_d.keys()):
 		print("{}: {}".format(k, new_d[k]), end='\t')
 	print()
@@ -210,58 +211,7 @@ def importImage(img):
     image = cv2.cvtColor(cv2.imread(img), cv2.COLOR_BGR2RGB)
     return image
 
-
-# DF alter
-def cluster_correspondence(kmeans_preds, set_3d_cvi_clean_df, cluster_name):
-	'''
-	'''
-	print("Cluster Correspondence")
-	print(len(cluster_name))
-
-	df = make_kmeans_df(kmeans_preds, set_3d_cvi_clean_df)
-
-	if len(cluster_name) == 4:
-		gt = pd.read_csv("data/events/cluster_1v1_4.csv")
-		m = gt.merge(df, on='img_id', suffixes=['_gt', '_n'])
-		g = m.groupby(by=['cluster_gt', 'cluster_n']).count().reset_index(col_level=1)
-		g[['sum_gt', 'sum_n']] = 0, 0
-		for i, row in g.iterrows():
-			c_gt = row['cluster_gt']
-			g.at[i, 'sum_gt'] = g.loc[g['cluster_gt'] == c_gt, 'img_id'].sum()
-			g.at[i, 'sum_n'] = g.loc[g['cluster_n'] == row['cluster_n'], 'img_id'].sum()
-
-		g['n_gt'], g['gt_n'] = g['img_id']/g['sum_gt'], g['img_id']/g['sum_n']
-		# print(g)
-		a = g.sort_values(by=['n_gt', 'gt_n'], ascending=False).reset_index(drop=True)
-		n_gt = a.groupby('cluster_gt')['cluster_n'].apply(list).to_dict()
-		s_n_gt = {k:v[0] for k,v in n_gt.items()}
-		# print(n_gt)
-
-		a = g.sort_values(by=['gt_n', 'n_gt'], ascending=False).reset_index(drop=True)
-		gt_n = a.groupby('cluster_gt')['cluster_n'].apply(list).to_dict()
-		s_gt_n = {k:v[0] for k,v in gt_n.items()}		
-		# print(gt_n)
-
-		if s_n_gt==s_gt_n:
-			return dict((v,k) for k,v in s_gt_n.items())
-		else:
-			print("Equal??", s_n_gt==s_gt_n)
-			print("Equal??", n_gt==gt_n)
-			return dict((v,k) for k,v in s_gt_n.items())
-	else:
-		a = 1
-
-	return
-
-
-def merge_with_1v1(set_2d_df, set_3d_df, sb_df):
-	'''
-		Merge 3d and 2d pose data with 1v1 events data
-	'''
-	set_3d_df = set_3d_df.merge(sb_df, left_on='photo_id', right_index=True, how='left')
-	set_2d_df = set_2d_df.merge(sb_df, left_on='photo_id', right_index=True, how='left')
-	return set_2d_df, set_3d_df
-
+# create DF
 def createViewInvariant_df(set_3d_df, sets_3d_cvi):
 	'''
 		Create the view-invariant dataframe
@@ -308,21 +258,11 @@ def createTSNEdf(pose_tsne, kmeans_preds, replace_dict=None):
 		df = df.replace({"cluster": replace_dict})
 	return df
 
-def make_kmeans_df(kmeans_preds, set_3d_cvi_clean_df, cluster_names=None):
-
-	l = [ImageID(set_3d_cvi_clean_df, i) for i in range(len(kmeans_preds))]
-	kmeans_dict = {"img_id": l, "cluster": kmeans_preds}
-	df = pd.DataFrame.from_dict(kmeans_dict)
-
-	return df
-
 def create_kmeans_df(kmeans_preds, set_3d_cvi_clean_df, cluster_names=None, save=False):
 	'''
 		Df: image_id -> cluster
 	'''
-	l = [ImageID(set_3d_cvi_clean_df, i) for i in range(len(kmeans_preds))]
-	kmeans_dict = {"img_id": l, "cluster": kmeans_preds}
-	df = pd.DataFrame.from_dict(kmeans_dict)
+	df = make_kmeans_df(kmeans_preds, set_3d_cvi_clean_df, cluster_names)
 
 	if cluster_names:
 		clusters = list(range(len(cluster_names)))
@@ -332,6 +272,172 @@ def create_kmeans_df(kmeans_preds, set_3d_cvi_clean_df, cluster_names=None, save
 	if save:
 		df.to_csv("data/events/cluster_1v1_4.csv", index=False)
 	return df
+
+def make_kmeans_df(kmeans_preds, set_3d_cvi_clean_df, cluster_names=None):
+
+	l = [ImageID(set_3d_cvi_clean_df, i) for i in range(len(kmeans_preds))]
+	kmeans_dict = {"img_id": l, "cluster": kmeans_preds}
+	df = pd.DataFrame.from_dict(kmeans_dict)
+
+	return df
+
+def create_side_df(sets_2d, set_2d_df, save=False):
+	'''
+		Creates a DF that shows the side the keepers are inclined to
+	'''
+	sets_2d, set_2d_df, sets_2d_cvi, set_2d_cvi_df = ViewInvarianceData(sets_2d, set_2d_df, vi=False)
+	sets_2d_cvi_clean, set_2d_cvi_clean_df = gk.cleanPredictions(set_2d_cvi_df, s=32)
+
+	sets_2d_cvi_clean = np.delete(sets_2d_cvi_clean, 32, 1)
+	sides = []
+
+	for i in range(len(sets_2d_cvi_clean)):
+		pose = sets_2d_cvi_clean[i].reshape((16,2))
+		side = pick_side(pose)
+		sides.append(side)
+		# print(i, ImageID(set_2d_cvi_clean_df, i), side)
+
+	l = [ImageID(set_2d_cvi_clean_df, i) for i in range(len(sets_2d_cvi_clean))]
+	d = {"img_id": l, "side": sides}
+	df = pd.DataFrame.from_dict(d).replace({'side': {0: 'Right', 1: "Left"}})
+	if save:
+		df.to_csv("data/events/side_1v1.csv", index=False)
+	return
+
+
+# DF alter
+
+def column_proportions(g):
+	'''
+		Creates proportions from cluster columns
+	'''
+
+	g[['sum_gt', 'sum_n']] = 0, 0
+	for i, row in g.iterrows():
+		g.at[i, 'sum_gt'] = g.loc[g['cluster_gt'] == row['cluster_gt'], 'img_id'].sum() # quantos do gt estão nesse grupo
+		g.at[i, 'sum_n'] = g.loc[g['cluster_n'] == row['cluster_n'], 'img_id'].sum() # quantos dos cluster novos estão nesse grupo
+
+	g['perc_gt'] = g['img_id']/g['sum_gt'] # quantidade de poses dv por quantos do gt estão nesse grupo
+	g['perc_novo'] = g['img_id']/g['sum_n'] # quantidade de poses dv por quantos dos cluster novos estão nesse grupo
+	return g
+
+def cluster_proportions_df(df, gt, on=['img_id'], cols=['cluster_gt', 'cluster_n']):
+
+	m = gt.merge(df, on=on, suffixes=['_gt', '_n'])
+	g = m.groupby(by=cols).count().reset_index(col_level=1)
+	g = column_proportions(g)
+	return g
+
+def cluster_dict(g, by):
+	a = g.sort_values(by=by, ascending=False).reset_index(drop=True)
+	d = a.groupby('cluster_gt')['cluster_n'].apply(list).to_dict()
+	return d
+
+def remove_left_right(d):
+	def invert_dict(d): 
+	    inverse = dict() 
+	    for key in d: # Go through the list that is saved in the dict: 
+	        for item in d[key]: # Check if in the inverted dict the key exists
+	            if item not in inverse: # If not create a new list
+	                inverse[item] = [key] 
+	            else: 
+	                inverse[item].append(key) 
+	    return inverse
+
+	og = ['Aggressive Set', 'Passive Set', 'Spread', 'Smother']
+	dicio = {k: [v] for k,v in d.items()}
+
+	inverse = invert_dict(dicio)
+	for k,v in inverse.items():
+		if len(v) > 1:
+			new_list = set([g.split(" Left")[0].split(' Right')[0] for g in v])
+			if len(new_list) == 1:
+				inverse[k] = list(new_list)
+	
+	inverse = invert_dict(inverse)
+	dicio = {k:v[0] for k,v in inverse.items()}
+	return dicio
+
+def cluster_correspondence(kmeans_preds, set_3d_cvi_clean_df, cluster_name):
+	'''
+	'''
+	print("Cluster Correspondence")
+	print(len(cluster_name))
+
+	df = make_kmeans_df(kmeans_preds, set_3d_cvi_clean_df)
+	gt = pd.read_csv("data/events/cluster_1v1_4.csv")
+
+	if len(cluster_name) == 4:
+		g = cluster_proportions_df(df, gt, cols=['cluster_gt', 'cluster_n'])
+		# print(g)
+
+		perc_gt = cluster_dict(g, by=['perc_gt', 'perc_novo'])
+		s_perc_gt = {k:v[0] for k,v in perc_gt.items()}
+		# print(perc_gt)
+
+		perc_novo = cluster_dict(g, by=['perc_novo', 'perc_gt'])
+		s_perc_novo = {k:v[0] for k,v in perc_novo.items()}		
+		# print(perc_novo)
+
+		if s_perc_gt==s_perc_novo:
+			return dict((v,k) for k,v in s_perc_novo.items())
+		else:
+			print("Equal??", s_perc_gt==s_perc_novo)
+			print("Equal??", perc_gt==perc_novo)
+			return dict((v,k) for k,v in s_perc_novo.items())
+	else:
+		side_df = pd.read_csv("data/events/side_1v1.csv")
+		gt = gt.merge(side_df, on='img_id')
+		df = df.merge(side_df, on='img_id')
+		
+		# join cols
+		gt["cluster"] = gt["cluster"] + ' ' + gt["side"]
+
+		g = cluster_proportions_df(df, gt, on=['img_id', 'side'], cols=['cluster_gt', 'cluster_n'])
+		print(g)
+		
+
+		perc_gt = cluster_dict(g, by=['perc_gt', 'perc_novo'])
+		s_perc_gt = {k:v[0] for k,v in perc_gt.items()}
+		# print(s_perc_gt)
+
+		perc_novo = cluster_dict(g, by=['perc_novo', 'perc_gt'])
+		s_perc_novo = {k:v[0] for k,v in perc_novo.items()}		
+		# print(s_perc_novo)
+
+		# s_perc_gt = remove_left_right(s_perc_gt)
+		# s_perc_novo = remove_left_right(s_perc_novo)
+		# print("Equal??", s_perc_gt==s_perc_novo)
+		# print("> ", s_perc_gt)
+
+		s_perc_novo = {'Aggressive Set':0, 'Passive Set':1, 'Spread Right':2, 'Smother Right':3, 'Spread Left':4, 'Smother Left':5}
+		return dict((v,k) for k,v in s_perc_novo.items())
+	return
+
+def merge_with_1v1(set_2d_df, set_3d_df, sb_df):
+	'''
+		Merge 3d and 2d pose data with 1v1 events data
+	'''
+	set_3d_df = set_3d_df.merge(sb_df, left_on='photo_id', right_index=True, how='left')
+	set_2d_df = set_2d_df.merge(sb_df, left_on='photo_id', right_index=True, how='left')
+	return set_2d_df, set_3d_df
+
+def ViewInvarianceData(sets_, set_df, vi):
+
+	#Get camera-view invariant dataset of 3d poses
+	cvi_arr = gk.cameraInvariantDataset(sets_, vi=vi)
+	sets_cvi = gk.flipBehindPoses(cvi_arr)
+	
+	# Create the view-invariant dataframe and array
+	set_cvi_df = createViewInvariant_df(set_df, sets_cvi)
+	
+	# Create view-invariant array with GKEM included
+	keep_cols = np.array(list(range(sets_.shape[1])) + ['gk_engage'])
+	sets_cvi = set_cvi_df.loc[:,keep_cols].values
+
+	return sets_, set_df, sets_cvi, set_cvi_df
+
+
 
 def clean_train_test(train_df, test_df):
 	'''
@@ -411,6 +517,25 @@ def straight_bounding_rectangle(points):
 
     return rval
 
+def pick_side(points):
+	'''
+		Find the side the goalkeeper is inclinated (front-view, as if we're facing them)
+		Returns the side (0: right, 1: left)
+	'''
+	x_middle, y_middle = straight_bounding_rectangle(points).mean(axis=0)
+	s = points.shape
+
+	points = np.delete(points, 1, 1).reshape((s[0],))
+	# print(x_middle, points)
+	coluna = points[[6,8,9]]
+	x_middle = coluna.mean()
+	# print(x_middle, coluna.mean())
+	left_side, right_side = len(points[(points < x_middle*0.95)]), len(points[points > x_middle*1.05])
+	# print(left_side, right_side)
+	if left_side > right_side:
+		return 1
+	else:
+		return 0
 
 def get_playernames_set(df):
 	
