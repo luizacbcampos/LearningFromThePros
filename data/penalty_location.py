@@ -350,3 +350,32 @@ if __name__ == '__main__':
 	print_empty(df_17_19[df_17_19['player_team'] == df_17_19['gk_team']])
 	
 	# get_keepers_info()
+
+	# Creating a new df with all the info
+
+	df_17_19, df_19_21 = read_events(directory='events/')
+	joined_df = cleanPenDataFrames(df_19_21.copy(), df_17_19.copy())
+	penalty_df = load_penalties()
+	pen_df = concat_dfs(penalty_df)
+	joined_df['indx'] = joined_df.index
+
+	df = joined_df.merge(pen_df, how='left', left_on=['date', 'pen_taker', 'outcome'], right_on=['Date', 'Player', 'outcome'])
+	
+	df = pd.merge(joined_df, pen_df, left_on='indx', right_on='indx')
+	df = df.drop(columns=['outcome_y', 'GameID', 'Outcome', 'date','Date', 'Team', 'Player'])
+	df = df.rename(columns={"outcome_x": "outcome"})
+	
+	df.loc[df['outcome'] == 'Scored', 'outcome'] = 'Goal'
+	df.loc[df['outcome'] == 'Missed', 'outcome'] = 'Saved'	
+	df.loc[df['off_target'] == 1, 'outcome'] = 'Off T'
+
+	print(df.head())
+	gk = pd.read_csv("events/goalkeepers.csv")
+	gk = gk[['Name', 'Dominant_side', 'Height']]
+
+	novo = pd.merge(df, gk, left_on='goalkeepers', right_on='Name', how='left')
+	novo = novo.drop(columns=['Name'])
+	novo = novo[['indx', 'pen_taker', 'outcome', 'goalkeepers', 'off_target', 'Foot','Direction', 'Dominant_side', 'Height']]
+	print_full(novo)
+
+	# novo.to_csv("events/prem_pens_all.csv", index=False)
