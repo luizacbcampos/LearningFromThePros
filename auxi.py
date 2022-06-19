@@ -27,7 +27,37 @@ import gkpose as gk
 direction_dict = {'bottom right corner':1, 'bottom left corner':2, 'centre of the goal':3,
 			'top left corner':4, 'top right corner':5, 'top centre of the goal':6,}
 
+def plot_cf_matrix(y_true, y_pred):
+
+	conf_matrix = confusion_matrix(y_true=y_true, y_pred=y_pred)
+	fig, ax = plt.subplots(figsize=(7.5, 7.5))
+	ax.matshow(conf_matrix, cmap=plt.cm.Blues, alpha=0.3)
+	for i in range(conf_matrix.shape[0]):
+	    for j in range(conf_matrix.shape[1]):
+	        ax.text(x=j, y=i,s=conf_matrix[i, j], va='center', ha='center', size='xx-large')
+	 
+	plt.xlabel('Predictions', fontsize=18)
+	plt.ylabel('Actuals', fontsize=18)
+	plt.title('Confusion Matrix', fontsize=18)
+	return plt
+
 # metrics
+
+def ranking_metrics(gk_df, gk_ranking, ranking):
+	'''
+		Get all ranking metrics: accuracy, mAP and Spearman Correlation
+	'''
+	gt_ranking = ['Neil Leonard Dula Etheridge', 'Łukasz Fabiański', 'Ben Foster', 'Kasper Schmeichel', 
+	'David de Gea', 'Hugo Lloris', 'Sergio Rico González', 'Jordan Pickford']
+
+	opt_perc = np.mean(gk_df['chosen_cluster'] == gk_df['optimal_cluster'])
+
+	mAP = mean_average_precision(gt_ranking, ranking.gk_name.tolist())
+
+	rho, pval = SpearmanCorrelation(ranking.gk_name.tolist(), ranking.gk_name.tolist())
+	
+	return opt_perc, mAP, rho, pval
+
 def classification_metrics(y_true, y_pred):
 	cmatrix = confusion_matrix(y_true, y_pred)
 	f1 = f1_score(y_true, y_pred)
@@ -120,22 +150,22 @@ def SpearmanCorrelation(y_true, y_pred):
 	
 	return rho, pval
 
-def regression_info(res, outcome):
+def regression_info(res, outcome, start='>'):
 
 
 	sse = np.sum((res.fittedvalues - outcome)**2)
 	# sse = res.ssr
-	print("SSE:", sse)
+	print(start, "SSE:", sse)
 
 	ssr = np.sum((res.fittedvalues - outcome.mean())**2)
 	# ssr = res.ess
-	print("SSR:", ssr)
+	print(start, "SSR:", ssr)
 
 	sst = ssr + sse
-	print("SST:", sst)
+	print(start, "SST:", sst)
 
 	rsquared = 1 - sse/sst
-	print("R^2:", rsquared)
+	print(start, "R^2:", rsquared)
 
 	# y_pred_train = np.array(res.fittedvalues).reshape(-1, 1) #returns a numpy array
 	# min_max_scaler = MinMaxScaler()
@@ -145,6 +175,7 @@ def regression_info(res, outcome):
 	# for t, p in zip(y_pred_train, outcome):
 	# 	print(t, p)
 	return sse, ssr, sst, rsquared
+
 # aux
 
 def ImageID(df, array_id):
@@ -191,58 +222,83 @@ def print_full(df, rows=True, columns=False, width=False):
 	else:
 		print(df)
 
-def print_cluster_sizes(kmeans_preds, replace_dict, end='\n'):
+def print_cluster_sizes(kmeans_preds, replace_dict, start='\t>', end='\n'):
 	'''
 		Print cluster sizes
 	'''
-	print("Cluster sizes:", end=end)
+	print(start, "Cluster sizes:", end=end)
 	d = getClusterSizes(kmeans_preds)
 
+	print('\t'+start, end=' ')
 	new_d = {replace_dict[k]:v for k,v in d.items()}
 	for k in sorted(new_d.keys()):
 		print("{}: {}".format(k, new_d[k]), end='\t')
 	print()
 	return new_d
 
-def print_cluster_center(set_3d_cvi_clean_df, closest, replace_dict):
+def print_cluster_center(set_3d_cvi_clean_df, closest, replace_dict, start='\t>'):
 	'''
 		Print image that is cluster center
 	'''
-	print("Closest to cluster center: ")
+	print(start, "Closest to cluster center:")
 	new_d = {replace_dict[i]:ImageID(set_3d_cvi_clean_df, closest[i]) for i in range(len(closest))}
 
+	print('\t'+start, end=' ')
 	for k in sorted(new_d.keys()):
 		print("{}: {}".format(k, new_d[k]), end='\t')
 	print()
+	return new_d
+
+def print_ranking_metrics(gk_df, gk_ranking, ranking, start='\t>'):
+
+	opt_perc, mAP, rho, pval = ranking_metrics(gk_df, gk_ranking, ranking)
+	print(start, "Optimal Cluster:", opt_perc)
+	print(start, "Mean Average Precision:", mAP)
+	print(start, "Spearman Correlation - rho:", rho, "pval:", pval)
+	return
+
+def print_classification_metrics(y_test, y_pred, start='\t>'):
+	'''
+		Easily display classification metrics
+	'''
+	cmatrix, f1, recall, precision, test_set_acc = classification_metrics(y_test, y_pred)
+	display_start = '\t'+start[:-1]+'-'
+	print(start, "Classification Metrics:")
+	print(display_start, 'Test Set Accuracy:', test_set_acc)
+	print(display_start,"F1:", f1)
+	print(display_start,"Recall:", recall)
+	print(display_start, "Precision:", precision)
+	print(display_start, "Confusion Matrix: [[{}, {}], [{}, {}]]".format(cmatrix[0][0], cmatrix[0][1], cmatrix[1][0], cmatrix[1][1]))
+	return
 
 def print_penalty_angles(poses_features, kmeans_pens_preds, start='\t'):
-	print("Angles:")
-	print(start, "Torso Angle, cluster 0", np.mean(poses_features[kmeans_pens_preds == 0][:,0]))
-	print(start, "Body Angle, cluster 0", np.mean(poses_features[kmeans_pens_preds == 0][:,4]))
+	print(start,"Angles:")
+	print('\t'+start, "Torso Angle, cluster 0", np.mean(poses_features[kmeans_pens_preds == 0][:,0]))
+	print('\t'+start, "Body Angle, cluster 0", np.mean(poses_features[kmeans_pens_preds == 0][:,4]))
 
-	print(start, "Torso Angle, cluster 1", np.mean(poses_features[kmeans_pens_preds == 1][:,0]))
-	print(start, "Body Angle, cluster 1", np.mean(poses_features[kmeans_pens_preds == 1][:,4]))
+	print('\t'+start, "Torso Angle, cluster 1", np.mean(poses_features[kmeans_pens_preds == 1][:,0]))
+	print('\t'+start, "Body Angle, cluster 1", np.mean(poses_features[kmeans_pens_preds == 1][:,4]))
 
-def print_save_percentage_cluster(good_poses_3d_df, kmeans_pens_preds):
+def print_save_percentage_cluster(good_poses_3d_df, kmeans_pens_preds, start='>'):
 	'''
 		Save % for clusters
 	'''
-	print("Save % for cluster 0 saves:", np.mean(good_poses_3d_df[kmeans_pens_preds == 0]['outcome'] == 'Saved'))
-	print("Save % for cluster 1 saves:", np.mean(good_poses_3d_df[kmeans_pens_preds == 1]['outcome'] == 'Saved'))
+	print(start, "Save % for cluster 0 saves:", np.mean(good_poses_3d_df[kmeans_pens_preds == 0]['outcome'] == 'Saved'))
+	print(start, "Save % for cluster 1 saves:", np.mean(good_poses_3d_df[kmeans_pens_preds == 1]['outcome'] == 'Saved'))
 
-def printPredictionStats(y_pred, test_df):
+def printPredictionStats(y_pred, test_df, start='>'):
 	'''
 		Prints penalty prediction statistics
 	'''
 
-	print('Max xS:', np.max(y_pred))
-	print('Min xS:', np.min(y_pred))
-	print('Mean xS:', np.mean(y_pred))
+	print(start, 'Max xS:', np.max(y_pred))
+	print(start, 'Min xS:', np.min(y_pred))
+	print(start, 'Mean xS:', np.mean(y_pred))
 
 	y_pred[y_pred < 0.5] = 0
-	cmatrix, f1, recall, precision, acc = classification_metrics(test_df['outcome'].tolist(), np.array(y_pred))
-	print("Accuracy: {}, F1: {}, Recall: {}, Precision: {}".format(acc, f1, recall, precision))
-	print(cmatrix)
+	y_pred[y_pred >= 0.5] = 1
+
+	print_classification_metrics(test_df['outcome'].tolist(), np.array(y_pred), start)
 	return
 
 # Dict Aux
@@ -287,7 +343,13 @@ def player_name_dict():
 	}
 	return d
 
-# import data frames
+# IMPORTS
+
+def importImage(img):
+    #Import image
+    image = cv2.cvtColor(cv2.imread(img), cv2.COLOR_BGR2RGB)
+    return image
+
 def import_keypoints(path_2d='data/pose/pose_1v1_2d.csv', path_3d='data/pose/pose_1v1_3d.csv'):
 	'''
 		Imports 2D and 3D keypoints
@@ -340,14 +402,9 @@ def PenaltyImportPose():
 	joined_pose_2d_df, pose_2d_arr = importPenalty2D()
 	return joined_pose_3d_df, pose_arr, joined_pose_2d_df, pose_2d_arr
 
-# imports
 
-def importImage(img):
-    #Import image
-    image = cv2.cvtColor(cv2.imread(img), cv2.COLOR_BGR2RGB)
-    return image
+# CREATE DF
 
-# create DF
 def createViewInvariant_df(set_3d_df, sets_3d_cvi):
 	'''
 		Create the view-invariant dataframe
@@ -407,7 +464,8 @@ def create_kmeans_df(kmeans_preds, set_3d_cvi_clean_df, cluster_names=None, save
 	'''
 		Df: image_id -> cluster
 	'''
-	df = make_kmeans_df(kmeans_preds, set_3d_cvi_clean_df, cluster_names)
+	cluster_dict = {i:i for i in range(len(set(kmeans_preds)))}
+	df = make_kmeans_df(kmeans_preds, set_3d_cvi_clean_df, cluster_dict, cluster_names)
 
 	if cluster_names:
 		clusters = list(range(len(cluster_names)))
@@ -418,13 +476,28 @@ def create_kmeans_df(kmeans_preds, set_3d_cvi_clean_df, cluster_names=None, save
 		df.to_csv("data/events/cluster_1v1_4.csv", index=False)
 	return df
 
-def make_kmeans_df(kmeans_preds, set_3d_cvi_clean_df, cluster_names=None):
+def make_kmeans_df(kmeans_preds, set_3d_cvi_clean_df, cluster_dict, cluster_names=None):
 
 	l = [ImageID(set_3d_cvi_clean_df, i) for i in range(len(kmeans_preds))]
 	kmeans_dict = {"img_id": l, "cluster": kmeans_preds}
 	df = pd.DataFrame.from_dict(kmeans_dict)
+	df = df.replace({"cluster": cluster_dict})
 
 	return df
+
+def mean_pose_per_cluster(kmeans_preds, set_3d_cvi_clean_df, cluster_dict, c_center):
+	'''
+		Creates a df with cluster mean
+	'''
+
+	dataframe = set_3d_cvi_clean_df.copy().drop(columns=['photo_id'])
+	dataframe['cluster'] = kmeans_preds
+	dataframe['cluster'] = dataframe['cluster'].replace(cluster_dict)
+	df = dataframe.groupby(by=['cluster']).mean()
+	df['cluster_center'] = df.index.map(c_center)
+	
+	return df.reset_index()
+
 
 def create_side_df(sets_2d, set_2d_df, save=False):
 	'''
@@ -498,6 +571,8 @@ def createPenaltyGoodPosesFeatures(poses_features, good_poses_3d_df, args):
 	formula = formula[:-2] # remove extra +
 	return good_poses_feat_df, continuous_var, formula
 
+
+
 # DF alter
 
 def column_proportions(g):
@@ -551,13 +626,13 @@ def remove_left_right(d):
 	dicio = {k:v[0] for k,v in inverse.items()}
 	return dicio
 
-def cluster_correspondence(kmeans_preds, set_3d_cvi_clean_df, cluster_name):
+def cluster_correspondence(kmeans_preds, set_3d_cvi_clean_df, cluster_name, start='\t>'):
 	'''
+		Using the original paper as Ground-Truth find the cluster name from the new cluster results
 	'''
-	print("Cluster Correspondence")
-	print(len(cluster_name))
+	print("{} Cluster Correspondence using {} clusters".format(start, len(cluster_name)))
 
-	df = make_kmeans_df(kmeans_preds, set_3d_cvi_clean_df)
+	df = make_kmeans_df(kmeans_preds, set_3d_cvi_clean_df, cluster_dict = {i:i for i in range(len(cluster_name))})
 	gt = pd.read_csv("data/events/cluster_1v1_4.csv")
 
 	if len(cluster_name) == 4:
@@ -631,7 +706,6 @@ def ViewInvarianceData(sets_, set_df, vi):
 	return sets_, set_df, sets_cvi, set_cvi_df
 
 
-
 def clean_train_test(train_df, test_df):
 	'''
 		Clean train/test sets
@@ -644,7 +718,7 @@ def clean_train_test(train_df, test_df):
 
 	return train_df, test_df
 
-def get_training_test_sets(train_df, test_df):
+def get_training_test_sets(train_df, test_df, start="\t>"):
 	'''
 		Get training and testing set X and y
 	'''
@@ -656,8 +730,7 @@ def get_training_test_sets(train_df, test_df):
 	y_test = test_df.pop('shot_outcome_name')
 	X_test = test_df.values
 	
-	print("Training Set Size:", len(X_train))
-	print("Test Set Size:", len(X_test))
+	print("{} Training Set Size: {}, Test Set Size:{}".format(start, len(X_train), len(X_test)))
 	return train_df, test_df, X_train, y_train, X_test, y_test
 
 # Array IDs
@@ -754,6 +827,7 @@ def center_pose(pose):
 	col_mean = coluna.mean()
 	pose[:, 0] = pose[:, 0] - col_mean
 	return pose
+
 if __name__ == '__main__':
 	a = 1
 

@@ -105,7 +105,7 @@ def viewInvariance(sets_3d, set_3d_df, args):
 
 # Learning Save Technique - Unsupervised Learning
 
-def LearningSaveTechnique(sets_3d_cvi_clean, set_3d_cvi_clean_df, args):
+def LearningSaveTechnique(sets_3d_cvi_clean, set_3d_cvi_clean_df, args, start='\t>'):
 	'''
 		Learning Save Technique - Unsupervised Learning
 		Factors: view_invariant1, number_dimensions, split_sides
@@ -129,11 +129,11 @@ def LearningSaveTechnique(sets_3d_cvi_clean, set_3d_cvi_clean_df, args):
 	# Create 3D - 2D projection dataset
 	sets_2d_proj = auxi.create3D_2D_projection_df(sets_3d_cvi_clean, number_dimensions=args.number_dimensions)
 
-	number_cluster, kmeans, kmeans_preds, cluster_name, closest = KMeansCalc()
+	number_cluster, kmeans, kmeans_preds,  cluster_name, closest = KMeansCalc()
 	
 	cluster_dict = auxi.cluster_correspondence(kmeans_preds, set_3d_cvi_clean_df, cluster_name)
-	print("Cluster Dict:", cluster_dict)
-	c_size_d = auxi.print_cluster_sizes(kmeans_preds, cluster_dict)
+	print(start, "Cluster Dict:", cluster_dict)
+	c_size_d = auxi.print_cluster_sizes(kmeans_preds, cluster_dict, start)
 	
 
 	# df = auxi.create_kmeans_df(kmeans_preds, set_3d_cvi_clean_df, cluster_name, save=True)
@@ -143,13 +143,14 @@ def LearningSaveTechnique(sets_3d_cvi_clean, set_3d_cvi_clean_df, args):
 	if args.show:
 		plots.plotTSNE(pose_tsne, kmeans_preds, cluster_name, number=len(cluster_name), show=args.show)
 	
-	auxi.print_cluster_center(set_3d_cvi_clean_df, closest, cluster_dict)
+	c_center = auxi.print_cluster_center(set_3d_cvi_clean_df, closest, cluster_dict, start)
 
 	#Plot the most representative saves for each cluster
 	if args.show:
 		plots.plot_cluster(sets_3d_cvi_clean, set_3d_cvi_clean_df, closest, cluster_name, path='images/1v1_images/', show=args.show)
 
-	# exit()
+	cluster_mean_df = auxi.mean_pose_per_cluster(kmeans_preds, set_3d_cvi_clean_df, cluster_dict, c_center)
+
 	if not args.debug:
 		wandb.config.update({"KMeans Cluster Count": number_cluster})
 
@@ -158,11 +159,11 @@ def LearningSaveTechnique(sets_3d_cvi_clean, set_3d_cvi_clean_df, args):
 		wandb.sklearn.plot_elbow_curve(KMeans(random_state=689).fit(sets_2d_proj), sets_2d_proj)
 		wandb.sklearn.plot_silhouette(kmeans, sets_2d_proj, kmeans_preds)
 
-		wandb.log({"KMeans 1v1 Table": auxi.make_kmeans_df(kmeans_preds, set_3d_cvi_clean_df)})
-		wandb_LearningSaveTechnique(TSNE_df, c_size_d)
+		wandb.log({"KMeans 1v1 Table": auxi.make_kmeans_df(kmeans_preds, set_3d_cvi_clean_df, cluster_dict)})
+		wandb_LearningSaveTechnique(TSNE_df, c_size_d, cluster_mean_df)
 	return kmeans_preds
 
-def wandb_LearningSaveTechnique(TSNE_df, c_size_d):
+def wandb_LearningSaveTechnique(TSNE_df, c_size_d, cluster_mean_df):
 
 	def TSNE_plot():
 		data = TSNE_df.values.tolist()
@@ -175,14 +176,20 @@ def wandb_LearningSaveTechnique(TSNE_df, c_size_d):
 		table = wandb.Table(data=data, columns = ["cluster", "count"])
 		wandb.log({"KMeans 1v1 Size" : wandb.plot.bar(table, "cluster", "count", title="Cluster Size in KMeans 1v1")})
 
+	def cluster_mean():
+		data = cluster_mean_df.values.tolist()
+		table = wandb.Table(data=data, columns = cluster_mean_df.columns.tolist())
+		wandb.log({"Cluster Mean 1v1" : table})
+
 	TSNE_plot()
 	cluster_sizes()
+	cluster_mean()
 	return
 
 
 # 1v1 Expected Saves Model
 
-def ExpectedSavesModel_1v1(set_3d_cvi_clean_df, kmeans_preds, args):
+def ExpectedSavesModel_1v1(set_3d_cvi_clean_df, kmeans_preds, args, start='\t>'):
 	'''
 		1v1 Expected Saves Model
 		Factors: grid_search
@@ -217,17 +224,16 @@ def ExpectedSavesModel_1v1(set_3d_cvi_clean_df, kmeans_preds, args):
 
 	#Get training and testing set X and y	
 	train_df, test_df, X_train, y_train, X_test, y_test = auxi.get_training_test_sets(train_df, test_df)
-	print("Saved %: ", np.mean(y_train == 1))
+	print(start, "Saved %: ", np.mean(y_train == 1))
 
 
 	parameters = grid_search_parameters()
 	svm = GridSearchCV(SVC(probability=True), param_grid=parameters, cv=5, scoring='accuracy').fit(X_train, y_train)
-	print("Best Parameter Set:", svm.best_params_)
+	print(start, "Best Parameter Set:", svm.best_params_)
 	
 	y_pred = svm.predict(X_test)
-	cmatrix, f1, recall, precision, test_set_acc = auxi.classification_metrics(y_test, y_pred)
-	print("F1: {}, Recall: {}, Precision: {}".format(f1, recall, precision))
-	print("Test Set Accuracy:", test_set_acc)
+	auxi.print_classification_metrics(y_test, y_pred, start)
+	
 
 	#Calculate xS map when striker is not under pressure
 	# xs_map = gk.getXSMap(train_df, svm, scaler, num_clusters=number_cluster, up=0) #ADD
@@ -287,8 +293,6 @@ def proGoalkeeperScouting(train_gk_name, test_gk_name , train_df, test_df, svm, 
 	#Rank Pro Goalkeepers by their % correct usage of save technique
 	test_df['gk_name'], train_df['gk_name'] = np.array(test_gk_name), np.array(train_gk_name)
 	gk_df = pd.concat([train_df[['gk_name','chosen_cluster','optimal_cluster']], test_df[['gk_name','chosen_cluster','optimal_cluster']]])	
-	print("Percentage optimal:", np.mean(gk_df['chosen_cluster'] == gk_df['optimal_cluster']) * 100)
-
 
 	gk_df['correct_cluster'] = (gk_df['chosen_cluster'] == gk_df['optimal_cluster'])
 	gk_ranking = gk_df[['gk_name','correct_cluster']].groupby(['gk_name'], as_index=False).mean()
@@ -297,9 +301,14 @@ def proGoalkeeperScouting(train_gk_name, test_gk_name , train_df, test_df, svm, 
 	gk_ranking.reset_index(drop=True, inplace=True)
 
 	# Ranking of Pro Keepers with >= 15 1v1s faced
-	ranking = gk_ranking[gk_ranking['shots_faced'] >= 15].reset_index(drop=True) 
+	ranking = gk_ranking[gk_ranking['shots_faced'] >= 15].reset_index(drop=True)
+
+	# Show metrics
+	auxi.print_ranking_metrics(gk_df, gk_ranking, ranking, start='\t>')
 	print("> Ranking of Pro Keepers with >= 15 1v1s faced")
 	print(ranking)
+
+
 
 	if not args.debug:
 		wandb_proGoalkeeperScouting(gk_df, gk_ranking)		
@@ -309,16 +318,12 @@ def wandb_proGoalkeeperScouting(gk_df, gk_ranking):
 	'''
 		Upload to wandb
 	'''
-	opt_perc = np.mean(gk_df['chosen_cluster'] == gk_df['optimal_cluster'])
-	wandb.log({"Optimal Cluster": opt_perc}) 
 	
-	gt_ranking = ['Neil Leonard Dula Etheridge', 'Łukasz Fabiański', 'Ben Foster', 'Kasper Schmeichel', 
-	'David de Gea', 'Hugo Lloris', 'Sergio Rico González', 'Jordan Pickford']
 	ranking = gk_ranking[gk_ranking['shots_faced'] >= 15].reset_index(drop=True)
-	mAP = auxi.mean_average_precision(gt_ranking, ranking.gk_name.tolist())
-	wandb.log({"Mean Average Precision": mAP})
+	opt_perc, mAP, rho, pval = auxi.ranking_metrics(gk_df, gk_ranking, ranking)
+	
+	wandb.log({"Optimal Cluster": opt_perc, "Mean Average Precision": mAP}) 
 
-	rho, pval = auxi.SpearmanCorrelation(ranking.gk_name.tolist(), ranking.gk_name.tolist())
 	data = [[rho, pval]]
 	table = wandb.Table(data=data, columns = ["rho", "pval"])
 	wandb.log({"Spearman Correlation" : wandb.plot.scatter(table,"rho", "pval")})
@@ -331,7 +336,7 @@ def wandb_proGoalkeeperScouting(gk_df, gk_ranking):
 
 # Penalty Analysis
 
-def PenaltyAnalysis(args):
+def PenaltyAnalysis(args, start='>'):
 
 	'''
 		Factors: view_invariant2, penalty_location, hand, height
@@ -342,7 +347,7 @@ def PenaltyAnalysis(args):
 	joined_pose_3d_df, pose_arr, joined_pose_2d_df, pose_2d_arr = auxi.PenaltyImportPose()
 
 	# Percentage of pens that were saved in our dataset
-	print("Percentage of saved penalties:", np.mean(joined_pose_3d_df['outcome'] == 'Saved') * 100)
+	print(start, "Percentage of saved penalties:", np.mean(joined_pose_3d_df['outcome'] == 'Saved') * 100)
 
 	if args.show or args.save:
 		# Show image, image with 2D pose overlay, and 3D pose estimate
@@ -360,6 +365,7 @@ def PenaltyAnalysis(args):
 	
 	# Good Poses DataFrame
 	good_poses_3d_df = gk.cleanPenPredictions(joined_pose_3d_df)
+	
 	# Good Poses Matrix
 	last = '47' if joined_pose_3d_df.shape[1] > 40 else '31'
 	good_poses_3d_arr = good_poses_3d_df.loc[:,'0':last].values
@@ -370,9 +376,8 @@ def PenaltyAnalysis(args):
 	# Fit K-Means model
 	kmeans_pens = KMeans(n_clusters=2, random_state = 13).fit(poses_features)
 	kmeans_pens_preds = kmeans_pens.predict(poses_features)
-	auxi.print_cluster_sizes(kmeans_pens_preds, ['Cluster 0', 'Cluster 1'], end='\t')
-	
-	auxi.print_penalty_angles(poses_features, kmeans_pens_preds)
+	auxi.print_cluster_sizes(kmeans_pens_preds, ['Cluster 0', 'Cluster 1'], start)
+	auxi.print_penalty_angles(poses_features, kmeans_pens_preds, start)
 
 
 	# TSNE representation of body pose
@@ -387,11 +392,12 @@ def PenaltyAnalysis(args):
 
 	# Save % for clusters
 	print()
-	auxi.print_save_percentage_cluster(good_poses_3d_df, kmeans_pens_preds)
+	auxi.print_save_percentage_cluster(good_poses_3d_df, kmeans_pens_preds, start)
 
 	# Create dataframe of good poses features
 	good_poses_feat_df, continuous_var, formula = auxi.createPenaltyGoodPosesFeatures(poses_features, good_poses_3d_df, args)
 
+	# Create dummies for categorical features
 	good_poses_feat_df = auxi.PenaltyDummies(good_poses_feat_df, continuous_var)
 	
 	# Train/Test Split (70/30)
@@ -415,12 +421,12 @@ def PenaltyAnalysis(args):
 	log_reg = sm.Logit(train_df['outcome'], train_df[train_df.columns[1:]]).fit()
 	# Logistic regression summary
 	print(log_reg.summary())
-	sse, ssr, sst, rsquared = auxi.regression_info(log_reg, train_df['outcome'])
+	sse, ssr, sst, rsquared = auxi.regression_info(log_reg, train_df['outcome'], start)
 	# Predictions
 	y_pred = log_reg.predict(test_df[test_df.columns[1:]])
 	
 	# Prediction stats
-	auxi.printPredictionStats(y_pred, test_df)
+	auxi.printPredictionStats(y_pred, test_df, start)
 
 	# # Train Linear Regression
 	# res = sm.OLS(train_df['outcome'], train_df[train_df.columns[1:]]).fit()
@@ -468,9 +474,13 @@ def wandbPenaltyAnalysis(y_pred, test_df, model, results_d, TSNE_df):
 	
 	# Predictions
 	y_pred[y_pred < 0.5] = 0
-	cm = wandb.sklearn.plot_confusion_matrix(test_df['outcome'].tolist(), np.array(y_pred))
+	y_pred[y_pred >= 0.5] = 1
+
+
+	wandb.log({"conf_mat Penalty" : auxi.plot_cf_matrix(test_df['outcome'].astype(int).tolist(), y_pred.tolist())})
+	# cm = wandb.sklearn.plot_confusion_matrix(test_df['outcome'].tolist(), y_pred.astype(int).tolist())
 	cmatrix, f1, recall, precision, acc = auxi.classification_metrics(test_df['outcome'].tolist(), np.array(y_pred))
-	d = {"conf_mat Penalty": cm, "Accuracy Penalty": acc, 'F1 Penalty': f1, "Recall Penalty": recall, "Precision Penalty": precision}
+	d = {"Accuracy Penalty": acc, 'F1 Penalty': f1, "Recall Penalty": recall, "Precision Penalty": precision}
 	wandb.log(d)
 
 	return
@@ -486,27 +496,32 @@ if __name__ == '__main__':
 
 	print("\t========== 1v1 ANALYSIS ==========\t")
 	# Import and Prepare Data - One on Ones
+	print("* Import and Prepare Data - One on Ones *")
 	set_2d_df, set_3d_df, sets_2d, sets_3d = import_and_prepare()
 
 	# auxi.create_side_df(sets_2d, set_2d_df, save=True)
-
 	print("---"*22)
+
 	# View-Invariance
+	print("* View-Invariance *")
 	sets_3d_cvi_clean, set_3d_cvi_clean_df = viewInvariance(sets_3d, set_3d_df, args)
 	print("---"*22)
 
 	# Learning Save Technique - Unsupervised Learning
+	print("* Learning Save Technique - Unsupervised Learning *")
 	kmeans_preds = LearningSaveTechnique(sets_3d_cvi_clean, set_3d_cvi_clean_df, args)
 	print("---"*22)
 
 	# 1v1 Expected Saves Model
+	print("* 1v1 Expected Saves Model *")
 	train_gk_name, test_gk_name, train_df, test_df, svm = ExpectedSavesModel_1v1(set_3d_cvi_clean_df, kmeans_preds, args)
 	print("---"*22)
 
 	# Pro Goalkeeper Scouting
+	print("* Pro Goalkeeper Scouting *")
 	proGoalkeeperScouting(train_gk_name, test_gk_name , train_df, test_df, svm, args)
 	print("---"*22)
 
 	# Penalty Analysis
-	print("\t========== PENALTY ANALYSIS ==========\t")
+	print("\n\n\t========== PENALTY ANALYSIS ==========\t")
 	PenaltyAnalysis(args)

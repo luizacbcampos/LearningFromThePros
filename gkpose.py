@@ -233,7 +233,7 @@ def getTrainTest(df, test_size=0.3):
     ml_df = ml_df.reset_index(drop=True)
     
     test_ind = np.random.choice(range(ml_df.shape[0]), int(ml_df.shape[0] * test_size))
-    print("Test index:", test_ind)
+    # print("Test index:", test_ind)
     
     test_df = ml_df.loc[test_ind, :].copy()
     train_df = ml_df.drop(test_ind).reset_index(drop=True)
