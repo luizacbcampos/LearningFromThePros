@@ -62,6 +62,8 @@ def show_args(args):
 def import_and_prepare():
 	'''
 		Import and Prepare Data - One on Ones
+		Factors: None
+		Metrics: none
 	'''
 	#Import 2D and 3D pose keypoints
 	set_2d_df, set_3d_df = auxi.import_keypoints(path_2d='data/pose/pose_1v1_2d.csv', path_3d='data/pose/pose_1v1_3d.csv')
@@ -81,6 +83,11 @@ def import_and_prepare():
 
 # View-Invariance
 def viewInvariance(sets_3d, set_3d_df, args):
+	'''
+		View Invariance
+		Factors: view_invariant1
+		Metrics: None
+	'''
 
 
 	# Get camera-view invariant data
@@ -101,6 +108,8 @@ def viewInvariance(sets_3d, set_3d_df, args):
 def LearningSaveTechnique(sets_3d_cvi_clean, set_3d_cvi_clean_df, args):
 	'''
 		Learning Save Technique - Unsupervised Learning
+		Factors: view_invariant1, number_dimensions, split_sides
+		Metrics: Dividir a grande área em quadrados e observar a variação da melhor técnica por quadrado;
 	'''
 	def KMeansCalc():
 		number_cluster = 6 if args.split_sides else 4
@@ -145,8 +154,10 @@ def LearningSaveTechnique(sets_3d_cvi_clean, set_3d_cvi_clean_df, args):
 		wandb.config.update({"KMeans Cluster Count": number_cluster})
 
 		TSNE_df = auxi.createTSNEdf(pose_tsne, kmeans_preds, cluster_dict)
+
 		wandb.sklearn.plot_elbow_curve(KMeans(random_state=689).fit(sets_2d_proj), sets_2d_proj)
 		wandb.sklearn.plot_silhouette(kmeans, sets_2d_proj, kmeans_preds)
+
 		wandb.log({"KMeans 1v1 Table": auxi.make_kmeans_df(kmeans_preds, set_3d_cvi_clean_df)})
 		wandb_LearningSaveTechnique(TSNE_df, c_size_d)
 	return kmeans_preds
@@ -174,6 +185,8 @@ def wandb_LearningSaveTechnique(TSNE_df, c_size_d):
 def ExpectedSavesModel_1v1(set_3d_cvi_clean_df, kmeans_preds, args):
 	'''
 		1v1 Expected Saves Model
+		Factors: grid_search
+		Metrics:  Acuracy, Precision, Recall, F1-Score
 	'''
 	def grid_search_parameters():
 		if args.grid_search:
@@ -250,11 +263,14 @@ def wandb_ExpectedSavesModel_1v1(svm, X_test, y_test):
 	d = {"conf_mat 1v1": cm, "Accuracy 1v1": test_set_acc, 'F1 1v1': f1, "Recall 1v1": recall, "Precision 1v1": precision}
 	wandb.log(d)
 	return
+
 # Pro Goalkeeper Scouting
 
 def proGoalkeeperScouting(train_gk_name, test_gk_name , train_df, test_df, svm, args):
 	'''
 		Pro Goalkeeper Scouting
+		Metrics: Mean Average Precision (original list as ground-truth); Spearman’s ρ
+
 	'''
 
 	#Reset the index of test set
@@ -282,6 +298,7 @@ def proGoalkeeperScouting(train_gk_name, test_gk_name , train_df, test_df, svm, 
 
 	# Ranking of Pro Keepers with >= 15 1v1s faced
 	ranking = gk_ranking[gk_ranking['shots_faced'] >= 15].reset_index(drop=True) 
+	print("> Ranking of Pro Keepers with >= 15 1v1s faced")
 	print(ranking)
 
 	if not args.debug:
@@ -317,10 +334,8 @@ def wandb_proGoalkeeperScouting(gk_df, gk_ranking):
 def PenaltyAnalysis(args):
 
 	'''
-	parser.add_argument('-v2', '--view_invariant2', type=int, default=1, help='Use view-invariance on penalties')
-    parser.add_argument('-p', '--penalty_location', type=int, default=0, help='Use penalty location')
-    parser.add_argument('-ha', '--hand', type=int, default=0, help='Add dominant hand parameter')
-    parser.add_argument('-he', '--height', type=int, default=0, help='Add goalkeeper height information')
+		Factors: view_invariant2, penalty_location, hand, height
+		Metrics:  Acuracy, Precision, Recall, F1-Score
 	'''
 
 	# Pose data
