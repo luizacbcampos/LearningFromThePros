@@ -2,7 +2,8 @@
 
 view_invariant1=(1 0)
 number_dim=(2 3)
-split_side=(0 1)
+# split_side=(0 1)
+split_side=(0)
 grid_search=(0 1)
 
 
