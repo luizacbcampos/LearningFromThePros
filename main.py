@@ -11,7 +11,7 @@ from sklearn.manifold import TSNE
 from sklearn.cluster import KMeans
 from sklearn.model_selection import GridSearchCV
 from sklearn.preprocessing import StandardScaler
-from sklearn.metrics import pairwise_distances_argmin_min
+from sklearn.metrics import pairwise_distances_argmin_min, confusion_matrix, f1_score, recall_score, precision_score
 
 import statsmodels.api as sm
 
@@ -115,15 +115,15 @@ def LearningSaveTechnique(sets_3d_cvi_clean, set_3d_cvi_clean_df, args):
 
 		#Find saves that are closest to cluster centres
 		closest, _ = pairwise_distances_argmin_min(kmeans.cluster_centers_, sets_2d_proj)
-		return kmeans, kmeans_preds, cluster_name, closest
+		return number_cluster, kmeans, kmeans_preds, cluster_name, closest
 
 	# Create 3D - 2D projection dataset
-	sets_2d_proj = auxi.create3D_2D_projection_df(sets_3d_cvi_clean, args.number_dimensions)
+	sets_2d_proj = auxi.create3D_2D_projection_df(sets_3d_cvi_clean, number_dimensions=args.number_dimensions)
 
-	kmeans, kmeans_preds, cluster_name, closest = KMeansCalc()
+	number_cluster, kmeans, kmeans_preds, cluster_name, closest = KMeansCalc()
 	
 	cluster_dict = auxi.cluster_correspondence(kmeans_preds, set_3d_cvi_clean_df, cluster_name)
-	print(cluster_dict)
+	print("Cluster Dict:", cluster_dict)
 	c_size_d = auxi.print_cluster_sizes(kmeans_preds, cluster_dict)
 	
 
@@ -142,9 +142,10 @@ def LearningSaveTechnique(sets_3d_cvi_clean, set_3d_cvi_clean_df, args):
 
 	# exit()
 	if not args.debug:
-		TSNE_df = auxi.createTSNEdf(pose_tsne, kmeans_preds, cluster_dict)
+		wandb.config.update({"KMeans Cluster Count": number_cluster})
 
-		wandb.log({'elbow': wandb.sklearn.plot_elbow_curve(KMeans(random_state=689).fit(sets_2d_proj), sets_2d_proj)})
+		TSNE_df = auxi.createTSNEdf(pose_tsne, kmeans_preds, cluster_dict)
+		wandb.sklearn.plot_elbow_curve(KMeans(random_state=689).fit(sets_2d_proj), sets_2d_proj)
 		wandb.sklearn.plot_silhouette(kmeans, sets_2d_proj, kmeans_preds)
 		wandb.log({"KMeans 1v1 Table": auxi.make_kmeans_df(kmeans_preds, set_3d_cvi_clean_df)})
 		wandb_LearningSaveTechnique(TSNE_df, c_size_d)
@@ -170,7 +171,7 @@ def wandb_LearningSaveTechnique(TSNE_df, c_size_d):
 
 # 1v1 Expected Saves Model
 
-def ExpectedSavesModel_1v1(set_3d_cvi_clean_df, args):
+def ExpectedSavesModel_1v1(set_3d_cvi_clean_df, kmeans_preds, args):
 	'''
 		1v1 Expected Saves Model
 	'''
@@ -183,8 +184,9 @@ def ExpectedSavesModel_1v1(set_3d_cvi_clean_df, args):
 
 	# Get data for xS model
 	df = set_3d_cvi_clean_df.loc[:,'file':]
-	df['cluster'] = kmeans_preds #Add save technique as feature
-	
+	df['cluster'] = kmeans_preds # Add save technique as feature
+	number_cluster = len(set(kmeans_preds))
+
 	# Get train/test split
 	np.random.seed(3615)
 	train_df, test_df = gk.getTrainTest(df, test_size=0.3)
@@ -208,13 +210,17 @@ def ExpectedSavesModel_1v1(set_3d_cvi_clean_df, args):
 	parameters = grid_search_parameters()
 	svm = GridSearchCV(SVC(probability=True), param_grid=parameters, cv=5, scoring='accuracy').fit(X_train, y_train)
 	print("Best Parameter Set:", svm.best_params_)
-	print("Test Set Accuracy:", np.mean(svm.predict(X_test) == np.array(y_test))*100)
+	
+	y_pred = svm.predict(X_test)
+	cmatrix, f1, recall, precision, test_set_acc = auxi.classification_metrics(y_test, y_pred)
+	print("F1: {}, Recall: {}, Precision: {}".format(f1, recall, precision))
+	print("Test Set Accuracy:", test_set_acc)
 
 	#Calculate xS map when striker is not under pressure
-	xs_map = gk.getXSMap(train_df, svm, scaler, num_clusters=4, up=0)
+	# xs_map = gk.getXSMap(train_df, svm, scaler, num_clusters=number_cluster, up=0) #ADD
 
 	#Calculate xS map for when striker is under pressure
-	xs_map_up = gk.getXSMap(train_df, svm, scaler, num_clusters=4, up=1)
+	# xs_map_up = gk.getXSMap(train_df, svm, scaler, num_clusters=number_cluster, up=1) #ADD
 
 	if args.show:
 		cluster_name = ['Aggressive Set', 'Passive Set', 'Spread', 'Smother']
@@ -223,16 +229,33 @@ def ExpectedSavesModel_1v1(set_3d_cvi_clean_df, args):
 		#Optimal technique map
 		plots.plotBestTechniqueUp(xs_map, xs_map_up, cluster_name, show=args.show)
 
+	if not args.debug:
+		wandb_ExpectedSavesModel_1v1(svm, X_test, y_test)
+
 	return train_gk_name, test_gk_name, train_df, test_df, svm
 
 
+def wandb_ExpectedSavesModel_1v1(svm, X_test, y_test):
+	'''
+		Upload to wandb
+	'''
+	wandb.config.update(svm.best_params_)
+	y_pred = svm.predict(X_test)
+
+	cm = wandb.sklearn.plot_confusion_matrix(y_test, y_pred, normalize='all')
+	# cm = wandb.plot.confusion_matrix(probs=None, y_true=y_test, preds=y_pred)
+	
+	cmatrix, f1, recall, precision, test_set_acc = auxi.classification_metrics(y_test, y_pred)
+	
+	d = {"conf_mat 1v1": cm, "Accuracy 1v1": test_set_acc, 'F1 1v1': f1, "Recall 1v1": recall, "Precision 1v1": precision}
+	wandb.log(d)
+	return
 # Pro Goalkeeper Scouting
 
 def proGoalkeeperScouting(train_gk_name, test_gk_name , train_df, test_df, svm, args):
 	'''
 		Pro Goalkeeper Scouting
 	'''
-	# exit()
 
 	#Reset the index of test set
 	test_df.reset_index(drop=True, inplace=True)
@@ -247,7 +270,7 @@ def proGoalkeeperScouting(train_gk_name, test_gk_name , train_df, test_df, svm, 
 
 	#Rank Pro Goalkeepers by their % correct usage of save technique
 	test_df['gk_name'], train_df['gk_name'] = np.array(test_gk_name), np.array(train_gk_name)
-	gk_df = pd.concat([train_df[['gk_name','chosen_cluster','optimal_cluster']], test_df[['gk_name','chosen_cluster','optimal_cluster']]])
+	gk_df = pd.concat([train_df[['gk_name','chosen_cluster','optimal_cluster']], test_df[['gk_name','chosen_cluster','optimal_cluster']]])	
 	print("Percentage optimal:", np.mean(gk_df['chosen_cluster'] == gk_df['optimal_cluster']) * 100)
 
 
@@ -257,10 +280,37 @@ def proGoalkeeperScouting(train_gk_name, test_gk_name , train_df, test_df, svm, 
 	gk_ranking.sort_values(by=['correct_cluster'], ascending=False, inplace=True)
 	gk_ranking.reset_index(drop=True, inplace=True)
 
-	#Ranking of Pro Keepers with >= 15 1v1s faced
-	print(gk_ranking[gk_ranking['shots_faced'] >= 15].reset_index(drop=True))	
+	# Ranking of Pro Keepers with >= 15 1v1s faced
+	ranking = gk_ranking[gk_ranking['shots_faced'] >= 15].reset_index(drop=True) 
+	print(ranking)
+
+	if not args.debug:
+		wandb_proGoalkeeperScouting(gk_df, gk_ranking)		
 	return
 
+def wandb_proGoalkeeperScouting(gk_df, gk_ranking):
+	'''
+		Upload to wandb
+	'''
+	opt_perc = np.mean(gk_df['chosen_cluster'] == gk_df['optimal_cluster'])
+	wandb.log({"Optimal Cluster": opt_perc}) 
+	
+	gt_ranking = ['Neil Leonard Dula Etheridge', 'Łukasz Fabiański', 'Ben Foster', 'Kasper Schmeichel', 
+	'David de Gea', 'Hugo Lloris', 'Sergio Rico González', 'Jordan Pickford']
+	ranking = gk_ranking[gk_ranking['shots_faced'] >= 15].reset_index(drop=True)
+	mAP = auxi.mean_average_precision(gt_ranking, ranking.gk_name.tolist())
+	wandb.log({"Mean Average Precision": mAP})
+
+	rho, pval = auxi.SpearmanCorrelation(ranking.gk_name.tolist(), ranking.gk_name.tolist())
+	data = [[rho, pval]]
+	table = wandb.Table(data=data, columns = ["rho", "pval"])
+	wandb.log({"Spearman Correlation" : wandb.plot.scatter(table,"rho", "pval")})
+
+	data = ranking.values.tolist()
+	table = wandb.Table(data=data, columns = ['gk_name', 'correct_cluster', 'shots_faced'])
+	wandb.log({"GK Ranking": table, "GK bars": wandb.plot.bar(table, "gk_name", "correct_cluster", title="GK Optimal Cluster")})
+
+	return
 
 # Penalty Analysis
 
@@ -273,10 +323,8 @@ def PenaltyAnalysis(args):
     parser.add_argument('-he', '--height', type=int, default=0, help='Add goalkeeper height information')
 	'''
 
-	#3D pose data
-	joined_pose_3d_df, pose_arr = auxi.importPenalty3D()
-	# 2D pose data
-	joined_pose_2d_df, pose_2d_arr = auxi.importPenalty2D()
+	# Pose data
+	joined_pose_3d_df, pose_arr, joined_pose_2d_df, pose_2d_arr = auxi.PenaltyImportPose()
 
 	# Percentage of pens that were saved in our dataset
 	print("Percentage of saved penalties:", np.mean(joined_pose_3d_df['outcome'] == 'Saved') * 100)
@@ -288,24 +336,26 @@ def PenaltyAnalysis(args):
 		pic_ids, path = [388, 20, 3, 243, 302, 377], 'images/pen_images/combined_data/'
 		plots.plot_penalty_examples(pose_arr, joined_pose_3d_df, pic_ids, path, show=args.show)
 		
+
+
 	# Get camera-view invariant dataset of 3d poses
 	pen_pose_vi = gk.cameraInvariantDataset(pose_arr, vi=args.view_invariant2)
 	# Rotates the poses from images taken from behind by 180 degrees
 	pen_pose_vi = gk.flipBehindPoses(pen_pose_vi)
-
+	
 	# Good Poses DataFrame
 	good_poses_3d_df = gk.cleanPenPredictions(joined_pose_3d_df)
-
 	# Good Poses Matrix
-	good_poses_3d_arr = good_poses_3d_df.loc[:,'0':].values
-	
+	last = '47' if joined_pose_3d_df.shape[1] > 40 else '31'
+	good_poses_3d_arr = good_poses_3d_df.loc[:,'0':last].values
+
 	# Convert all the good poses to the features space
 	poses_features = gk.PenFeatureSpace(good_poses_3d_arr)
-	
+
 	# Fit K-Means model
 	kmeans_pens = KMeans(n_clusters=2, random_state = 13).fit(poses_features)
 	kmeans_pens_preds = kmeans_pens.predict(poses_features)
-	auxi.print_cluster_sizes(kmeans_pens_preds, ['Cluster 0', 'Cluster 1'])
+	auxi.print_cluster_sizes(kmeans_pens_preds, ['Cluster 0', 'Cluster 1'], end='\t')
 	
 	auxi.print_penalty_angles(poses_features, kmeans_pens_preds)
 
@@ -321,16 +371,21 @@ def PenaltyAnalysis(args):
 		plots.penalty_clusterExamples(good_poses_3d_arr, good_poses_3d_df, kmeans_pens_preds, ax_array, path, show=args.show)
 
 	# Save % for clusters
+	print()
 	auxi.print_save_percentage_cluster(good_poses_3d_df, kmeans_pens_preds)
 
 	# Create dataframe of good poses features
-	good_poses_feat_df = auxi.create_GodPoseFeatDf(poses_features, good_poses_3d_df)
-	continuous_var = ['torso_angle','body_height','forward_step','hand_height','body_angle']
+	good_poses_feat_df, continuous_var, formula = auxi.createPenaltyGoodPosesFeatures(poses_features, good_poses_3d_df, args)
+
+	good_poses_feat_df = auxi.PenaltyDummies(good_poses_feat_df, continuous_var)
 	
 	# Train/Test Split (70/30)
-	split_index = good_poses_feat_df.index[int(len(good_poses_feat_df)*0.7)]
-	test_df = good_poses_feat_df.loc[split_index:, :].copy() 
-	train_df = good_poses_feat_df.loc[:split_index-1, :].copy() 
+	df = good_poses_feat_df.copy()
+	train_df = df.sample(frac=0.7,random_state=200) #random state is a seed value
+	test_df = df.drop(train_df.index)
+	# print(train_df.Dominant_side.value_counts())
+	# print(test_df.outcome.value_counts())
+	# print("Test Index", test_df.index)
 
 	#Standardise continuous variables
 	scaler = StandardScaler()
@@ -345,15 +400,65 @@ def PenaltyAnalysis(args):
 	log_reg = sm.Logit(train_df['outcome'], train_df[train_df.columns[1:]]).fit()
 	# Logistic regression summary
 	print(log_reg.summary())
-
+	sse, ssr, sst, rsquared = auxi.regression_info(log_reg, train_df['outcome'])
 	# Predictions
 	y_pred = log_reg.predict(test_df[test_df.columns[1:]])
+	
 	# Prediction stats
 	auxi.printPredictionStats(y_pred, test_df)
 
+	# # Train Linear Regression
+	# res = sm.OLS(train_df['outcome'], train_df[train_df.columns[1:]]).fit()
+	# print(res.summary())
+	# sse, ssr, sst, rsquared = auxi.regression_info(res, train_df['outcome'])
+	# # Predictions
+	# y_pred = res.predict(test_df[test_df.columns[1:]])
+	# # Prediction stats
+	# auxi.printPredictionStats(y_pred, test_df)
+
+	# summary = log_reg.summary2()
+	if not args.debug:
+		TSNE_df = auxi.createTSNEdf(pens_tsne, kmeans_pens_preds, {0:'Cluster 0', 1:'Cluster 1'})
+		results_d = {"SSE":sse, "SSR":ssr, "SST":sst, "R-squared":rsquared}
+		wandbPenaltyAnalysis(y_pred, test_df, log_reg, results_d, TSNE_df)
 	return
 
+def wandbPenaltyAnalysis(y_pred, test_df, model, results_d, TSNE_df):
+	
+	def TSNE_plot():
+		data = TSNE_df.values.tolist()
+		table = wandb.Table(data=data, columns = ['t-SNE_1', "t-SNE_2", "cluster"])
+		wandb.log({"TSNE Penalty" : wandb.plot.scatter(table, 't-SNE_1', 't-SNE_2')})
 
+	TSNE_plot()
+	# Log model info
+	wandb.log(results_d)
+	
+	# Log summary as table
+	summary = model.summary2()
+
+	tabela = summary.tables[0]
+	df = pd.DataFrame.from_dict({"stats": range(2*len(tabela)), "results": range(2*len(tabela))})
+	df['stats'] = pd.concat([tabela[tabela.columns[0]], tabela[tabela.columns[2]]], ignore_index=True)
+	df['results']= pd.concat([tabela[tabela.columns[1]], tabela[tabela.columns[3]]], ignore_index=True)
+	data = df.values.tolist()
+	table = wandb.Table(data=data, columns=df.columns.tolist())
+	wandb.log({"Model Summary 0": table})
+
+	df = summary.tables[1].reset_index()
+	data = df.values.tolist()
+	table = wandb.Table(data=data, columns=df.columns.tolist())
+	wandb.log({"Model Summary 1": table})
+
+	
+	# Predictions
+	y_pred[y_pred < 0.5] = 0
+	cm = wandb.sklearn.plot_confusion_matrix(test_df['outcome'].tolist(), np.array(y_pred))
+	cmatrix, f1, recall, precision, acc = auxi.classification_metrics(test_df['outcome'].tolist(), np.array(y_pred))
+	d = {"conf_mat Penalty": cm, "Accuracy Penalty": acc, 'F1 Penalty': f1, "Recall Penalty": recall, "Precision Penalty": precision}
+	wandb.log(d)
+
+	return
 
 if __name__ == '__main__':
 	args = parse_args()
@@ -363,21 +468,30 @@ if __name__ == '__main__':
 		wandb.init(project="LearningFromThePros", entity="luizachagas")
 		wandb.config.update(args)
 
+
+	print("\t========== 1v1 ANALYSIS ==========\t")
 	# Import and Prepare Data - One on Ones
 	set_2d_df, set_3d_df, sets_2d, sets_3d = import_and_prepare()
-	auxi.create_side_df(sets_2d, set_2d_df, save=True)
-	# exit()
+
+	# auxi.create_side_df(sets_2d, set_2d_df, save=True)
+
+	print("---"*22)
 	# View-Invariance
 	sets_3d_cvi_clean, set_3d_cvi_clean_df = viewInvariance(sets_3d, set_3d_df, args)
+	print("---"*22)
 
 	# Learning Save Technique - Unsupervised Learning
 	kmeans_preds = LearningSaveTechnique(sets_3d_cvi_clean, set_3d_cvi_clean_df, args)
-	
+	print("---"*22)
+
 	# 1v1 Expected Saves Model
-	train_gk_name, test_gk_name, train_df, test_df, svm = ExpectedSavesModel_1v1(set_3d_cvi_clean_df, args)
+	train_gk_name, test_gk_name, train_df, test_df, svm = ExpectedSavesModel_1v1(set_3d_cvi_clean_df, kmeans_preds, args)
+	print("---"*22)
 
 	# Pro Goalkeeper Scouting
 	proGoalkeeperScouting(train_gk_name, test_gk_name , train_df, test_df, svm, args)
+	print("---"*22)
 
 	# Penalty Analysis
+	print("\t========== PENALTY ANALYSIS ==========\t")
 	PenaltyAnalysis(args)

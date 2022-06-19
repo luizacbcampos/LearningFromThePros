@@ -221,15 +221,20 @@ def saveClusters(clusters, file_name, path='data/'):
     pd.DataFrame(clusters, columns=['cluster']).to_csv(path + file_name, index=False)
 
 def getTrainTest(df, test_size=0.3):
+    '''
+        Create Train and Test df
+    '''
     on_target = (df['shot_outcome_name'] == 'Goal') | (df['shot_outcome_name'] == 'Saved')
-    features = ['photo_id','gk_name','shot_outcome_name','cluster','shot_angle','distance_to_goal',
-                'under_pressure']
+    features = ['photo_id','gk_name','shot_outcome_name','cluster', 'shot_angle', 'distance_to_goal', 'under_pressure']
+    
     ml_df = df.loc[on_target, features].copy()
     ml_df['shot_outcome_name'].replace({'Goal': 0, 'Saved': 1}, inplace=True)
     ml_df = pd.get_dummies(ml_df, columns=['cluster'])
     ml_df = ml_df.reset_index(drop=True)
+    
     test_ind = np.random.choice(range(ml_df.shape[0]), int(ml_df.shape[0] * test_size))
     print("Test index:", test_ind)
+    
     test_df = ml_df.loc[test_ind, :].copy()
     train_df = ml_df.drop(test_ind).reset_index(drop=True)
     return train_df, test_df
@@ -303,19 +308,24 @@ def cleanPenDataFrames(pose_3d_df, pose_3d_2_df):
     #pose_3d_2_df: 17 - 19 data
     #pose_3d_df: 19 - 21 data
     #Change shots that hit post to 'Off T'
+
     pose_3d_2_df.loc[pose_3d_2_df.shot_outcome_name == 'Post', 'shot_outcome_name'] = 'Off T'
     pose_3d_df.loc[pose_3d_df.off_target == 1, 'outcome'] = 'Off T'
     pose_3d_df.loc[pose_3d_df.outcome == 'Scored', 'outcome'] = 'Goal'
     pose_3d_df.loc[pose_3d_df.outcome == 'Missed', 'outcome'] = 'Saved'
     pose_3d_df.drop(columns=['url','off_target'], inplace=True)
+
+    
     reorder = ['pen_taker','outcome','goalkeepers'] + list(map(str, list(range(int(pose_3d_df.columns[-1]) + 1))))
     pose_3d_df = pose_3d_df[reorder]
-    pose_3d_2_df.rename(columns={"player_name": "pen_taker", 
-                                 "shot_outcome_name": "outcome",
-                                 "gk_name": "goalkeepers"}, inplace=True)
+    pose_3d_2_df.rename(columns={"player_name": "pen_taker", "shot_outcome_name": "outcome", "gk_name": "goalkeepers"}, inplace=True)
+    
     joined_pose_3d_df = pose_3d_2_df.append(pose_3d_df, ignore_index=True) #contains all pens
+    joined_pose_3d_df['indx'] = joined_pose_3d_df.index
     joined_pose_3d_df.dropna(inplace=True)
-    pose_arr = joined_pose_3d_df.loc[:,'0':].values
+
+    last = '47' if joined_pose_3d_df.shape[1] > 40 else '31'
+    pose_arr = joined_pose_3d_df.loc[:,'0':last].values
     return (joined_pose_3d_df, pose_arr)
 
 def getArrayID(pose_df, photo_id):
@@ -335,12 +345,17 @@ def cleanPenPredictions(joined_pose_3d_df):
                  235,240,241,242,248,249,257,260,261,262,268,270,271,272,275,276,277,278,279,
                  281,282,291,294,299,301,305,312,314,317,322,324,331,333,335,336,341,347,349,351,
                  352,362,368,376,382,387,392,394,395])
+    
     good_poses_3d_df = joined_pose_3d_df.drop(to_remove)
+    # good_poses_3d_df.drop(columns='indx', inplace=True)
+
     return good_poses_3d_df 
 
 def PenFeatureSpace(clean_poses):
-    #Input: clean_poses - dataset off all of the camera-invariant poses
-    #Returns: dataset of poses in feature space
+    '''
+        Input: clean_poses - dataset off all of the camera-invariant poses
+        Returns: dataset of poses in feature space
+    '''
     pose_features = np.zeros((len(clean_poses), 5))
     for i in range(len(clean_poses)):
         pose_3d = pose_to_matrix(clean_poses[i])

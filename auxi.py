@@ -8,8 +8,10 @@ import pandas as pd
 from sklearn.svm import SVC
 from sklearn.manifold import TSNE
 from sklearn.cluster import KMeans
-from sklearn.preprocessing import StandardScaler
-from sklearn.metrics import pairwise_distances_argmin_min
+from sklearn.preprocessing import StandardScaler, MinMaxScaler
+from sklearn.metrics import pairwise_distances_argmin_min, confusion_matrix, f1_score, recall_score, precision_score
+
+from scipy import stats
 
 import matplotlib.cm as cm
 import matplotlib.pyplot as plt
@@ -22,6 +24,128 @@ import statsmodels.api as sm
 
 import gkpose as gk
 
+direction_dict = {'bottom right corner':1, 'bottom left corner':2, 'centre of the goal':3,
+			'top left corner':4, 'top right corner':5, 'top centre of the goal':6,}
+
+# metrics
+def classification_metrics(y_true, y_pred):
+	cmatrix = confusion_matrix(y_true, y_pred)
+	f1 = f1_score(y_true, y_pred)
+	recall = recall_score(y_true, y_pred)
+	precision = precision_score(y_true, y_pred)
+	acc = np.mean(y_pred == np.array(y_true))
+	return cmatrix, f1, recall, precision, acc
+
+def precision_at_k(r, k):
+    """Score is precision @ k
+    Relevance is binary (nonzero is relevant).
+    >>> r = [0, 0, 1]
+    >>> precision_at_k(r, 1)
+    0.0
+    >>> precision_at_k(r, 2)
+    0.0
+    >>> precision_at_k(r, 3)
+    0.33333333333333331
+    Args:
+        r: Relevance scores (list or numpy) in rank order
+            (first element is the first item)
+    Returns:
+        Precision @ k
+    Raises:
+        ValueError: len(r) must be >= k
+    """
+    assert k >= 1
+    r = np.asarray(r)[:k] != 0
+    if r.size != k:
+        raise ValueError('Relevance score length < k')
+    return np.mean(r)
+
+def average_precision(r):
+    """Score is average precision (area under PR curve)
+    Relevance is binary (nonzero is relevant).
+    >>> r = [1, 1, 0, 1, 0, 1, 0, 0, 0, 1]
+    >>> delta_r = 1. / sum(r)
+    >>> sum([sum(r[:x + 1]) / (x + 1.) * delta_r for x, y in enumerate(r) if y])
+    0.7833333333333333
+    >>> average_precision(r)
+    0.78333333333333333
+    Args:
+        r: Relevance scores (list or numpy) in rank order
+            (first element is the first item)
+    Returns:
+        Average precision
+    """
+    r = np.asarray(r) != 0
+    out = [precision_at_k(r, k + 1) for k in range(r.size) if r[k]]
+    if not out:
+        return 0.
+    return np.mean(out)
+
+def mean_average_precision(y_true, y_pred):
+    """Score is mean average precision
+    Relevance is binary (nonzero is relevant).
+    >>> rs = [[1, 1, 0, 1, 0, 1, 0, 0, 0, 1]]
+    >>> mean_average_precision(rs)
+    0.78333333333333333
+    >>> rs = [[1, 1, 0, 1, 0, 1, 0, 0, 0, 1], [0]]
+    >>> mean_average_precision(rs)
+    0.39166666666666666
+    Args:
+        rs: Iterator of relevance scores (list or numpy) in rank order
+            (first element is the first item)
+    Returns:
+        Mean average precision
+    """
+    rs = []
+    for t, p in zip(y_true, y_pred):
+    	n = 0 if t!=p else 1
+    	rs.append(n)
+    rs = [rs]
+    return np.mean([average_precision(r) for r in rs])
+
+def SpearmanCorrelation(y_true, y_pred):
+	'''
+		correlation
+		Spearman correlation matrix or correlation coefficient 
+		(if only 2 variables are given as parameters. Correlation matrix
+		is square with length equal to total number of variables (columns or rows) 
+		in a and b combined.
+
+		pvalue
+		The p-value for a hypothesis test whose null hypotheisis is that two sets of data are uncorrelated. 
+		See alternative above for alternative hypotheses. pvalue has the same shape as correlation.
+	'''
+
+	rho, pval = stats.spearmanr(y_true, y_pred)
+	
+	return rho, pval
+
+def regression_info(res, outcome):
+
+
+	sse = np.sum((res.fittedvalues - outcome)**2)
+	# sse = res.ssr
+	print("SSE:", sse)
+
+	ssr = np.sum((res.fittedvalues - outcome.mean())**2)
+	# ssr = res.ess
+	print("SSR:", ssr)
+
+	sst = ssr + sse
+	print("SST:", sst)
+
+	rsquared = 1 - sse/sst
+	print("R^2:", rsquared)
+
+	# y_pred_train = np.array(res.fittedvalues).reshape(-1, 1) #returns a numpy array
+	# min_max_scaler = MinMaxScaler()
+	# y_pred_train = min_max_scaler.fit_transform(y_pred_train)
+	# y_pred_train = y_pred_train.flatten()
+
+	# for t, p in zip(y_pred_train, outcome):
+	# 	print(t, p)
+	return sse, ssr, sst, rsquared
+# aux
 
 def ImageID(df, array_id):
     '''
@@ -33,7 +157,10 @@ def getClusterNames(number_cluster):
 
 	if number_cluster == 4:
 		cluster_name = ['Aggressive Set', 'Passive Set', 'Spread', 'Smother']
-	else:
+	elif number_cluster == 6:
+		cluster_name = ['Aggressive Set', 'Passive Set', 'Spread Right', 'Smother Right', 
+		'Aggressive Set', 'Passive Set', 'Spread Left', 'Smother Left']
+	elif number_cluster == 8:
 		cluster_name = ['Aggressive Set Right', 'Passive Set Right', 'Spread Right', 'Smother Right', 
 		'Aggressive Set Left', 'Passive Set Left', 'Spread Left', 'Smother Left']
 	return cluster_name
@@ -64,11 +191,11 @@ def print_full(df, rows=True, columns=False, width=False):
 	else:
 		print(df)
 
-def print_cluster_sizes(kmeans_preds, replace_dict):
+def print_cluster_sizes(kmeans_preds, replace_dict, end='\n'):
 	'''
 		Print cluster sizes
 	'''
-	print("Cluster sizes: ")
+	print("Cluster sizes:", end=end)
 	d = getClusterSizes(kmeans_preds)
 
 	new_d = {replace_dict[k]:v for k,v in d.items()}
@@ -88,12 +215,13 @@ def print_cluster_center(set_3d_cvi_clean_df, closest, replace_dict):
 		print("{}: {}".format(k, new_d[k]), end='\t')
 	print()
 
-def print_penalty_angles(poses_features, kmeans_pens_preds):
-	print("Torso Angle, cluster 0", np.mean(poses_features[kmeans_pens_preds == 0][:,0]))
-	print("Body Angle, cluster 0", np.mean(poses_features[kmeans_pens_preds == 0][:,4]))
+def print_penalty_angles(poses_features, kmeans_pens_preds, start='\t'):
+	print("Angles:")
+	print(start, "Torso Angle, cluster 0", np.mean(poses_features[kmeans_pens_preds == 0][:,0]))
+	print(start, "Body Angle, cluster 0", np.mean(poses_features[kmeans_pens_preds == 0][:,4]))
 
-	print("Torso Angle, cluster 1", np.mean(poses_features[kmeans_pens_preds == 1][:,0]))
-	print("Body Angle, cluster 1", np.mean(poses_features[kmeans_pens_preds == 1][:,4]))
+	print(start, "Torso Angle, cluster 1", np.mean(poses_features[kmeans_pens_preds == 1][:,0]))
+	print(start, "Body Angle, cluster 1", np.mean(poses_features[kmeans_pens_preds == 1][:,4]))
 
 def print_save_percentage_cluster(good_poses_3d_df, kmeans_pens_preds):
 	'''
@@ -112,8 +240,9 @@ def printPredictionStats(y_pred, test_df):
 	print('Mean xS:', np.mean(y_pred))
 
 	y_pred[y_pred < 0.5] = 0
-	# Accuracy
-	print("Accuracy:", np.mean(np.array(y_pred) == test_df['outcome']))
+	cmatrix, f1, recall, precision, acc = classification_metrics(test_df['outcome'].tolist(), np.array(y_pred))
+	print("Accuracy: {}, F1: {}, Recall: {}, Precision: {}".format(acc, f1, recall, precision))
+	print(cmatrix)
 	return
 
 # Dict Aux
@@ -203,6 +332,13 @@ def importPenalty2D():
 	joined_pose_2d_df, pose_2d_arr = gk.cleanPenDataFrames(pose_2d_df, pose_2d_2_df)
 	return joined_pose_2d_df, pose_2d_arr
 
+def PenaltyImportPose():
+
+	#3D pose data
+	joined_pose_3d_df, pose_arr = importPenalty3D()
+	# 2D pose data
+	joined_pose_2d_df, pose_2d_arr = importPenalty2D()
+	return joined_pose_3d_df, pose_arr, joined_pose_2d_df, pose_2d_arr
 
 # imports
 
@@ -222,16 +358,25 @@ def createViewInvariant_df(set_3d_df, sets_3d_cvi):
 	set_3d_cvi_df[cols] = set_3d_df[cols]
 	return set_3d_cvi_df
 
-def create_GodPoseFeatDf(poses_features, good_poses_3d_df):
+def create_GodPoseFeatDf(poses_features, good_poses_3d_df, keep_indx=False):
 	'''
 		Create dataframe of good poses features
 	'''
-	good_poses_feat_df = pd.DataFrame({'outcome': good_poses_3d_df['outcome']})
-	good_poses_feat_df = pd.concat([good_poses_feat_df, pd.DataFrame(poses_features, index=good_poses_feat_df.index)], axis=1)
+	if keep_indx:
+		good_poses_feat_df = pd.DataFrame({'outcome': good_poses_3d_df['outcome'], 'indx':good_poses_3d_df['indx']})
+		good_poses_feat_df = pd.concat([good_poses_feat_df, pd.DataFrame(poses_features, index=good_poses_feat_df.index)], axis=1)
 
-	# Drops off target strikes 
-	good_poses_feat_df = good_poses_feat_df.loc[good_poses_feat_df['outcome']  != 'Off T',:]
-	good_poses_feat_df.columns = ['outcome','torso_angle','body_height','forward_step', 'hand_height','body_angle']
+		# Drops off target strikes 
+		good_poses_feat_df = good_poses_feat_df.loc[good_poses_feat_df['outcome']  != 'Off T',:]
+		good_poses_feat_df.columns = ['outcome','indx', 'torso_angle','body_height','forward_step', 'hand_height','body_angle']
+	
+	else:
+		good_poses_feat_df = pd.DataFrame({'outcome': good_poses_3d_df['outcome']})
+		good_poses_feat_df = pd.concat([good_poses_feat_df, pd.DataFrame(poses_features, index=good_poses_feat_df.index)], axis=1)
+
+		# Drops off target strikes 
+		good_poses_feat_df = good_poses_feat_df.loc[good_poses_feat_df['outcome']  != 'Off T',:]
+		good_poses_feat_df.columns = ['outcome','torso_angle','body_height','forward_step', 'hand_height','body_angle']
 
 	# Make target variable boolean - 1=Save, 0=Goal
 	good_poses_feat_df['outcome'] = np.array((good_poses_feat_df['outcome'] == 'Saved').astype(int))
@@ -293,6 +438,7 @@ def create_side_df(sets_2d, set_2d_df, save=False):
 
 	for i in range(len(sets_2d_cvi_clean)):
 		pose = sets_2d_cvi_clean[i].reshape((16,2))
+		pose = center_pose(pose)
 		side = pick_side(pose)
 		sides.append(side)
 		# print(i, ImageID(set_2d_cvi_clean_df, i), side)
@@ -304,6 +450,53 @@ def create_side_df(sets_2d, set_2d_df, save=False):
 		df.to_csv("data/events/side_1v1.csv", index=False)
 	return
 
+def PenaltyDummies(good_poses_feat_df, continuous_var):
+
+	if 'Direction' in good_poses_feat_df.columns:
+		good_poses_feat_df['Direction'] = good_poses_feat_df['Direction'].replace(direction_dict)
+		good_poses_feat_df = pd.get_dummies(good_poses_feat_df, columns=['Direction'])
+	if 'Dominant_side' in good_poses_feat_df.columns:
+		good_poses_feat_df['Dominant_side'] = good_poses_feat_df['Dominant_side'].replace({'right': 0, 'left': 1})
+		good_poses_feat_df = pd.get_dummies(good_poses_feat_df, columns=['Dominant_side'])
+
+	return good_poses_feat_df.drop(columns=['indx'])
+
+def createPenaltyGoodPosesFeatures(poses_features, good_poses_3d_df, args):
+	'''
+		Creates the penalty regression dataframe
+	'''
+	# parser.add_argument('-p', '--penalty_location', type=int, default=0, help='Use penalty location')
+	#    parser.add_argument('-ha', '--hand', type=int, default=0, help='Add dominant hand parameter')
+	#    parser.add_argument('-he', '--height', type=int, default=0, help='Add goalkeeper height information')
+
+	good_poses_feat_df = create_GodPoseFeatDf(poses_features, good_poses_3d_df, True)
+	continuous_var = ['torso_angle','body_height','forward_step','hand_height','body_angle']
+
+	if args.hand or args.height or args.penalty_location:
+		tudo = pd.read_csv("data/events/prem_pens_all.csv")
+		df = pd.merge(good_poses_feat_df, tudo, left_on='indx', right_on='indx', how='left')
+		df = df.drop(columns=['outcome_y', 'off_target', 'pen_taker', 'goalkeepers', 'Foot'])
+		df = df.rename(columns={'outcome_x': 'outcome'})
+
+		if not args.hand:
+			df = df.drop(columns=['Dominant_side'])
+		if not args.height:
+			df = df.drop(columns=['Height'])
+		if not args.penalty_location:
+			df = df.drop(columns=['Direction'])
+		good_poses_feat_df = df.copy()
+
+	if args.height:
+		continuous_var += ['Height']
+
+	categorical_var = set(good_poses_feat_df.columns) - set(['outcome', 'indx']) - set(continuous_var)
+	formula = 'outcome ~ '
+	for v in continuous_var:
+		formula += v + ' + '
+	for v in categorical_var:
+		formula += 'C('+ v + ') + '
+	formula = formula[:-2] # remove extra +
+	return good_poses_feat_df, continuous_var, formula
 
 # DF alter
 
@@ -549,6 +742,18 @@ def correct_names(df, column):
 	return df
 
 
+
+def center_pose(pose):
+	'''
+		Center pose so that cervical column's X is on 0
+	'''
+	
+	points = pose.copy()[:, 0].reshape(pose.shape[0])
+	
+	coluna = points[[6,8,9]]
+	col_mean = coluna.mean()
+	pose[:, 0] = pose[:, 0] - col_mean
+	return pose
 if __name__ == '__main__':
 	a = 1
 
