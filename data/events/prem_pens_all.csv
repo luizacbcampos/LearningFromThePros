@@ -316,7 +316,7 @@ indx,pen_taker,outcome,goalkeepers,off_target,Foot,Direction,Dominant_side,Heigh
 314,Kevin De Bruyne,Off T,Alisson,1.0,right,left,right,191
 315,Mohamed Salah,Goal,Ederson,,left,bottom left corner,left,188
 316,Bruno Fernandes,Goal,Sam Johnstone,,right,top left corner,right,193
-317,Ivan Cavaleiro,Saved,Jordan Pickford,,right,left,left,185
+317,Ivan Cavaleiro,Off T,Jordan Pickford,1,right,left,left,185
 318,Neal Maupay,Off T,Alisson,1.0,right,right,right,191
 319,Pascal Groß,Goal,Alisson,,right,centre of the goal,right,191
 320,Ivan Cavaleiro,Goal,Kasper Schmeichel,,right,top right corner,right,189
@@ -343,7 +343,7 @@ indx,pen_taker,outcome,goalkeepers,off_target,Foot,Direction,Dominant_side,Heigh
 341,Neal Maupay,Goal,Rui Patrício,,right,top centre of the goal,left,190
 342,Rúben Neves,Goal,Robert Sánchez,,right,bottom right corner,right,197
 343,Billy Sharp,Goal,Karl Darlow,,right,bottom left corner,right,190
-344,Raheem Sterling,Saved,Robert Sánchez,,right,just a bit too high,right,197
+344,Raheem Sterling,Off T,Robert Sánchez,1,right,just a bit too high,right,197
 345,Matheus Pereira,Goal,Rui Patrício,,left,bottom left corner,left,190
 346,Matheus Pereira,Goal,Rui Patrício,,left,bottom right corner,left,190
 347,İlkay Gündoğan,Goal,Emiliano Martínez,,right,centre of the goal,right,195

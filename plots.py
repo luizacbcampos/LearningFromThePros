@@ -8,16 +8,34 @@ import pandas as pd
 import matplotlib.cm as cm
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
+from matplotlib.patches import Rectangle
 
 from mpl_toolkits import mplot3d
 from mpl_toolkits.mplot3d import Axes3D
 
 
+import seaborn as sns
 from mplsoccer import VerticalPitch
 import auxi
 
+sns.set()
 
 mpii_edges = [[0, 1], [1, 2], [2, 6], [6, 3], [3, 4], [4, 5], [10, 11], [11, 12], [12, 8], [8, 13], [13, 14], [14, 15], [6, 8], [8, 9]]
+
+altura, largura = 244, 732 # goal dimensions
+positions = {
+    "bottom left corner" : [(1,1), largura/3, altura/2, "green"],
+    "bottom right corner" : [(2*largura/3, 1), largura/3, altura/2, "pink"],
+    "centre of the goal" : [(largura/3, 1), largura/3, altura/2, "orange"],
+    "top right corner" : [(2*largura/3, altura/2), largura/3, altura/2, "red"],
+    "top left corner" : [(1, altura/2), largura/3, altura/2, "blue"],
+    "top centre of the goal" : [(largura/3, altura/2), largura/3, altura/2, "purple"],
+
+    "the bar" : None, "left post" : None, "left" : None,
+    "just a bit too high" : None,
+    "too high" : None, "right post" : None, "right" : None,
+}
+
 # pose converter
 
 def pose_to_matrix(pose):
@@ -60,6 +78,7 @@ def remove_labels(ax, s=2):
     ax.set_ylabel('')
     if s==3:
         ax.set_zlabel('')
+
 # Plots
 
 def plot_rectangle(points, bbox, show=False):
@@ -422,5 +441,73 @@ def penalty_clusterExamples(good_poses_3d_arr, good_poses_3d_df, kmeans_pens_pre
         plt.show()
     return
 
+
+
+# goal plots
+def plot_goal_zones(start=1, show=False):
+
+    fig = plt.figure()
+    ax = fig.add_subplot(111)
+    x = [start,start, start+largura, start+largura, ]
+    y = [start,start+altura,start+altura, start, ]
+    
+    # Create posts
+    traves = Line2D(x, y, linewidth=5)
+    ax.add_line(traves)
+
+    for position, s in positions.items():
+      if s:
+        # print(position)
+        r = Rectangle(s[0], s[1], s[2], edgecolor = s[3],
+                  facecolor = s[3], fill=True, alpha=0.3, lw=1, label=position)
+        ax.add_patch(r)
+
+    plt.xlim([-32, 764])
+    plt.ylim([-32, 276])
+
+    ax.set_xticks([])
+    ax.set_yticks([])
+    ax.legend(bbox_to_anchor=(1.1, 1.05))
+    
+    if show:
+        plt.show()
+    return plt
+
+
+
+def plot_straight_hull_rec(points, bbox):
+  '''
+    Plots a straight rectangle that covers all points
+    bbox is that rec. Call auxi.straight_bounding_rectangle(points) to retreive it 
+  '''
+
+  plt.scatter(points[:,0], points[:,1])
+  plt.fill(bbox[:,0], bbox[:,1], alpha=0.2)
+  plt.axis('equal')
+  plt.show()
+
+
 if __name__ == '__main__':
-	print("main")
+
+    print("main")
+    df = pd.read_csv("data/events/prem_pens_all.csv")
+    print("Total pen:", len(df))
+    df['count'] = 0
+    df = df.loc[df.outcome != 'Off T'][['outcome', 'Direction', 'count']]
+    df = df.groupby(by=['outcome', 'Direction']).count().reset_index(col_level=1)
+
+
+    goal = df.loc[df.outcome == "Goal"][['Direction', 'count']]
+    saved = df.loc[df.outcome == "Saved"][['Direction', 'count']]
+
+    print("Total Saved: ",  saved['count'].sum())
+    print("Total Goal: ", goal['count'].sum()) 
+
+    # print(df[['outcome', 'Direction']].value_counts())
+    # print(goal.to_dict('index'))
+
+    goal_d = goal.set_index('Direction').to_dict("index")
+    saved_d = saved.set_index('Direction').to_dict("index")
+
+    print(goal_d)
+    print(saved_d)
