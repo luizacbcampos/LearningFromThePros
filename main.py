@@ -99,7 +99,6 @@ def viewInvariance(sets_3d, set_3d_df, args):
 
 	# Clean Predictions
 	sets_3d_cvi_clean, set_3d_cvi_clean_df = gk.cleanPredictions(set_3d_cvi_df)
-
 	return sets_3d_cvi_clean, set_3d_cvi_clean_df
 
 
