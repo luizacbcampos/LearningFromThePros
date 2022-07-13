@@ -1,4 +1,6 @@
 # main
+import warnings
+warnings.simplefilter(action='ignore', category=FutureWarning)
 
 # Imports
 import wandb
@@ -110,25 +112,57 @@ def LearningSaveTechnique(sets_3d_cvi_clean, set_3d_cvi_clean_df, args, start='\
 		Factors: view_invariant1, number_dimensions, split_sides
 		Metrics: Dividir a grande área em quadrados e observar a variação da melhor técnica por quadrado;
 	'''
-	def KMeansCalc():
-		number_cluster = 6 if args.split_sides else 4
+	def preKmeans(proj_set):
+		if not args.split_sides:
+			return KMeansCalc(proj_set)
+		else:
+			# number_cluster = 6
+			
+			side_df = pd.read_csv("data/events/side_1v1.csv")
+			side_df = set_3d_cvi_clean_df.merge(side_df, right_on='img_id', left_on='file')
+
+			left_ids = side_df[side_df['side']=='Left'].index.to_numpy() 
+			right_ids = side_df[side_df['side']=='Right'].index.to_numpy()
+
+			
+			Lnumber_cluster, Lkmeans, Lkmeans_preds, Lcluster_name, Lclosest = KMeansCalc(proj_set[left_ids])
+			Rnumber_cluster, Rkmeans, Rkmeans_preds, Rcluster_name, Rclosest = KMeansCalc(proj_set[right_ids])
+			
+			
+			number_cluster = Lnumber_cluster + Rnumber_cluster
+			cluster_name = ['Left '+ i for i in Lcluster_name] + ['Right '+ i for i in Rcluster_name]
+
+			# Join preds
+			Rkmeans_preds = Rkmeans_preds+4
+			kmeans_preds = np.ones((len(proj_set)))
+			kmeans_preds[right_ids] = Rkmeans_preds
+			kmeans_preds[left_ids] = Lkmeans_preds
+			
+			closest = np.concatenate([left_ids[Lclosest], right_ids[Rclosest]]).ravel()
+			kmeans = [Lkmeans, Rkmeans]
+
+			return number_cluster, kmeans, kmeans_preds, cluster_name, closest	
+
+	def KMeansCalc(proj_set):
+
 		# Train K-Means 
-		kmeans = KMeans(n_clusters=number_cluster, random_state=689).fit(sets_2d_proj)
+		kmeans = KMeans(n_clusters=number_cluster, random_state=689).fit(proj_set)
 
 		# Get cluster membership label for each save - represents chosen save technique
-		kmeans_preds = kmeans.predict(sets_2d_proj)
+		kmeans_preds = kmeans.predict(proj_set)
 
 		# Clusters are named using domain knowledge
 		cluster_name = auxi.getClusterNames(number_cluster)
 
 		#Find saves that are closest to cluster centres
-		closest, _ = pairwise_distances_argmin_min(kmeans.cluster_centers_, sets_2d_proj)
+		closest, _ = pairwise_distances_argmin_min(kmeans.cluster_centers_, proj_set)
 		return number_cluster, kmeans, kmeans_preds, cluster_name, closest
 
 	# Create 3D - 2D projection dataset
 	sets_2d_proj = auxi.create3D_2D_projection_df(sets_3d_cvi_clean, number_dimensions=args.number_dimensions)
 
-	number_cluster, kmeans, kmeans_preds,  cluster_name, closest = KMeansCalc()
+	number_cluster = 4
+	number_cluster, kmeans, kmeans_preds,  cluster_name, closest = preKmeans(sets_2d_proj) #KMeansCalc()
 	
 	cluster_dict = auxi.cluster_correspondence(kmeans_preds, set_3d_cvi_clean_df, cluster_name)
 	print(start, "Cluster Dict:", cluster_dict)
@@ -138,7 +172,7 @@ def LearningSaveTechnique(sets_3d_cvi_clean, set_3d_cvi_clean_df, args, start='\
 	# df = auxi.create_kmeans_df(kmeans_preds, set_3d_cvi_clean_df, cluster_name, save=True)
 
 	# Get 2D TSNE representation of body pose (1244)
-	pose_tsne = TSNE(n_components=2, random_state=1445).fit_transform(sets_2d_proj)
+	pose_tsne = TSNE(n_components=2, random_state=1445, init='random', learning_rate='auto').fit_transform(sets_2d_proj)
 	if args.show:
 		plots.plotTSNE(pose_tsne, kmeans_preds, cluster_name, number=len(cluster_name), show=args.show)
 	
@@ -149,6 +183,22 @@ def LearningSaveTechnique(sets_3d_cvi_clean, set_3d_cvi_clean_df, args, start='\
 		plots.plot_cluster(sets_3d_cvi_clean, set_3d_cvi_clean_df, closest, cluster_name, path='images/1v1_images/', show=args.show)
 
 	cluster_mean_df = auxi.mean_pose_per_cluster(kmeans_preds, set_3d_cvi_clean_df, cluster_dict, c_center)
+
+	if number_cluster == 8:
+		for k,v in cluster_dict.items():
+			val = v.split(' Left')[0]
+			val = val.split(' Right')[0]
+			cluster_dict[k] = val
+
+		new_cluster_dict = {v: [] for v in set(cluster_dict.values())}
+		for k, v in cluster_dict.items():
+			new_cluster_dict[v].append(k)
+
+		for k, v in new_cluster_dict.items():
+			values = sorted(v)
+			kmeans_preds = np.where(kmeans_preds == values[1], values[0], kmeans_preds)
+
+		cluster_dict = dict((v[0],k) for k,v in new_cluster_dict.items())
 
 	if not args.debug:
 		wandb.config.update({"KMeans Cluster Count": number_cluster})

@@ -27,6 +27,17 @@ import gkpose as gk
 direction_dict = {'bottom right corner':1, 'bottom left corner':2, 'centre of the goal':3,
 			'top left corner':4, 'top right corner':5, 'top centre of the goal':6,}
 
+def find_duplicates(l):
+	l=sorted(l)
+	l1, dups = set(), set()
+	for i in l:
+	    if i not in l1:
+	        l1.add(i)
+	    else:
+	    	dups.add(i)
+	return list(dups)
+
+
 def plot_cf_matrix(y_true, y_pred):
 
 	conf_matrix = confusion_matrix(y_true=y_true, y_pred=y_pred)
@@ -478,11 +489,11 @@ def create_kmeans_df(kmeans_preds, set_3d_cvi_clean_df, cluster_names=None, save
 
 def make_kmeans_df(kmeans_preds, set_3d_cvi_clean_df, cluster_dict, cluster_names=None):
 
+	
 	l = [ImageID(set_3d_cvi_clean_df, i) for i in range(len(kmeans_preds))]
 	kmeans_dict = {"img_id": l, "cluster": kmeans_preds}
 	df = pd.DataFrame.from_dict(kmeans_dict)
 	df = df.replace({"cluster": cluster_dict})
-
 	return df
 
 def mean_pose_per_cluster(kmeans_preds, set_3d_cvi_clean_df, cluster_dict, c_center):
@@ -631,11 +642,11 @@ def cluster_correspondence(kmeans_preds, set_3d_cvi_clean_df, cluster_name, star
 		Using the original paper as Ground-Truth find the cluster name from the new cluster results
 	'''
 	print("{} Cluster Correspondence using {} clusters".format(start, len(cluster_name)))
-
 	df = make_kmeans_df(kmeans_preds, set_3d_cvi_clean_df, cluster_dict = {i:i for i in range(len(cluster_name))})
 	gt = pd.read_csv("data/events/cluster_1v1_4.csv")
 
 	if len(cluster_name) == 4:
+		
 		g = cluster_proportions_df(df, gt, cols=['cluster_gt', 'cluster_n'])
 		# print(g)
 
@@ -654,6 +665,7 @@ def cluster_correspondence(kmeans_preds, set_3d_cvi_clean_df, cluster_name, star
 			print("Equal??", perc_gt==perc_novo)
 			return dict((v,k) for k,v in s_perc_novo.items())
 	else:
+		print("HERE")
 		side_df = pd.read_csv("data/events/side_1v1.csv")
 		gt = gt.merge(side_df, on='img_id')
 		df = df.merge(side_df, on='img_id')
@@ -662,9 +674,8 @@ def cluster_correspondence(kmeans_preds, set_3d_cvi_clean_df, cluster_name, star
 		gt["cluster"] = gt["cluster"] + ' ' + gt["side"]
 
 		g = cluster_proportions_df(df, gt, on=['img_id', 'side'], cols=['cluster_gt', 'cluster_n'])
-		print(g)
+		# print(g)
 		
-
 		perc_gt = cluster_dict(g, by=['perc_gt', 'perc_novo'])
 		s_perc_gt = {k:v[0] for k,v in perc_gt.items()}
 		# print(s_perc_gt)
@@ -675,10 +686,27 @@ def cluster_correspondence(kmeans_preds, set_3d_cvi_clean_df, cluster_name, star
 
 		# s_perc_gt = remove_left_right(s_perc_gt)
 		# s_perc_novo = remove_left_right(s_perc_novo)
-		# print("Equal??", s_perc_gt==s_perc_novo)
-		# print("> ", s_perc_gt)
+		print("Equal??", s_perc_gt==s_perc_novo)
 
-		s_perc_novo = {'Aggressive Set':0, 'Passive Set':1, 'Spread Right':2, 'Smother Right':3, 'Spread Left':4, 'Smother Left':5}
+
+		if set(s_perc_novo.values()) == set(range(8)):
+			return dict((v,k) for k,v in s_perc_novo.items())
+		elif set(s_perc_gt.values()) == set(range(8)):
+			return dict((v,k) for k,v in s_perc_gt.items())
+		else:
+			missing = list(set(range(8)) - set(s_perc_novo.values()))
+			l = find_duplicates(s_perc_novo.values())
+			possib = []
+			for k,v in s_perc_novo.items():
+				if v==l[0]:
+					possib.append(k)
+
+			sw = g[g['cluster_n'].isin(l)]
+			sw = sw[sw['cluster_gt'].isin(possib)]
+			sw = sw[sw.perc_novo == sw.perc_novo.min()]['cluster_gt'].values
+			s_perc_novo[sw[0]] = missing[0]
+			# print(s_perc_novo)
+
 		return dict((v,k) for k,v in s_perc_novo.items())
 	return
 
