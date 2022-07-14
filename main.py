@@ -3,6 +3,7 @@ import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
 # Imports
+import os
 import wandb
 import argparse
 import numpy as np
@@ -14,6 +15,8 @@ from sklearn.cluster import KMeans
 from sklearn.model_selection import GridSearchCV
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import pairwise_distances_argmin_min, confusion_matrix, f1_score, recall_score, precision_score
+
+from imblearn.under_sampling import NearMiss
 
 import statsmodels.api as sm
 
@@ -183,7 +186,6 @@ def LearningSaveTechnique(sets_3d_cvi_clean, set_3d_cvi_clean_df, args, start='\
 		plots.plot_cluster(sets_3d_cvi_clean, set_3d_cvi_clean_df, closest, cluster_name, path='images/1v1_images/', show=args.show)
 
 	cluster_mean_df = auxi.mean_pose_per_cluster(kmeans_preds, set_3d_cvi_clean_df, cluster_dict, c_center)
-
 	if number_cluster == 8:
 		for k,v in cluster_dict.items():
 			val = v.split(' Left')[0]
@@ -200,16 +202,26 @@ def LearningSaveTechnique(sets_3d_cvi_clean, set_3d_cvi_clean_df, args, start='\
 
 		cluster_dict = dict((v[0],k) for k,v in new_cluster_dict.items())
 
+	baseline = {'Aggressive Set':0, 'Passive Set':1, 'Spread':2 , 'Smother':3}
+	kmeans_preds = kmeans_preds + 4
+	replace = {k+4:baseline[v] for k,v in cluster_dict.items()}
+	for k, v in replace.items():
+		kmeans_preds = np.where(kmeans_preds==k, v, kmeans_preds)
+		
 	if not args.debug:
 		wandb.config.update({"KMeans Cluster Count": number_cluster})
 
 		TSNE_df = auxi.createTSNEdf(pose_tsne, kmeans_preds, cluster_dict)
 
 		wandb.sklearn.plot_elbow_curve(KMeans(random_state=689).fit(sets_2d_proj), sets_2d_proj)
-		wandb.sklearn.plot_silhouette(kmeans, sets_2d_proj, kmeans_preds)
+		try:
+			wandb.sklearn.plot_silhouette(kmeans, sets_2d_proj, kmeans_preds)
+		except Exception as e:
+			print("Error plotting silhouette")
 
 		wandb.log({"KMeans 1v1 Table": auxi.make_kmeans_df(kmeans_preds, set_3d_cvi_clean_df, cluster_dict)})
 		wandb_LearningSaveTechnique(TSNE_df, c_size_d, cluster_mean_df)
+
 	return kmeans_preds
 
 def wandb_LearningSaveTechnique(TSNE_df, c_size_d, cluster_mean_df):
@@ -282,22 +294,30 @@ def ExpectedSavesModel_1v1(set_3d_cvi_clean_df, kmeans_preds, args, start='\t>')
 	
 	y_pred = svm.predict(X_test)
 	auxi.print_classification_metrics(y_test, y_pred, start)
-	
 
 	#Calculate xS map when striker is not under pressure
-	# xs_map = gk.getXSMap(train_df, svm, scaler, num_clusters=number_cluster, up=0) #ADD
+	xs_map = gk.getXSMap(train_df, svm, scaler, num_clusters=number_cluster, up=0) #ADD
+	
+	# best_tech_xs_map = np.argmax(xs_map, axis=0)
 
 	#Calculate xS map for when striker is under pressure
-	# xs_map_up = gk.getXSMap(train_df, svm, scaler, num_clusters=number_cluster, up=1) #ADD
+	xs_map_up = gk.getXSMap(train_df, svm, scaler, num_clusters=number_cluster, up=1) #ADD
 
+	cluster_name = ['Aggressive Set', 'Passive Set', 'Spread', 'Smother']
 	if args.show:
-		cluster_name = ['Aggressive Set', 'Passive Set', 'Spread', 'Smother']
 		plots.plotDoubleXSMap(xs_map, xs_map_up, cluster_name, show=args.show)
-
-		#Optimal technique map
+		# Optimal technique map
 		plots.plotBestTechniqueUp(xs_map, xs_map_up, cluster_name, show=args.show)
 
 	if not args.debug:
+		wandb.log({"XS Map": plots.plotBestTechniqueUp(xs_map, xs_map_up, cluster_name, show=args.show)})
+		# Save to pc
+		run_type = "v1{}-nd{}-g{}-si{}".format(args.view_invariant1, args.number_dimensions, args.grid_search, args.split_sides)
+		file_number = len([name for name in os.listdir('./results') if os.path.isfile(name)])/2
+		run_type = "{}-{}.npy".format(run_type, file_number)
+		np.save("results/xs_map"+run_type, xs_map)
+		np.save("results/xs_map_up"+run_type, xs_map_up)
+
 		wandb_ExpectedSavesModel_1v1(svm, X_test, y_test)
 
 	return train_gk_name, test_gk_name, train_df, test_df, svm
@@ -317,6 +337,7 @@ def wandb_ExpectedSavesModel_1v1(svm, X_test, y_test):
 	
 	d = {"conf_mat 1v1": cm, "Accuracy 1v1": test_set_acc, 'F1 1v1': f1, "Recall 1v1": recall, "Precision 1v1": precision}
 	wandb.log(d)
+	
 	return
 
 # Pro Goalkeeper Scouting
@@ -446,54 +467,68 @@ def PenaltyAnalysis(args, start='>'):
 	# Create dataframe of good poses features
 	good_poses_feat_df, continuous_var, formula = auxi.createPenaltyGoodPosesFeatures(poses_features, good_poses_3d_df, args)
 
+	# for var in continuous_var: #good_poses_feat_df.columns.tolist()
+	# 	plots.plot_scatter(good_poses_feat_df, x=var)
+	
+
 	# Create dummies for categorical features
-	good_poses_feat_df = auxi.PenaltyDummies(good_poses_feat_df, continuous_var)
+	good_poses_feat_df = auxi.PenaltyDummies(good_poses_feat_df, continuous_var, drop_top=True, dummies=True)
+	print(start, "New Percentage of saved penalties:", np.mean(good_poses_feat_df['outcome'] == 1) * 100)
 	
 	# Train/Test Split (70/30)
 	df = good_poses_feat_df.copy()
 	train_df = df.sample(frac=0.7,random_state=200) #random state is a seed value
 	test_df = df.drop(train_df.index)
-	# print(train_df.Dominant_side.value_counts())
-	# print(test_df.outcome.value_counts())
-	# print("Test Index", test_df.index)
+
+	X_train, y_train = train_df[train_df.columns[1:]], train_df['outcome']
+
+	# Resampling - because of class imbalance
+	undersample = NearMiss(0.4, version=3, n_neighbors=2)
+	X_train, y_train = undersample.fit_resample(X_train, y_train)
 
 	#Standardise continuous variables
 	scaler = StandardScaler()
-	scaler.fit(train_df[continuous_var])
-	train_df[continuous_var] = scaler.transform(train_df[continuous_var])
+	scaler.fit(X_train[continuous_var])
+	X_train[continuous_var] = scaler.transform(X_train[continuous_var])
 	test_df[continuous_var] = scaler.transform(test_df[continuous_var])
 	
+	X_test, y_test = test_df[test_df.columns[1:]].copy(), test_df['outcome']
+
 	# Add intercept term
-	train_df['coef'], test_df['coef'] = 1, 1
+	X_train = sm.add_constant(X_train)
+	X_test = sm.add_constant(X_test)
 
 	# Train logistic regression
-	log_reg = sm.Logit(train_df['outcome'], train_df[train_df.columns[1:]]).fit()
+	log_reg = sm.Logit(y_train, X_train).fit(method='bfgs', maxiter=100)	
 	# Logistic regression summary
 	print(log_reg.summary())
-	sse, ssr, sst, rsquared = auxi.regression_info(log_reg, train_df['outcome'], start)
+
+	sse, ssr, sst, rsquared, f_95, f_value, max_confidence, p_values, cov_matrix = auxi.regression_info(log_reg, X_train, y_train, start)
 	# Predictions
-	y_pred = log_reg.predict(test_df[test_df.columns[1:]])
-	
+	y_pred = log_reg.predict(X_test)
 	# Prediction stats
 	auxi.printPredictionStats(y_pred, test_df, start)
 
-	# # Train Linear Regression
-	# res = sm.OLS(train_df['outcome'], train_df[train_df.columns[1:]]).fit()
-	# print(res.summary())
-	# sse, ssr, sst, rsquared = auxi.regression_info(res, train_df['outcome'])
-	# # Predictions
-	# y_pred = res.predict(test_df[test_df.columns[1:]])
-	# # Prediction stats
-	# auxi.printPredictionStats(y_pred, test_df)
 
 	# summary = log_reg.summary2()
 	if not args.debug:
 		TSNE_df = auxi.createTSNEdf(pens_tsne, kmeans_pens_preds, {0:'Cluster 0', 1:'Cluster 1'})
+		
+		# Log model info
 		results_d = {"SSE":sse, "SSR":ssr, "SST":sst, "R-squared":rsquared}
-		wandbPenaltyAnalysis(y_pred, test_df, log_reg, results_d, TSNE_df)
+		wandb.log(results_d)
+		results_f = {"F-Table[95%]": f_95, "F-Value": f_value, "Max Conf Int": max_confidence}
+		wandb.log(results_f)
+		wandb.log(p_values)
+		table = wandb.Table(data=cov_matrix.values.tolist(), columns=cov_matrix.columns.tolist())
+		wandb.log({"Cov Matrix": table})
+
+
+		wandbPenaltyAnalysis(y_pred, test_df, log_reg, TSNE_df)
+
 	return
 
-def wandbPenaltyAnalysis(y_pred, test_df, model, results_d, TSNE_df):
+def wandbPenaltyAnalysis(y_pred, test_df, model, TSNE_df):
 	
 	def TSNE_plot():
 		data = TSNE_df.values.tolist()
@@ -501,8 +536,7 @@ def wandbPenaltyAnalysis(y_pred, test_df, model, results_d, TSNE_df):
 		wandb.log({"TSNE Penalty" : wandb.plot.scatter(table, 't-SNE_1', 't-SNE_2')})
 
 	TSNE_plot()
-	# Log model info
-	wandb.log(results_d)
+	
 	
 	# Log summary as table
 	summary = model.summary2()
@@ -574,3 +608,14 @@ if __name__ == '__main__':
 	# Penalty Analysis
 	print("\n\n\t========== PENALTY ANALYSIS ==========\t")
 	PenaltyAnalysis(args)
+
+
+
+	# # Train Linear Regression
+	# res = sm.OLS(train_df['outcome'], train_df[train_df.columns[1:]]).fit()
+	# print(res.summary())
+	# sse, ssr, sst, rsquared = auxi.regression_info(res, train_df['outcome'])
+	# # Predictions
+	# y_pred = res.predict(test_df[test_df.columns[1:]])
+	# # Prediction stats
+	# auxi.printPredictionStats(y_pred, test_df)

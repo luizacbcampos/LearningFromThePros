@@ -255,22 +255,22 @@ def getxSInput(df, scaler, angle, dist, up=0, cluster=0):
 
 def getXSMap(train_df, model, scaler, num_clusters, up=0, ass='Pass'):
     #Sets: Probability Map
+    print("\t-> Probability map for UP={}".format(up))
     x_range = np.linspace(90, 120.01, 50)
     y_range = np.linspace(0, 80, 50)
     xs_map = np.zeros((num_clusters, len(x_range), len(y_range)))
+
     for cluster in range(num_clusters):
         for x in range(len(x_range)):
             for y in range(len(y_range)):
                 d = distance_to_goal(shooter_x=x_range[x], shooter_y=y_range[y])
                 a = goal_angle(shooter_x=x_range[x], shooter_y=y_range[y])
-                xs = []
-                for n in range(num_clusters):
-                    inp = getxSInput(train_df,scaler,angle=a,dist=d,up=up,cluster=n)
-                    xs.append(model.predict_proba(inp)[0][1])
-                mean_xs = np.mean(xs)
                 inp = getxSInput(train_df,scaler,angle=a,dist=d,up=up,cluster=cluster)
-                xs_map[cluster][x, y] = model.predict_proba(inp)[0][1] - mean_xs
-        print("done cluster", cluster)
+                xs_result = model.predict_proba(inp)[0][1]
+                xs_map[cluster][x, y] = xs_result # - mean_xs
+        print("\t\tdone cluster", cluster)
+
+    xs_map = xs_map - np.mean(xs_map, axis=0) #reduce complexity
     return xs_map
 
 def getGKEM(amateur_1v1s):

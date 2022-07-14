@@ -27,6 +27,37 @@ import gkpose as gk
 direction_dict = {'bottom right corner':1, 'bottom left corner':2, 'centre of the goal':3,
 			'top left corner':4, 'top right corner':5, 'top centre of the goal':6,}
 
+def get_t_value(confidence=0.95, degrees_of_freedom=1, side='two-sided'):
+    '''
+        Retorna o t value dado uma confiança de x% e y graus de liberdade
+    '''
+    alfa = 1-confidence
+    if side=='two-sided':
+        return stats.t.ppf(q = 1-alfa/2,df=degrees_of_freedom)
+    elif side=='one-sided':
+        return stats.t.ppf(q = 1-alfa,df=degrees_of_freedom)
+    return -1
+
+def get_z_value(confidence=0.95, side='two-sided'):
+    alfa = 1-confidence
+    if side=='two-sided':
+        return stats.norm.ppf(q = 1-alfa/2)
+    elif side=='one-sided':
+        return stats.norm.ppf(q = 1-alfa)
+    return -1
+
+def get_f_value(confidence=0.95, dfn=1, dfd=1, side='two-sided'):
+    '''
+        Retorna o f value dado uma confiança de x%, dfn e dfd
+    '''
+    alfa = 1-confidence
+    if side=='two-sided':
+        return stats.f.ppf(q = 1-alfa/2, dfn=dfn, dfd=dfd)
+    elif side=='one-sided':
+        return stats.f.ppf(q = 1-alfa, dfn=dfn, dfd=dfd)
+    return -1
+
+
 def find_duplicates(l):
 	l=sorted(l)
 	l1, dups = set(), set()
@@ -161,14 +192,25 @@ def SpearmanCorrelation(y_true, y_pred):
 	
 	return rho, pval
 
-def regression_info(res, outcome, start='>'):
+def get_auto_ftest(res):
+	# Teste F
+	A = np.identity(len(res.params))[1:,:]
+	f_t = res.f_test(A)
+	f_value, max_confidence = f_t.fvalue, 1-f_t.pvalue
+	f_95 = get_f_value(confidence=0.95, dfn=f_t.df_num, dfd=f_t.df_denom, side='one-sided')
+	print("F-Table[95%]: {}; F-Value: {}, Max Conf Int: {}".format(f_95, f_value, max_confidence))
+	return f_95, f_value, max_confidence
+
+def regression_info(res, train, outcome, start='>'):
 
 
-	sse = np.sum((res.fittedvalues - outcome)**2)
+	predicted = res.predict(train)
+
+	sse = np.sum((predicted - outcome)**2)
 	# sse = res.ssr
 	print(start, "SSE:", sse)
 
-	ssr = np.sum((res.fittedvalues - outcome.mean())**2)
+	ssr = np.sum((predicted - outcome.mean())**2)
 	# ssr = res.ess
 	print(start, "SSR:", ssr)
 
@@ -178,14 +220,43 @@ def regression_info(res, outcome, start='>'):
 	rsquared = 1 - sse/sst
 	print(start, "R^2:", rsquared)
 
-	# y_pred_train = np.array(res.fittedvalues).reshape(-1, 1) #returns a numpy array
-	# min_max_scaler = MinMaxScaler()
-	# y_pred_train = min_max_scaler.fit_transform(y_pred_train)
-	# y_pred_train = y_pred_train.flatten()
+	try:
+		# Cálculo automático F-teste
+		f_95, f_value, max_confidence = get_auto_ftest(res)
+	except Exception as e:
+		dof_sse = res.df_resid
+		dof_ssr = res.df_model
 
-	# for t, p in zip(y_pred_train, outcome):
-	# 	print(t, p)
-	return sse, ssr, sst, rsquared
+		msr = ssr/dof_ssr
+		mse = sse/dof_sse
+
+		f_value = msr/mse
+		f_95 = get_f_value(0.95, dfn=dof_ssr, dfd=dof_sse, side='one-sided')
+		max_confidence = stats.f.cdf(f_value, dfn=dof_ssr, dfd=dof_sse)
+		print("F-Table[95%]: {}; F-Value: {}, Max Conf Int: {}".format(f_95, f_value, max_confidence))
+
+
+	p_values = res.pvalues.to_dict()
+	print("P-values:", p_values)		
+
+	# try:
+	# 	cov_matrix = res.cov_params()
+	# 	print(cov_matrix)
+	# except Exception as e:
+	# 	cov_matrix = train.corr()
+	# 	print(cov_matrix)
+
+	cov_matrix = train.corr()
+	print(cov_matrix)
+
+	['aic', 'bic', 'bse', 'conf_int', 'cov_kwds', 'cov_params', 'cov_type', 'df_model', 'df_resid', 
+	'f_test', 'fittedvalues', 'get_margeff', 'initialize', 'k_constant', 'llf', 'llnull', 'llr', 'llr_pvalue', 
+	'load', 'mle_retvals', 'mle_settings', 'model', 'nobs', 'normalized_cov_params', 'params', 'pred_table', 
+	'predict', 'prsquared', 'pvalues', 'remove_data', 'resid_dev', 'resid_generalized', 'resid_pearson', 
+	'resid_response', 'save', 'scale', 'set_null_options', 'summary', 'summary2', 't_test', 't_test_pairwise', 
+	'tvalues', 'use_t', 'wald_test', 'wald_test_terms']
+
+	return sse, ssr, sst, rsquared, f_95, f_value, max_confidence, p_values, cov_matrix
 
 # aux
 
@@ -534,14 +605,22 @@ def create_side_df(sets_2d, set_2d_df, save=False):
 		df.to_csv("data/events/side_1v1.csv", index=False)
 	return
 
-def PenaltyDummies(good_poses_feat_df, continuous_var):
+def PenaltyDummies(good_poses_feat_df, continuous_var, drop_top=True, dummies=True):
 
 	if 'Direction' in good_poses_feat_df.columns:
+		# Drop penalties on top zone, trying to fix regression
+		if drop_top:
+			good_poses_feat_df = good_poses_feat_df[good_poses_feat_df.Direction != 'top right corner']
+			good_poses_feat_df = good_poses_feat_df[good_poses_feat_df.Direction != 'top left corner']
+			good_poses_feat_df = good_poses_feat_df[good_poses_feat_df.Direction != 'top centre of the goal']
+		
 		good_poses_feat_df['Direction'] = good_poses_feat_df['Direction'].replace(direction_dict)
-		good_poses_feat_df = pd.get_dummies(good_poses_feat_df, columns=['Direction'])
+		if dummies:
+			good_poses_feat_df = pd.get_dummies(good_poses_feat_df, columns=['Direction'])
 	if 'Dominant_side' in good_poses_feat_df.columns:
 		good_poses_feat_df['Dominant_side'] = good_poses_feat_df['Dominant_side'].replace({'right': 0, 'left': 1})
-		good_poses_feat_df = pd.get_dummies(good_poses_feat_df, columns=['Dominant_side'])
+		if dummies:
+			good_poses_feat_df = pd.get_dummies(good_poses_feat_df, columns=['Dominant_side'])
 
 	return good_poses_feat_df.drop(columns=['indx'])
 
@@ -665,7 +744,7 @@ def cluster_correspondence(kmeans_preds, set_3d_cvi_clean_df, cluster_name, star
 			print("Equal??", perc_gt==perc_novo)
 			return dict((v,k) for k,v in s_perc_novo.items())
 	else:
-		print("HERE")
+		# print("HERE")
 		side_df = pd.read_csv("data/events/side_1v1.csv")
 		gt = gt.merge(side_df, on='img_id')
 		df = df.merge(side_df, on='img_id')

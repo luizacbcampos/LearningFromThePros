@@ -80,6 +80,10 @@ def remove_labels(ax, s=2):
         ax.set_zlabel('')
 
 # Plots
+def plot_scatter(df, x):
+    df.plot.scatter(x, y='outcome')
+    plt.show()
+    return
 
 def plot_rectangle(points, bbox, show=False):
     '''
@@ -253,7 +257,7 @@ def plotBestTechniqueUp(xs_map, xs_map_up, cluster_name, show=False):
         Best technique to use
     '''
 
-    pitch = VerticalPitch(half=True, goal_type='box', pad_bottom=-37, pad_left=-15, pad_right=-15, line_color='black', orientation='horizontal')
+    pitch = VerticalPitch(half=True, goal_type='box', pad_bottom=-37, pad_left=-15, pad_right=-15, line_color='black')#, orientation='horizontal')
     fig, ax = pitch.draw(figsize=(10,5), nrows=1, ncols=2)
     
     cmap = plt.cm.tab20
@@ -274,6 +278,7 @@ def plotBestTechniqueUp(xs_map, xs_map_up, cluster_name, show=False):
     plt.tight_layout()
     if show:
         plt.show()
+    return plt
 
 def plotTSNE(pose_tsne, kmeans_preds, cluster_name, number=4, show=False):
     '''
