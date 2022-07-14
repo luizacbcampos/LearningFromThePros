@@ -11,7 +11,7 @@ for v2 in ${view_invariant2[@]}; do
        for h in ${hand[*]}; do
            for hei in ${height[*]}; do
                echo "python main.py -v2 $v2 -p $p -ha $h -he $hei"
-               # python main.py -v2 $v2 -p $p -ha $h -he $hei
+               python main.py -d -v2 $v2 -p $p -ha $h -he $hei
            done
        done
    done

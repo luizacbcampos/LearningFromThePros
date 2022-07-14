@@ -1,0 +1,31 @@
+{
+    "os": "macOS-10.16-x86_64-i386-64bit",
+    "python": "3.9.12",
+    "heartbeatAt": "2022-07-14T23:41:30.640650",
+    "startedAt": "2022-07-14T23:41:29.539471",
+    "docker": null,
+    "cpu_count": 8,
+    "cuda": null,
+    "args": [
+        "-v1",
+        "1",
+        "-nd",
+        "2",
+        "-g",
+        "0",
+        "-si",
+        "0"
+    ],
+    "state": "running",
+    "program": "/Users/luizachagasbrandaocampos/estudo/football/LearningFromThePros/main.py",
+    "codePath": "main.py",
+    "git": {
+        "remote": "git@github.com:luizacbcampos/LearningFromThePros.git",
+        "commit": "b623078b70cbceeb5d4b6a514760de35cece209d"
+    },
+    "email": "luizacbcampos@gmail.com",
+    "root": "/Users/luizachagasbrandaocampos/estudo/football/LearningFromThePros",
+    "host": "Luiza-MacBookPro.local",
+    "username": "luizachagasbrandaocampos",
+    "executable": "/Users/luizachagasbrandaocampos/opt/anaconda3/bin/python"
+}

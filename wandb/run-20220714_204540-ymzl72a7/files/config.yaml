@@ -1,0 +1,67 @@
+wandb_version: 1
+
+KMeans Cluster Count:
+  desc: null
+  value: 8
+_wandb:
+  desc: null
+  value:
+    cli_version: 0.12.21
+    code_path: code/main.py
+    framework: sklearn
+    is_jupyter_run: false
+    is_kaggle_kernel: false
+    python_version: 3.9.12
+    start_time: 1657842340
+    t:
+      1:
+      - 5
+      - 53
+      - 55
+      2:
+      - 5
+      - 53
+      - 55
+      4: 3.9.12
+      5: 0.12.21
+      8:
+      - 5
+    viz:
+      elbow_curve:
+        historyFieldSettings:
+          key: elbow_curve
+          x-axis: _step
+        id: wandb/elbow/v1
+debug:
+  desc: null
+  value: false
+grid_search:
+  desc: null
+  value: 0
+hand:
+  desc: null
+  value: 0
+height:
+  desc: null
+  value: 0
+number_dimensions:
+  desc: null
+  value: 2
+penalty_location:
+  desc: null
+  value: 0
+save:
+  desc: null
+  value: 0
+show:
+  desc: null
+  value: 0
+split_sides:
+  desc: null
+  value: 1
+view_invariant1:
+  desc: null
+  value: 1
+view_invariant2:
+  desc: null
+  value: 1
