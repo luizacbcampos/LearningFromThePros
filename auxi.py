@@ -11,6 +11,8 @@ from sklearn.cluster import KMeans
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 from sklearn.metrics import pairwise_distances_argmin_min, confusion_matrix, f1_score, recall_score, precision_score
 
+from imblearn.under_sampling import NearMiss
+
 from scipy import stats
 
 import matplotlib.cm as cm
@@ -26,6 +28,41 @@ import gkpose as gk
 
 direction_dict = {'bottom right corner':1, 'bottom left corner':2, 'centre of the goal':3,
 			'top left corner':4, 'top right corner':5, 'top centre of the goal':6,}
+
+
+def make_train_test(good_poses_feat_df, continuous_var, frac=0.7, perc=0.4):
+
+	# Train/Test Split (70/30)
+	df = good_poses_feat_df.copy()
+	train_df = df.sample(frac=frac,random_state=200) #random state is a seed value
+	test_df = df.drop(train_df.index)
+
+	# Resampling - because of class imbalance
+	undersample = NearMiss(perc, version=3, n_neighbors=2)
+	X_train, y_train = undersample.fit_resample(train_df[train_df.columns[1:]], train_df['outcome'])
+
+	# re-joing
+	train_df = X_train
+	train_df["outcome"] = y_train
+
+	#Standardise continuous variables
+	scaler = StandardScaler()
+	scaler.fit(X_train[continuous_var])
+	train_df[continuous_var] = scaler.transform(train_df[continuous_var])
+	test_df[continuous_var] = scaler.transform(test_df[continuous_var])
+
+	X_test, y_test = test_df[test_df.columns[1:]].copy(), test_df['outcome']
+
+	test_df = X_test
+	test_df['outcome'] = y_test
+
+	# Add intercept term
+	train_df = sm.add_constant(train_df)
+	test_df = sm.add_constant(test_df)
+
+
+
+	return train_df, test_df
 
 def get_t_value(confidence=0.95, degrees_of_freedom=1, side='two-sided'):
     '''

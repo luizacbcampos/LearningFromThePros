@@ -16,8 +16,6 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import pairwise_distances_argmin_min, confusion_matrix, f1_score, recall_score, precision_score
 
-from imblearn.under_sampling import NearMiss
-
 import statsmodels.api as sm
 
 import auxi
@@ -207,7 +205,7 @@ def LearningSaveTechnique(sets_3d_cvi_clean, set_3d_cvi_clean_df, args, start='\
 	replace = {k+4:baseline[v] for k,v in cluster_dict.items()}
 	for k, v in replace.items():
 		kmeans_preds = np.where(kmeans_preds==k, v, kmeans_preds)
-		
+
 	if not args.debug:
 		wandb.config.update({"KMeans Cluster Count": number_cluster})
 
@@ -304,6 +302,7 @@ def ExpectedSavesModel_1v1(set_3d_cvi_clean_df, kmeans_preds, args, start='\t>')
 	xs_map_up = gk.getXSMap(train_df, svm, scaler, num_clusters=number_cluster, up=1) #ADD
 
 	cluster_name = ['Aggressive Set', 'Passive Set', 'Spread', 'Smother']
+	
 	if args.show:
 		plots.plotDoubleXSMap(xs_map, xs_map_up, cluster_name, show=args.show)
 		# Optimal technique map
@@ -311,12 +310,13 @@ def ExpectedSavesModel_1v1(set_3d_cvi_clean_df, kmeans_preds, args, start='\t>')
 
 	if not args.debug:
 		wandb.log({"XS Map": plots.plotBestTechniqueUp(xs_map, xs_map_up, cluster_name, show=args.show)})
+		
 		# Save to pc
 		run_type = "v1{}-nd{}-g{}-si{}".format(args.view_invariant1, args.number_dimensions, args.grid_search, args.split_sides)
-		file_number = len([name for name in os.listdir('./results') if os.path.isfile(name)])/2
+		file_number = int(len([name for name in os.listdir('./results') if name[len(name)-4:]=='.npy'])/2)
 		run_type = "{}-{}.npy".format(run_type, file_number)
-		np.save("results/xs_map"+run_type, xs_map)
-		np.save("results/xs_map_up"+run_type, xs_map_up)
+		np.save("results/xs_map_"+run_type, xs_map)
+		np.save("results/xs_map_up_"+run_type, xs_map_up)
 
 		wandb_ExpectedSavesModel_1v1(svm, X_test, y_test)
 
@@ -472,40 +472,25 @@ def PenaltyAnalysis(args, start='>'):
 	
 
 	# Create dummies for categorical features
-	good_poses_feat_df = auxi.PenaltyDummies(good_poses_feat_df, continuous_var, drop_top=True, dummies=True)
+	good_poses_feat_df = auxi.PenaltyDummies(good_poses_feat_df, continuous_var, drop_top=True, dummies=False)
 	print(start, "New Percentage of saved penalties:", np.mean(good_poses_feat_df['outcome'] == 1) * 100)
 	
 	# Train/Test Split (70/30)
-	df = good_poses_feat_df.copy()
-	train_df = df.sample(frac=0.7,random_state=200) #random state is a seed value
-	test_df = df.drop(train_df.index)
-
-	X_train, y_train = train_df[train_df.columns[1:]], train_df['outcome']
-
-	# Resampling - because of class imbalance
-	undersample = NearMiss(0.4, version=3, n_neighbors=2)
-	X_train, y_train = undersample.fit_resample(X_train, y_train)
-
-	#Standardise continuous variables
-	scaler = StandardScaler()
-	scaler.fit(X_train[continuous_var])
-	X_train[continuous_var] = scaler.transform(X_train[continuous_var])
-	test_df[continuous_var] = scaler.transform(test_df[continuous_var])
+	train_df, test_df = auxi.make_train_test(good_poses_feat_df, continuous_var, frac=0.7, perc=0.4)
 	
-	X_test, y_test = test_df[test_df.columns[1:]].copy(), test_df['outcome']
-
-	# Add intercept term
-	X_train = sm.add_constant(X_train)
-	X_test = sm.add_constant(X_test)
-
+	
 	# Train logistic regression
-	log_reg = sm.Logit(y_train, X_train).fit(method='bfgs', maxiter=100)	
+	log_reg = sm.Logit.from_formula(formula, data=train_df).fit(method='bfgs', maxiter=100)
+	# log_reg = sm.Logit(train_df['outcome'], train_df[train_df.columns.tolist()[:-1]]).fit(method='bfgs', maxiter=100)
+	
 	# Logistic regression summary
 	print(log_reg.summary())
-
-	sse, ssr, sst, rsquared, f_95, f_value, max_confidence, p_values, cov_matrix = auxi.regression_info(log_reg, X_train, y_train, start)
+	
+	sse, ssr, sst, rsquared, f_95, f_value, max_confidence, p_values, cov_matrix = auxi.regression_info(log_reg, 
+		train_df[train_df.columns.tolist()[:-1]], train_df['outcome'], start)
+	
 	# Predictions
-	y_pred = log_reg.predict(X_test)
+	y_pred = log_reg.predict(test_df[test_df.columns.tolist()[:-1]])
 	# Prediction stats
 	auxi.printPredictionStats(y_pred, test_df, start)
 
