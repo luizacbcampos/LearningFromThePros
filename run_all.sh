@@ -41,9 +41,13 @@ for v2 in ${view_invariant2[@]}; do
    done
 done
 
-for i in {0..8}; do
-	command="${part1[$i]} ${part2[$i]}"
-	echo "$command"
-	eval "$command"
+for round in {0..4} do
+    for i in {0..15}; do
+        # echo "$i"
+    	command="${part1[$i]} ${part2[$i]}"
+    	echo "$command"
+    	eval "$command"
+    done
 done
+
 
