@@ -252,7 +252,7 @@ def plotDoubleXSMap(xs_map, xs_map_up, cluster_names, num_clusters=4, show=False
     if show:
         plt.show()
 
-def plotBestTechniqueUp(xs_map, xs_map_up, cluster_name, show=False):
+def plotBestTechniqueUp(xs_map, xs_map_up, cluster_name, title=None, show=False):
     '''
         Best technique to use
     '''
@@ -274,7 +274,12 @@ def plotBestTechniqueUp(xs_map, xs_map_up, cluster_name, show=False):
                     Line2D([0], [0], color=cmap(0.66), lw=4),
                     Line2D([0], [0], color=cmap(1.), lw=4)]
     
-    ax[1].legend(custom_lines, cluster_name, loc=1, bbox_to_anchor=(1, 0.38))
+    # fig.legend(custom_lines, cluster_name, loc=1, ncol=4) #bbox_to_anchor=(1, 0.38))
+    fig.legend(custom_lines, cluster_name, ncol=4, bbox_to_anchor=(0.8, 0.18))
+
+    if title:
+        fig.suptitle(title)
+    
     plt.tight_layout()
     if show:
         plt.show()

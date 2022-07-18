@@ -12,7 +12,7 @@ for v1 in ${view_invariant1[@]}; do
        for gs in ${grid_search[*]}; do
            for si in ${split_side[*]}; do
                echo "python main.py -v1 $v1 -nd $nd -g $gs -si $si"
-               python main.py -d -v1 $v1 -nd $nd -g $gs -si $si
+               # python main.py -d -v1 $v1 -nd $nd -g $gs -si $si
            done
        done
    done
