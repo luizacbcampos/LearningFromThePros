@@ -937,9 +937,11 @@ def pick_side(points):
 
 	points = np.delete(points, 1, 1).reshape((s[0],))
 	# print(x_middle, points)
+	
 	coluna = points[[6,8,9]]
 	x_middle = coluna.mean()
 	# print(x_middle, coluna.mean())
+
 	left_side, right_side = len(points[(points < x_middle*0.95)]), len(points[points > x_middle*1.05])
 	# print(left_side, right_side)
 	if left_side > right_side:

@@ -469,3 +469,21 @@ if __name__ == '__main__':
 		df = df.replace({'view_invariant2': {1: -1, 0: 1}, 'penalty_location': {1: -1, 0: 1}, 'hand': {1: -1, 0: 1}, 'height': {1: -1, 0: 1}})
 		df = df.drop_duplicates()
 
+		df['variance'] = np.power(df['Std.Err.'], 2)
+		grouped = df.groupby(['variable'])
+		for k, v in grouped:
+			print("{}, count = {}".format(k, len(v)))
+			media = v['Coef.'].mean()
+			media_var = v['variance'].mean()
+			std_error = np.sqrt(media_var)
+			t_value = get_t_value(confidence=0.95, degrees_of_freedom=len(v)-1, side='two-sided')
+			ic = [media - t_value*std_error, media + t_value*std_error]
+			# print(v.columns)
+			print(media, std_error, ic)
+
+			# print(k,v.mean())
+			# exit()
+
+		# run_stats(df, ['Coef.','Std.Err.','z','P>|z|','[0.025','0.975]'], 'delete')
+		# print(df)
+
